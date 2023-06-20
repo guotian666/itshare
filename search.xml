@@ -255,7 +255,7 @@
 <p><strong>搜索镜像</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker search gitlab</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220111153600.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220111153600.png" alt="image-20220111153600801"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111153600.pngg" alt="image-20220111153600801"></p>
 <blockquote>
 <p>这里可以选择汉化的 GitLab 社区版的镜像进行下载</p>
 </blockquote>
@@ -271,11 +271,11 @@
 <p><strong>应用配置</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"># 注意观察日志输出</span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220111154833.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220111154833.png" alt="image-20220111154833139"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111154833.png" alt="image-20220111154833139"></p>
 <p><strong>编辑 <code>gitlab.yml</code></strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"># 进入容器</span><br><span class="line">docker exec -it gitlab bash</span><br><span class="line"># 编辑yml配置</span><br><span class="line">vim /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml</span><br><span class="line"># 修改port为启动时映射的端口</span><br><span class="line">port: 8090</span><br><span class="line"></span><br><span class="line"># 重启服务并测试</span><br><span class="line">gitlab-ctl restart</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220111155220.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220111155220.png" alt="image-20220111155220504"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111155220.png" alt="image-20220111155220504"></p>
 ]]></content>
       <tags>
         <tag>GitLab</tag>
@@ -3529,12 +3529,12 @@ JAVA
   </entry>
   <entry>
     <title>Springboot 核心技术</title>
-    <url>/2021/08/23/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/SpringBoot2%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/</url>
+    <url>/2021/08/23/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/SpringBoot%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/</url>
     <content><![CDATA[<h2 id="基础入门"><a href="#基础入门" class="headerlink" title="基础入门"></a>基础入门</h2><h3 id="1、Spring-生态圈"><a href="#1、Spring-生态圈" class="headerlink" title="1、Spring 生态圈"></a>1、Spring 生态圈</h3><blockquote>
 <p>Spring 官网：<a href="https://spring.io/">https://spring.io</a></p>
 </blockquote>
 <p><strong>Spring 能做什么？</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220515171610.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220515171610.png" alt="image-20220515171609895"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220515171610.png" alt="image-20220515171609895"></p>
 <p><strong>Spring 的生态：</strong></p>
 <ul>
 <li>web 开发</li>
@@ -3727,7 +3727,7 @@ JAVA
 <h5 id="ComponentScan、-Import"><a href="#ComponentScan、-Import" class="headerlink" title="@ComponentScan、@Import"></a>@ComponentScan、@Import</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LESS</span><br><span class="line">// 给容器中自动创建出这两个类型的组件、默认组件的名字就是全类名</span><br><span class="line">@Import(&#123;User.class, DBHelper.class&#125;)</span><br><span class="line">@Configuration(proxyBeanMethods = false) //告诉SpringBoot这是一个配置类 == 配置文件</span><br><span class="line">public class MyConfig &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="Conditional"><a href="#Conditional" class="headerlink" title="@Conditional"></a>@Conditional</h5><p>条件装配：满足@Conditional 指定的条件，则进行组件注入</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220515224340.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220515224340.png" alt="image-20220515224340380"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220515224340.png" alt="image-20220515224340380"></p>
 <h5 id="ImportResource"><a href="#ImportResource" class="headerlink" title="@ImportResource"></a>@ImportResource</h5><p>原生配置文件引入，可以引入一个 <code>beans.xml</code> 配置文件</p>
 <h4 id="6-2、配置绑定"><a href="#6-2、配置绑定" class="headerlink" title="6.2、配置绑定"></a>6.2、配置绑定</h4><h5 id="Component-ConfigurationProperties"><a href="#Component-ConfigurationProperties" class="headerlink" title="@Component + @ConfigurationProperties"></a>@Component + @ConfigurationProperties</h5><p>通过 <code>prefix</code> 匹配 <code>application.properties</code> 核心配置文件的配置，并指定注入到容器中</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 只有在容器中的组件，才会拥有SpringBoot提供的强大功能</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix = &quot;mycar&quot;)</span><br><span class="line">public class Car &#123;</span><br><span class="line"></span><br><span class="line">    private String brand;</span><br><span class="line">    private Integer price;</span><br><span class="line"></span><br><span class="line">    public String getBrand() &#123;</span><br><span class="line">        return brand;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setBrand(String brand) &#123;</span><br><span class="line">        this.brand = brand;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getPrice() &#123;</span><br><span class="line">        return price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPrice(Integer price) &#123;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Car&#123;&quot; +</span><br><span class="line">                &quot;brand=&#x27;&quot; + brand + &#x27;\&#x27;&#x27; +</span><br><span class="line">                &quot;, price=&quot; + price +</span><br><span class="line">                &#x27;&#125;&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3764,7 +3764,7 @@ JAVA
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">REASONML</span><br><span class="line">1、利用getAutoConfigurationEntry(annotationMetadata);给容器中批量导入一些组件</span><br><span class="line">2、调用List&lt;String&gt; configurations = getCandidateConfigurations(annotationMetadata, attributes)获取到所有需要导入到容器中的配置类</span><br><span class="line">3、利用工厂加载 Map&lt;String, List&lt;String&gt;&gt; loadSpringFactories(@Nullable ClassLoader classLoader)；得到所有的组件</span><br><span class="line">4、从META-INF/spring.factories位置来加载一个文件。</span><br><span class="line">	默认扫描我们当前系统里面所有META-INF/spring.factories位置的文件</span><br><span class="line">    spring-boot-autoconfigure-2.6.7.RELEASE.jar包里面也有META-INF/spring.factories</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220515232710.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220515232710.png" alt="image-20220515232710021"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220515232710.png" alt="image-20220515232710021"></p>
 <blockquote>
 <p>spring-boot-autoconfigure-2.6.7.RELEASE.jar&#x2F;META-INF&#x2F;spring.factories 文件里面写死了 spring-boot 一启动就要给容器中加载的所有配置类</p>
 </blockquote>
@@ -3952,7 +3952,7 @@ JAVA
 <h3 id="Java-语言关键字有哪些？true、false-和-null-是关键字吗？"><a href="#Java-语言关键字有哪些？true、false-和-null-是关键字吗？" class="headerlink" title="Java 语言关键字有哪些？true、false 和 null 是关键字吗？"></a>Java 语言关键字有哪些？true、false 和 null 是关键字吗？</h3><blockquote>
 <p>官方文档：<a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html">Java 语言关键字 | (oracle.com)</a></p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20221103173519.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20221103173519.png" alt="image-20221103173508830"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20221103173519.png" alt="image-20221103173508830"></p>
 <blockquote>
 <p>Tips：所有的关键字都是小写的，在 IDE 中会以特殊颜色显示。</p>
 <p><code>default</code> 这个关键字很特殊，既属于程序控制，也属于类，方法和变量修饰符，还属于访问控制。</p>
@@ -4283,7 +4283,7 @@ JAVA
 <p>从输出结果就可以看出，虽然 <code>person1</code> 的克隆对象和 <code>person1</code> 包含的 <code>Address</code> 对象已经是不同的了。</p>
 <p><strong>那什么是引用拷贝呢？</strong>简单来说，引用拷贝就是两个不同的引用指向同一个对象。</p>
 <p>下图可以描述浅拷贝、深拷贝、引用拷贝：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20221122165417.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20221122165417.png" alt="浅拷贝、深拷贝、引用拷贝示意图"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20221122165417.png" alt="浅拷贝、深拷贝、引用拷贝示意图"></p>
 <h2 id="Java-常见类"><a href="#Java-常见类" class="headerlink" title="Java 常见类"></a>Java 常见类</h2><h3 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><h4 id="Object-类的常见方法有哪些？"><a href="#Object-类的常见方法有哪些？" class="headerlink" title="Object 类的常见方法有哪些？"></a>Object 类的常见方法有哪些？</h4><p>Object 类是一个特殊的类，是所有类的父类。主要提供有以下 11 个方法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * native 方法，用于返回当前运行时对象的 Class 对象，使用了 final 关键字修饰，故不允许子类重写。</span><br><span class="line"> */</span><br><span class="line">public final native Class&lt;?&gt; getClass();</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * native 方法，用于返回对象的哈希码，主要使用在哈希表中，比如 JDK 中的HashMap。</span><br><span class="line"> */</span><br><span class="line">public native int hashCode();</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 用于比较 2 个对象的内存地址是否相等，String 类对该方法进行了重写以用于比较字符串的值是否相等。</span><br><span class="line"> */</span><br><span class="line">public boolean equals(Object obj);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * naitive 方法，用于创建并返回当前对象的一份拷贝。</span><br><span class="line"> */</span><br><span class="line">protected native Object clone() throws CloneNotSupportedException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 返回类的名字实例的哈希码的 16 进制的字符串。建议 Object 所有的子类都重写这个方法。</span><br><span class="line"> */</span><br><span class="line">public String toString();</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * native 方法，并且不能重写。唤醒一个在此对象监视器上等待的线程(监视器相当于就是锁的概念)。如果有多个线程在等待只会任意唤醒一个。</span><br><span class="line"> */</span><br><span class="line">public final native void notify();</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * native 方法，并且不能重写。跟 notify 一样，唯一的区别就是会唤醒在此对象监视器上等待的所有线程，而不是一个线程。</span><br><span class="line"> */</span><br><span class="line">public final native void notifyAll();</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * native方法，并且不能重写。暂停线程的执行。注意：sleep 方法没有释放锁，而 wait 方法释放了锁 ，timeout 是等待时间。</span><br><span class="line"> */</span><br><span class="line">public final native void wait(long timeout) throws InterruptedException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 多了 nanos 参数，这个参数表示额外时间（以毫微秒为单位，范围是 0-999999）。 所以超时的时间还需要加上 nanos 毫秒。。</span><br><span class="line"> */</span><br><span class="line">public final void wait(long timeout, int nanos) throws InterruptedException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 跟之前的2个wait方法一样，只不过该方法一直等待，没有超时时间这个概念</span><br><span class="line"> */</span><br><span class="line">public final void wait() throws InterruptedException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 实例被垃圾回收器回收的时候触发的操作</span><br><span class="line"> */</span><br><span class="line">protected void finalize() throws Throwable &#123; &#125;</span><br></pre></td></tr></table></figure>
 
@@ -7028,7 +7028,7 @@ BASH</li>
     <content><![CDATA[<h2 id="为什么要用-Nosql"><a href="#为什么要用-Nosql" class="headerlink" title="为什么要用 Nosql"></a>为什么要用 Nosql</h2><blockquote>
 <p>1、单机 MySQL 的年代！</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420135521.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420135521.png" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210420135521.png" alt="img"></p>
 <p>90 年代，一个基本的网站访问量一般不会太大，单个数据库完全足够！</p>
 <p>那个时候，更多的去使用静态网页 HTML &#x3D;&#x3D;&gt; 服务器根本没有太大的压力！</p>
 <p>思考一下，这种情况下：整个网站的瓶颈是什么？</p>
@@ -7052,12 +7052,12 @@ BASH</li>
 <p>转战 Innodb：行锁</p>
 <p>慢慢的就开始使用分库分表来解决写的压力！MySQL 在那个年代就推出了 表分区！这个并没有多少公司使用！</p>
 <p>MySQL 的集群，很好的满足那个年代的需求！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420134715.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420134715.png" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210420134715.png" alt="img"></p>
 <blockquote>
 <p>4、最近的年代</p>
 </blockquote>
 <p>如今信息量井喷式增长，各种各样的数据出现（用户定位数据，图片数据等），大数据的背景下关系型数据库（RDBMS）无法满足大量数据要求。Nosql 数据库就能轻松解决这些问题。目前一个基本的互联网项目：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420134812.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420134812.png" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210420134812.png" alt="img"></p>
 <blockquote>
 <p>为什么要用 NoSQL！</p>
 </blockquote>
@@ -7120,7 +7120,7 @@ BASH</li>
 <li>分布式文件系统</li>
 </ul>
 <p><strong>图关系数据库</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420211847.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210420211847.png" alt="image-20210420211847626"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210420211847.png" alt="image-20210420211847626"></p>
 <ul>
 <li>他不是存图形，放的是关系，比如：朋友圈社交网络，广告推荐！</li>
 <li><strong>Neo4j</strong>，infoGrid</li>
@@ -7157,15 +7157,15 @@ BASH</li>
 <p>官方自带的性能测试工具！</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">redis-benchmark [option] [option value]</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502131730.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502131730.png" alt="image-20210502131730085"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210502131730.png" alt="image-20210502131730085"></p>
 <p>我们来简单测试一下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line"># 测试100个并发连接 100000个请求</span><br><span class="line">redis-benchmark localhost -p 6379 -c 100 -n 100000</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502132313.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502132313.png" alt="image-20210502132313424"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210502132313.png" alt="image-20210502132313424"></p>
 <p>如何查看这些分析呢？</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502132426.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502132426.png" alt="image-20210502132426480"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210502132426.png" alt="image-20210502132426480"></p>
 <h2 id="基础的知识"><a href="#基础的知识" class="headerlink" title="基础的知识"></a>基础的知识</h2><p><strong>redis 默认有 16 个数据库</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502132621.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502132621.png" alt="image-20210502132621114"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210502132621.png" alt="image-20210502132621114"></p>
 <p>默认使用的是第 0 个</p>
 <p>可以使用<code>select</code>进行切换数据库！</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; select 3 #切换数据库</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[3]&gt; DBSIZE #查看db大小</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379[3]&gt; set name ouwen #设置key-value</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[3]&gt; DBSIZE #查看db大小</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[3]&gt; get name #获取value</span><br><span class="line">&quot;ouwen&quot;</span><br><span class="line">127.0.0.1:6379[3]&gt; keys * #获取所有key</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">127.0.0.1:6379[3]&gt; FLUSHDB #清除当前数据库</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[3]&gt; keys *</span><br><span class="line">(empty list or set)</span><br><span class="line">127.0.0.1:6379[3]&gt; FLUSHALL #清除全部数据库</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
@@ -7816,10 +7816,10 @@ BASH</li>
 <blockquote>
 <p>测试</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502234526.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502234526.png" alt="image-20210502234525977"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210502234526.png" alt="image-20210502234525977"></p>
 <p>使用 bitmap 来记录 周一到周日的打卡！</p>
 <p>周一：1 周二：0 周三：0 周四：1 ……</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502234703.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210502234703.png" alt="image-20210502234703108"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210502234703.png" alt="image-20210502234703108"></p>
 <p>查看某一天是否有打卡！</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">127.0.0.1:6379&gt; getbit sign 3</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; getbit sign 6</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
 
@@ -7882,7 +7882,7 @@ BASH</li>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">127.0.0.1:6379&gt; watch money # 监视 money</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; DECRBY money 10</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; INCRBY out 10</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec # 执行之前，另外一个线程，修改了我们的值，这个时候，就会导致事务执行失败！</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
 
 <p>如果修改失败，获取最新的值就好</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503001012.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503001012.png" alt="image-20210503001012808"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503001012.png" alt="image-20210503001012808"></p>
 <h1 id="Jedis"><a href="#Jedis" class="headerlink" title="Jedis"></a>Jedis</h1><p>我们要使用 Java 来操作 Redis，知其然并知其所以然，授人以渔！ 学习不能急躁，慢慢来会很快！</p>
 <blockquote>
 <p>什么是 Jedis 是 Redis 官方推荐的 java 连接开发工具！ 使用 Java 操作 Redis 中间件！如果你要使用 java 操作 redis，那么一定要对 jedis 十分熟悉！</p>
@@ -7902,7 +7902,7 @@ BASH</li>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">import redis.clients.jedis.Jedis;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author IRVING</span><br><span class="line"> * @create 2021-05-03 0:20</span><br><span class="line"> */</span><br><span class="line">public class TestPing &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 1、 new Jedis 对象即可</span><br><span class="line">        Jedis jedis = new Jedis(&quot;127.0.0.1&quot;,6379);</span><br><span class="line">        jedis.auth(&quot;123456&quot;);</span><br><span class="line">        // 2、jedis 所有的命令就是我们之前学习的所有指令！所以之前的指令学习很重要！</span><br><span class="line"></span><br><span class="line">        System.out.println(jedis.ping());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>输出：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503002524.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503002524.png" alt="image-20210503002523989"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503002524.png" alt="image-20210503002523989"></p>
 <h2 id="常用的-API"><a href="#常用的-API" class="headerlink" title="常用的 API"></a>常用的 API</h2><ul>
 <li>string</li>
 <li>list</li>
@@ -7941,7 +7941,7 @@ BASH</li>
 <p>3、测试！</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">package com.luojunjie;</span><br><span class="line"></span><br><span class="line">import org.junit.jupiter.api.Test;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line">import org.springframework.data.redis.connection.RedisConnection;</span><br><span class="line">import org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"></span><br><span class="line">@SpringBootTest</span><br><span class="line">class Redis02SpringbootApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    void contextLoads() &#123;</span><br><span class="line">        // redisTemplate 操作不同的类型，api和我们的指令是一样的</span><br><span class="line">        // opsForValue 操作字符串 类似string</span><br><span class="line">        // opsForList</span><br><span class="line">        // opsForSet</span><br><span class="line">        // opsForZSet</span><br><span class="line">        // opsForHash</span><br><span class="line">        // opsForGeo</span><br><span class="line">        // opsForHyperLogLog</span><br><span class="line">        //redisTemplate.opsForValue();</span><br><span class="line"></span><br><span class="line">        //除了基本的操作，我们常用的方法都可以直接通过redisTemplate操作，比如事务和基本的CRUD</span><br><span class="line"></span><br><span class="line">        // 获取redis连接对象</span><br><span class="line">        //RedisConnection conn = redisTemplate.getConnectionFactory().getConnection();</span><br><span class="line">        //conn.flushAll();</span><br><span class="line">        //conn.flushDb();</span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForValue().set(&quot;mykey&quot;,&quot;湖南长沙&quot;);</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(&quot;mykey&quot;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503102342.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503102342.png" alt="image-20210503102342174"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503102342.png" alt="image-20210503102342174"></p>
 <p>我们来编写一个自己的 RedisTemplete</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">package com.luojunjie.config;</span><br><span class="line"></span><br><span class="line">import com.fasterxml.jackson.annotation.JsonAutoDetect;</span><br><span class="line">import com.fasterxml.jackson.annotation.PropertyAccessor;</span><br><span class="line">import com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line">import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.data.redis.connection.RedisConnectionFactory;</span><br><span class="line">import org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line">import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;</span><br><span class="line">import org.springframework.data.redis.serializer.StringRedisSerializer;</span><br><span class="line"></span><br><span class="line">import java.net.UnknownHostException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author IRVING</span><br><span class="line"> * @create 2021-05-03 10:24</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">public class RedisConfig &#123;</span><br><span class="line"></span><br><span class="line">    // 这是我给大家写好的一个固定模板，大家在企业中，拿去就可以直接使用！</span><br><span class="line">    // 自己定义了一个 RedisTemplate</span><br><span class="line">    @Bean</span><br><span class="line">    @SuppressWarnings(&quot;all&quot;)</span><br><span class="line">    public RedisTemplate&lt;String, Object&gt; redisTemplate(RedisConnectionFactory</span><br><span class="line">                                                               factory) &#123;</span><br><span class="line">        // 我们为了自己开发方便，一般直接使用 &lt;String, Object&gt;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = new RedisTemplate&lt;String,</span><br><span class="line">                Object&gt;();</span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line">        // Json序列化配置</span><br><span class="line">        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new</span><br><span class="line">                Jackson2JsonRedisSerializer(Object.class);</span><br><span class="line">        ObjectMapper om = new ObjectMapper();</span><br><span class="line">        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">        jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line">        // String 的序列化</span><br><span class="line">        StringRedisSerializer stringRedisSerializer = new</span><br><span class="line">                StringRedisSerializer();</span><br><span class="line">        // key采用String的序列化方式</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line">        // hash的key也采用String的序列化方式</span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line">        // value序列化方式采用jackson</span><br><span class="line">        template.setValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        // hash的value序列化方式采用jackson</span><br><span class="line">        template.setHashValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        return template;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -7951,12 +7951,12 @@ BASH</li>
 <blockquote>
 <p>单位</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503105120.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503105120.png" alt="image-20210503105120545"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503105120.png" alt="image-20210503105120545"></p>
 <p>配置文件对大小写不敏感！</p>
 <blockquote>
 <p>包含</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503105216.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503105216.png" alt="image-20210503105216614"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503105216.png" alt="image-20210503105216614"></p>
 <p>就是好比我们学习 Spring、Improt， include</p>
 <blockquote>
 <p>网络</p>
@@ -7997,18 +7997,18 @@ BASH</li>
 <p>什么是 RDB？</p>
 </blockquote>
 <p>在主从复制中，rdb 就是备用了，放在从机上。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503143056.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503143056.png" alt="image-20210503143056239"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503143056.png" alt="image-20210503143056239"></p>
 <p>在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的 Snapshot 快照，它恢复时是将快 照文件直接读到内存里。</p>
 <p>Redis 会单独创建（fork）一个子进程来进行持久化，会先将数据写入到一个临时文件中，待持久化过程 都结束了，再用这个临时文件替换上次持久化好的文件。整个过程中，主进程是不进行任何 IO 操作的。 这就确保了极高的性能。如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那 RDB 方式要比 AOF 方式更加的高效。RDB 的缺点是最后一次持久化后的数据可能丢失。我们默认的就是 RDB，一般情况下不需要修改这个配置！</p>
 <p>&#x3D;&#x3D;rdb 保存的文件是 dump.rdb&#x3D;&#x3D; 都是在我们的配置文件中快照中进行配置的！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503143817.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503143817.png" alt="image-20210503143817471"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503143817.png" alt="image-20210503143817471"></p>
 <blockquote>
 <p>触发机制</p>
 </blockquote>
 <p>1、save 的规则满足的情况下，会自动触发 rdb 规则</p>
 <p>2、执行 flushall 命令，也会触发我们的 rdb 规则！</p>
 <p>3、退出 redis，也会产生 rdb 文件！ 备份就自动生成一个 dump.rdb</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503143857.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503143857.png" alt="image-20210503143856958"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503143857.png" alt="image-20210503143856958"></p>
 <blockquote>
 <p>如何恢复 rdb 文件！</p>
 </blockquote>
@@ -8026,24 +8026,24 @@ BASH</li>
 <blockquote>
 <p>是什么？</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144252.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144252.png" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503144252.png" alt="img"></p>
 <p>以日志的形式来记录每个写操作，将 Redis 执行过的所有指令记录下来（读操作不记录），只许追加文件 但不可以改写文件，redis 启动之初会读取该文件重新构建数据，换言之，redis 重启的话就根据日志文件 的内容将写指令从前到后执行一次以完成数据的恢复工作。</p>
 <p>&#x3D;&#x3D;AOF 保存的是<code>appendonly.aof</code>文件&#x3D;&#x3D;</p>
 <blockquote>
 <p>append</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144546.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144546.png" alt="image-20210503144546005"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503144546.png" alt="image-20210503144546005"></p>
 <p>默认是不开启的，我们需要手动进行配置！我们只需要将 appendonly 改为 yes 就开启了 aof！ 重启，redis 就可以生效了！</p>
 <p>如果这个 aof 文件有错误，这时候 redis 是启动不起来的，我们需要修复这个 aof 文件</p>
 <p>redis 给我们提供了一个工具 <code>redis-check-aof --fix</code></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144822.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144822.png" alt="image-20210503144822428"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503144822.png" alt="image-20210503144822428"></p>
 <p>如果文件正常，重启就可以直接恢复了！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144919.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503144919.png" alt="image-20210503144919410"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503144919.png" alt="image-20210503144919410"></p>
 <blockquote>
 <p>重写规则说明</p>
 </blockquote>
 <p>aof 默认就是文件的无限追加，文件会越来越大！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503145247.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503145247.png" alt="image-20210503145247104"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503145247.png" alt="image-20210503145247104"></p>
 <p>如果 aof 文件大于 64m，太大了！ fork 一个新的进程来将我们的文件进行重写！</p>
 <blockquote>
 <p>优点和缺点！</p>
@@ -8076,11 +8076,11 @@ BASH</li>
 <p>Redis 客户端可以订阅任意数量的频道。</p>
 <p>订阅&#x2F;发布消息图：</p>
 <p>第一个：消息发送者， 第二个：频道 第三个：消息订阅者！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503153104.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503153104.png" alt="image-20210503153104671"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503153104.png" alt="image-20210503153104671"></p>
 <p>下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的 关系：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503153133.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503153133.png" alt="image-20210503153133504"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503153133.png" alt="image-20210503153133504"></p>
 <p>当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503153155.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503153155.png" alt="image-20210503153155660"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503153155.png" alt="image-20210503153155660"></p>
 <blockquote>
 <p>命令</p>
 </blockquote>
@@ -8150,7 +8150,7 @@ BASH</li>
 <p>1、从结构上，单个 Redis 服务器会发生单点故障，并且一台服务器需要处理所有的请求负载，压力较 大；</p>
 <p>2、从容量上，单个 Redis 服务器内存容量有限，就算一台 Redis 服务器内存容量为 256G，也不能将所有 内存用作 Redis 存储内存，一般来说，单台 Redis 最大使用内存不应该超过 20G。 电商网站上的商品，一般都是一次上传，无数次浏览的，说专业点也就是”多读少写”。</p>
 <p><strong>对于这种场景，我们可以使如下这种架构：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503160753.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503160753.png" alt="image-20210503160753106"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503160753.png" alt="image-20210503160753106"></p>
 <p>主从复制，读写分离！ 80% 的情况下都是在进行读操作！减缓服务器的压力！架构中经常使用！ 一主 二从！</p>
 <p>只要在公司中，主从复制就是必须要使用的，因为在真实的项目中不可能单机使用 Redis！</p>
 <h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>只配置从库，不用配置主库！</p>
@@ -8162,22 +8162,22 @@ BASH</li>
 <p>3、log 文件名字</p>
 <p>4、dump.rdb 名字</p>
 <p>修改完毕之后，启动我们的 3 个 redis 服务器，可以通过进程信息查看~</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503162204.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503162204.png" alt="image-20210503162204439"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503162204.png" alt="image-20210503162204439"></p>
 <h2 id="一主二从"><a href="#一主二从" class="headerlink" title="一主二从"></a>一主二从</h2><p>&#x3D;&#x3D;默认情况下，每台 Redis 服务器都是主节点；&#x3D;&#x3D;我们一般情况下只用配置从机就好了！</p>
 <p>认老大！ 一主 （79）二从（80，81）</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line"></span><br><span class="line">127.0.0.1:6380&gt; SLAVEOF 127.0.0.1 6379 #SLAVEOF host port 找谁当自己的老大 认主机</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6380&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:slave #当前角色是从机</span><br><span class="line">master_host:127.0.0.1 #可以看到主机的信息</span><br><span class="line">master_port:6379</span><br><span class="line">master_link_status:up</span><br><span class="line">master_last_io_seconds_ago:2</span><br><span class="line">master_sync_in_progress:0</span><br><span class="line">slave_repl_offset:0</span><br><span class="line">slave_priority:100</span><br><span class="line">slave_read_only:1</span><br><span class="line">connected_slaves:0</span><br><span class="line">master_replid:e3379979becc4e424bf681c1a5fe7672bee18d37</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:0</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:0</span><br><span class="line"></span><br><span class="line">#在主机中查看</span><br><span class="line">127.0.0.1:6379&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1 #多了从机的配置</span><br><span class="line">slave0:ip=127.0.0.1,port=6380,state=online,offset=28,lag=0 #可以查看从机的信息</span><br><span class="line">master_replid:e3379979becc4e424bf681c1a5fe7672bee18d37</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:28</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:28</span><br></pre></td></tr></table></figure>
 
 <p>如果两个都配置完了，就是有两个从机的</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503162814.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503162814.png" alt="image-20210503162814852"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503162814.png" alt="image-20210503162814852"></p>
 <p>真实的从主配置应该在配置文件中配置，这样的话是永久的，我们这里使用的是命令，暂时的！</p>
 <blockquote>
 <p>细节</p>
 </blockquote>
 <p>主机可以写，从机不能写只能读！主机中的所有信息和数据，都会自动被从机保存！</p>
 <p>主机写：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503163100.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503163100.png" alt="image-20210503163059937"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503163100.png" alt="image-20210503163059937"></p>
 <p>从机只能读取内容！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503163113.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503163113.png" alt="image-20210503163113429"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503163113.png" alt="image-20210503163113429"></p>
 <p>测试：主机断开连接，从机依旧连接到主机的，但是没有写操作，这个时候，主机如果回来了，从机依旧可以直接获取到主机写的信息！</p>
 <p>如果是使用命令行，来配置的主从，这个时候如果重启了，就会变回主机！只要变为从机，立马就会从 主机中获取值！</p>
 <blockquote>
@@ -8194,7 +8194,7 @@ BASH</li>
 <p>层层链路</p>
 </blockquote>
 <p>上一个 M 链接下一个 S！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503174711.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503174711.png" alt="image-20210503174711032"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503174711.png" alt="image-20210503174711032"></p>
 <p>这时候也可以完成我们的主从复制！</p>
 <blockquote>
 <p>如果没有老大了，这个时候能不能选择一个老大出来呢？ 手动！</p>
@@ -8208,14 +8208,14 @@ BASH</li>
 <p>主从切换技术的方法是：当主服务器宕机后，需要手动把一台从服务器切换为主服务器，这就需要人工 干预，费事费力，还会造成一段时间内服务不可用。这不是一种推荐的方式，更多时候，我们优先考虑 哨兵模式。Redis 从 2.8 开始正式提供了 Sentinel（哨兵） 架构来解决这个问题。</p>
 <p>谋朝篡位的自动版，能够后台监控主机是否故障，如果故障了根据投票数&#x3D;&#x3D;自动将从库转换为主库&#x3D;&#x3D;。</p>
 <p>哨兵模式是一种特殊的模式，首先 Redis 提供了哨兵的命令，哨兵是一个独立的进程，作为进程，它会独立运行。其原理是<strong>哨兵通过发送命令，等待 Redis 服务器响应，从而监控运行的多个 Redis 实例。</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503180007.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503180007.png" alt="image-20210503180007839"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503180007.png" alt="image-20210503180007839"></p>
 <p>这里的哨兵有两个作用</p>
 <ul>
 <li>通过发送命令，让 Redis 服务器返回监控其运行状态，包括主服务器和从服务器。</li>
 <li>当哨兵监测到 master 宕机，会自动将 slave 切换成 master，然后通过发布订阅模式通知其他的从服务器，修改配置文件，让它们切换主机。</li>
 </ul>
 <p>然而一个哨兵进程对 Redis 服务器进行监控，可能会出现问题，为此，我们可以使用多个哨兵进行监控。各个哨兵之间还会进行监控，这样就形成了多哨兵模式。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503180127.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503180127.png" alt="image-20210503180127096"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503180127.png" alt="image-20210503180127096"></p>
 <p>假设主服务器宕机，哨兵 1 先检测到这个结果，系统并不会马上进行 failover 过程，仅仅是哨兵 1 主观的认 为主服务器不可用，这个现象成为<strong>主观下线</strong>。当后面的哨兵也检测到主服务器不可用，并且数量达到一定值时，那么哨兵之间就会进行一次投票，投票的结果由一个哨兵发起，进行 failover[故障转移]操作。 切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为 <strong>客观下线</strong>。</p>
 <blockquote>
 <p>测试！</p>
@@ -8229,9 +8229,9 @@ BASH</li>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line"></span><br><span class="line">[root@ouwen bin]# redis-sentinel owconfig/sentinel.conf</span><br><span class="line">5922:X 03 May 2021 18:13:03.144 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">5922:X 03 May 2021 18:13:03.144 # Redis version=5.0.8, bits=64, commit=00000000, modified=0, pid=5922, just started</span><br><span class="line">5922:X 03 May 2021 18:13:03.144 # Configuration loaded</span><br><span class="line">                _._</span><br><span class="line">           _.-``__ &#x27;&#x27;-._</span><br><span class="line">      _.-``    `.  `_.  &#x27;&#x27;-._           Redis 5.0.8 (00000000/0) 64 bit</span><br><span class="line">  .-`` .-```.  ```\/    _.,_ &#x27;&#x27;-._</span><br><span class="line"> (    &#x27;      ,       .-`  | `,    )     Running in sentinel mode</span><br><span class="line"> |`-._`-...-` __...-.``-._|&#x27;` _.-&#x27;|     Port: 26379</span><br><span class="line"> |    `-._   `._    /     _.-&#x27;    |     PID: 5922</span><br><span class="line">  `-._    `-._  `-./  _.-&#x27;    _.-&#x27;</span><br><span class="line"> |`-._`-._    `-.__.-&#x27;    _.-&#x27;_.-&#x27;|</span><br><span class="line"> |    `-._`-._        _.-&#x27;_.-&#x27;    |           http://redis.io</span><br><span class="line">  `-._    `-._`-.__.-&#x27;_.-&#x27;    _.-&#x27;</span><br><span class="line"> |`-._`-._    `-.__.-&#x27;    _.-&#x27;_.-&#x27;|</span><br><span class="line"> |    `-._`-._        _.-&#x27;_.-&#x27;    |</span><br><span class="line">  `-._    `-._`-.__.-&#x27;_.-&#x27;    _.-&#x27;</span><br><span class="line">      `-._    `-.__.-&#x27;    _.-&#x27;</span><br><span class="line">          `-._        _.-&#x27;</span><br><span class="line">              `-.__.-&#x27;</span><br><span class="line"></span><br><span class="line">5922:X 03 May 2021 18:13:03.145 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br><span class="line">5922:X 03 May 2021 18:13:03.150 # Sentinel ID is 0ab5ef20110ebfc67bc2a5e93addbe0871ffd748</span><br><span class="line">5922:X 03 May 2021 18:13:03.150 # +monitor master myredis 127.0.0.1 6379 quorum 1</span><br><span class="line">5922:X 03 May 2021 18:13:03.151 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ myredis 127.0.0.1 6379</span><br><span class="line">5922:X 03 May 2021 18:13:03.156 * +slave slave 127.0.0.1:6381 127.0.0.1 6381 @ myredis 127.0.0.1 6379</span><br></pre></td></tr></table></figure>
 
 <p>如果 Master 节点断开了，这个时候就会从从机中随机选择一个服务器！（这里面有一个投票算法！）</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503181753.png"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="image-20210503181752988"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503181753.png" alt="image-20210503181752988"></p>
 <p><strong>哨兵日志：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503181828.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503181828.png" alt="image-20210503181828520"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503181828.png" alt="image-20210503181828520"></p>
 <p>如果主机此时回来了，&#x3D;&#x3D;只能归并到新的主机下，当做从机&#x3D;&#x3D;，这就是哨兵模式的规则！</p>
 <blockquote>
 <p>哨兵模式</p>
@@ -8254,7 +8254,7 @@ BASH</li>
 <p>在这里我们不会详细的区分析解决方案的底层！</p>
 <p>Redis 缓存的使用，极大的提升了应用程序的性能和效率，特别是数据查询方面。但同时，它也带来了一 些问题。其中，最要害的问题，就是数据的一致性问题，从严格意义上讲，这个问题无解。如果对数据的一致性要求很高，那么就不能使用缓存。</p>
 <p>另外的一些典型问题就是，缓存穿透、缓存雪崩和缓存击穿。目前，业界也都有比较流行的解决方案。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183005.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183005.png" alt="image-20210503183005078"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503183005.png" alt="image-20210503183005078"></p>
 <h2 id="缓存穿透（查不到）"><a href="#缓存穿透（查不到）" class="headerlink" title="缓存穿透（查不到）"></a>缓存穿透（查不到）</h2><blockquote>
 <p>概念</p>
 </blockquote>
@@ -8264,10 +8264,10 @@ BASH</li>
 </blockquote>
 <p><strong>布隆过滤器</strong></p>
 <p>布隆过滤器是一种数据结构，对所有可能查询的参数以 hash 形式存储，在控制层先进行校验，不符合则丢弃，从而避免了对底层存储系统的查询压力；</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183137.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183137.png" alt="image-20210503183137788"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503183137.png" alt="image-20210503183137788"></p>
 <p><strong>缓存空对象</strong></p>
 <p>当存储层不命中后，即使返回的空对象也将其缓存起来，同时会设置一个过期时间，之后再访问这个数据将会从缓存中获取，保护了后端数据源；</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183210.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183210.png" alt="image-20210503183210887"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503183210.png" alt="image-20210503183210887"></p>
 <p>但是这种方法会存在两个问题：</p>
 <p>1、如果空值能够被缓存起来，这就意味着缓存需要更多的空间存储更多的键，因为这当中可能会有很多 的空值的键；</p>
 <p>2、即使对空值设置了过期时间，还是会存在缓存层和存储层的数据会有一段时间窗口的不一致，这对于 需要保持一致性的业务会有影响。</p>
@@ -8288,7 +8288,7 @@ BASH</li>
 </blockquote>
 <p>缓存雪崩，是指在某一个时间段，缓存集中过期失效。Redis 宕机~</p>
 <p>产生雪崩的原因之一，比如在写本文的时候，马上就要到双十二零点，很快就会迎来一波抢购，这波商 品时间比较集中的放入了缓存，假设缓存一个小时。那么到了凌晨一点钟的时候，这批商品的缓存就都过期了。而对这批商品的访问查询，都落到了数据库上，对于数据库而言，就会产生周期性的压力波峰。于是所有的请求都会达到存储层，存储层的调用量会暴增，造成存储层也会挂掉的情况。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183725.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503183725.png" alt="image-20210503183725407"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503183725.png" alt="image-20210503183725407"></p>
 <p>其实集中过期，倒不是非常致命，比较致命的缓存雪崩，是缓存服务器某个节点宕机或断网。因为自然形成的缓存雪崩，一定是在某个时间段集中创建缓存，这个时候，数据库也是可以顶住压力的。无非就是对数据库产生周期性的压力而已。而缓存服务节点的宕机，对数据库服务器造成的压力是不可预知的，很有可能瞬间就把数据库压垮。</p>
 <blockquote>
 <p>解决方案</p>
