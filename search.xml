@@ -901,7 +901,7 @@ JAVA
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">APACHE</span><br><span class="line">alias: 别名 这里起名keys</span><br><span class="line">keyalg: 证书算法，RSA</span><br><span class="line">validity：证书有效时间，10年</span><br><span class="line">keystore：证书生成的目标路径和文件名,替换成你自己的路径即可,我定义的是D:\apache-tomcat-7.0.26\keys\test.keystore，其中keys文件夹必须存在</span><br></pre></td></tr></table></figure>
 
 <p>之后回车，然后需要输入一些信息，其中秘钥库口令和秘钥口令最好一致，并且记下来（之后配置 Tomcat 需要用到）</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607134909.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607134909.png" alt="image-20210607134909105"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210607134909.png" alt="image-20210607134909105"></p>
 <h3 id="配置-Tomcat"><a href="#配置-Tomcat" class="headerlink" title="配置 Tomcat"></a>配置 Tomcat</h3><p>打开 Tomcat 的 conf 目录下的 <code>server.xml</code>文件，定位 <code>https</code> 到指定位置，完整配置如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">XML</span><br><span class="line">&lt;Connector port=&quot;8443&quot; protocol=&quot;org.apache.coyote.http11.Http11Protocol&quot;</span><br><span class="line">               maxThreads=&quot;150&quot; SSLEnabled=&quot;true&quot; scheme=&quot;https&quot; secure=&quot;true&quot;</span><br><span class="line">               clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot;</span><br><span class="line">               keystoreFile=&quot;D:\software\EOS\apache-tomcat-7.0.54\keys\test.keystore&quot;</span><br><span class="line">               keystorePass=&quot;vansys&quot; /&gt;</span><br></pre></td></tr></table></figure>
 
@@ -910,14 +910,14 @@ JAVA
 <li>keystoreFile：上面生成的证书所在目录</li>
 <li>keystorePass：生成证书时输入的秘钥</li>
 </ul>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607135533.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607135533.png" alt="image-20210607135533347"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210607135533.png" alt="image-20210607135533347"></p>
 <p>添加 http 跳转 https 协议访问，在 web.xml 文件末尾添加如下配置：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">XML</span><br><span class="line">&lt;security-constraint&gt;</span><br><span class="line">    &lt;web-resource-collection &gt;</span><br><span class="line">        &lt;web-resource-name &gt;SSL&lt;/web-resource-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/web-resource-collection&gt;</span><br><span class="line">    &lt;user-data-constraint&gt;</span><br><span class="line">        &lt;transport-guarantee&gt;CONFIDENTIAL&lt;/transport-guarantee&gt;</span><br><span class="line">    &lt;/user-data-constraint&gt;</span><br><span class="line">&lt;/security-constraint&gt;</span><br></pre></td></tr></table></figure>
 
 <p>如图：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607135715.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607135715.png" alt="image-20210607135715701"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210607135715.png" alt="image-20210607135715701"></p>
 <h3 id="重启-Tomcat-服务器"><a href="#重启-Tomcat-服务器" class="headerlink" title="重启 Tomcat 服务器"></a>重启 Tomcat 服务器</h3><p>这样就能通过 https 协议访问我们的项目：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607140001.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210607140001.png" alt="image-20210607140001797"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210607140001.png" alt="image-20210607140001797"></p>
 <p>但是发现：</p>
 <p>使用自己生成的证书会遇到一些问题：</p>
 <ul>
@@ -1216,10 +1216,10 @@ JAVA
 <h2 id="二、垂直拆分"><a href="#二、垂直拆分" class="headerlink" title="二、垂直拆分"></a>二、垂直拆分</h2><p>垂直拆分可以分为：<code>垂直分表</code> 和 <code>垂直分库</code>。</p>
 <h3 id="垂直分表"><a href="#垂直分表" class="headerlink" title="垂直分表"></a>垂直分表</h3><p><strong>概念：</strong>把一个表的多个字段分别拆成多个表，一般按字段的访问频次拆分，经常访问的字段一个表，不经常访问的字段一个表。减少布不必要的字段查询，提高数据库性能。</p>
 <p><strong>如图：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217164518.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217164518.png" alt="image-20220217164518085"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220217164518.png" alt="image-20220217164518085"></p>
 <h3 id="垂直分库"><a href="#垂直分库" class="headerlink" title="垂直分库"></a>垂直分库</h3><p><strong>概念：</strong>就是根据业务耦合性，将关联度低的不同表存储在不同的数据库中。做法与大系统拆分成多个小系统类似，按业务类型进行独立划分。与 <code>微服务划分</code> 的做法类似。每个微服务使用单独的一个数据库。</p>
 <p><strong>如图：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217155607.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217155607.png" alt="image-20220217155607149"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220217155607.png" alt="image-20220217155607149"></p>
 <p><strong>说明：</strong></p>
 <p>业务数据量小的情况下，只有一个数据库，所有的表都在这个库里。</p>
 <p>业务扩展，数据量增加，单体服务转变为微服务治理。要将之前的库按业务类型拆分成多个库。每个微服务对应一个库。</p>
@@ -1239,10 +1239,10 @@ JAVA
 <p>水平拆分也可以分为：<code>水平分库</code> 和 <code>水平分表</code>。</p>
 <h3 id="水平分库"><a href="#水平分库" class="headerlink" title="水平分库"></a>水平分库</h3><p><strong>原因：</strong>上面虽然已经把商品库分成 3 个库，但是随着业务的增加，系统的 QPS 过高，数据库响应速度来不及。但系统 QPS 达到瓶颈时就要考虑分库。</p>
 <p><strong>如图：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217163006.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217163006.png" alt="image-20220217163006880"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220217163006.png" alt="image-20220217163006880"></p>
 <h3 id="水平分表"><a href="#水平分表" class="headerlink" title="水平分表"></a>水平分表</h3><p><strong>原因：</strong>一般我们一张表的数据不要超过 <strong>500w</strong>，如果表数据超过 <strong>500w</strong>，并且还在不断增加数据，那就可以考虑分表。</p>
 <p><strong>如图：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217164412.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217164412.png" alt="image-20220217164412132"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220217164412.png" alt="image-20220217164412132"></p>
 <h3 id="水平拆分优缺点"><a href="#水平拆分优缺点" class="headerlink" title="水平拆分优缺点"></a>水平拆分优缺点</h3><p><strong>优点：</strong></p>
 <ul>
 <li>避免单库数据量过大、高并发的性能瓶颈，提升系统稳定性和负载能力</li>
@@ -1256,7 +1256,7 @@ JAVA
 </ul>
 <h2 id="四、数据分片规则"><a href="#四、数据分片规则" class="headerlink" title="四、数据分片规则"></a>四、数据分片规则</h2><p>当我们考虑去水平拆分表时，需要将一张表水平拆分成多张表，这就涉及到数据分片的规则，比较常见的有：<code>Hash取模分表</code>、<code>数值Range分表</code>、<code>一致性Hash算法分表</code>。</p>
 <h3 id="Hash-取模分表"><a href="#Hash-取模分表" class="headerlink" title="Hash 取模分表"></a>Hash 取模分表</h3><p><strong>概念：</strong>一般采用 Hash 取模的拆分方式，例如：假设按 <code>goods_id</code> 分 4 张表。（<code>goods_id%4</code> 取整数确定表）</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217225906.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220217225906.png" alt="image-20220217225906590"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220217225906.png" alt="image-20220217225906590"></p>
 <p><strong>优点：</strong></p>
 <ul>
 <li>数据分片相对均匀，不容易出现热点和并发访问的瓶颈</li>
@@ -1268,7 +1268,7 @@ JAVA
 </ul>
 <h3 id="数值-Range-分表"><a href="#数值-Range-分表" class="headerlink" title="数值 Range 分表"></a>数值 Range 分表</h3><p><strong>概念：</strong>按照时间区间或 ID 区间来拆分。比如：将 goods_id 为 1-1000 的记录分到第一个表，1001-2000 的分到第二个表，以此类推。</p>
 <p><strong>如图：</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220218104101.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20220218104101.png" alt="image-20220218104054253"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220218104101.png" alt="image-20220218104054253"></p>
 <p><strong>优点：</strong></p>
 <ul>
 <li>单表大小可控</li>
@@ -1657,418 +1657,6 @@ JAVA
 ]]></content>
       <tags>
         <tag>Excel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ElasticSearch 的概述和使用</title>
-    <url>/2022/01/02/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/ElasticSearch%20%E7%9A%84%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="ElasticSearch-概述"><a href="#ElasticSearch-概述" class="headerlink" title="ElasticSearch 概述"></a>ElasticSearch 概述</h2><p>Elaticsearch，简称为 es， es 是一个开源的<strong>高扩展</strong>的<strong>分布式全文检索引擎</strong>，它可以近乎<strong>实时的存储、检索数据</strong>；本身扩展性很好，可以扩展到上百台服务器，处理 PB 级别（大数据时代）的数据。es 也使用 Java 开发并使用 Lucene 作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的<strong>RESTful API</strong>来隐藏 Lucene 的复杂性，从而让全文搜索变得简单。</p>
-<p>据国际权威的数据库产品评测机构 DB Engines 的统计，在 2016 年 1 月，ElasticSearch 已超过 Solr 等，<strong>成为排名第一的搜索引擎类应用。</strong></p>
-<h2 id="ES-和-solr-的差别"><a href="#ES-和-solr-的差别" class="headerlink" title="ES 和 solr 的差别"></a>ES 和 solr 的差别</h2><h3 id="Elasticsearch-简介"><a href="#Elasticsearch-简介" class="headerlink" title="Elasticsearch 简介"></a>Elasticsearch 简介</h3><p>Elasticsearch 是一个实时分布式搜索和分析引擎。它让你以前所未有的速度处理大数据成为可能。</p>
-<p>它用于<strong>全文搜索、结构化搜索、分析</strong>以及将这三者混合使用：</p>
-<p>维基百科使用 Elasticsearch 提供全文搜索并高亮关键字，以及输入实时搜索(search-asyou-type)和搜索纠错(did-you-mean)等搜索建议功能。</p>
-<p>英国卫报使用 Elasticsearch 结合用户日志和社交网络数据提供给他们的编辑以实时的反馈，以便及时了解公众对新发表的文章的回应。</p>
-<p>StackOverflow 结合全文搜索与地理位置查询，以及 more-like-this 功能来找到相关的问题和答案。</p>
-<p>Github 使用 Elasticsearch 检索 1300 亿行的代码。</p>
-<p>但是 Elasticsearch 不仅用于大型企业，它还让像 DataDog 以及 Klout 这样的创业公司将最初的想法变成可扩展的解决方案。</p>
-<p>Elasticsearch 可以在你的笔记本上运行，也可以在数以百计的服务器上处理 PB 级别的数据 。</p>
-<p>Elasticsearch 是一个基于 Apache Lucene(TM)的开源搜索引擎。无论在开源还是专有领域，Lucene 可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库。</p>
-<p>但是，Lucene 只是一个库。想要使用它，你必须使用 Java 来作为开发语言并将其直接集成到你的应用中，更糟糕的是，Lucene 非常复杂，你需要深入了解检索的相关知识来理解它是如何工作的。</p>
-<p>Elasticsearch 也使用 Java 开发并使用 Lucene 作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的<strong>RESTful API</strong>来隐藏 Lucene 的复杂性，从而让全文搜索变得简单。</p>
-<h3 id="Solr-简介"><a href="#Solr-简介" class="headerlink" title="Solr 简介"></a>Solr 简介</h3><p>Solr 是 Apache 下的一个顶级开源项目，采用 Java 开发，它是基于 Lucene 的全文搜索服务器。Solr 提供了比 Lucene 更为丰富的查询语言，同时实现了可配置、可扩展，并对索引、搜索性能进行了优化</p>
-<p>Solr 可以独立运行，运行在 Jetty、Tomcat 等这些 Servlet 容器中，Solr 索引的实现方法很简单，<strong>用 POST 方法向 Solr 服务器发送一个描述 Field 及其内容的 XML 文档，Solr 根据 xml 文档添加、删除、更新索引</strong>。Solr 搜索只需要发送 HTTP GET 请求，然后对 Solr 返回 Xml、json 等格式的查询结果进行解析，组织页面布局。Solr 不提供构建 UI 的功能，Solr 提供了一个管理界面，通过管理界面可以查询 Solr 的配置和运行情况。</p>
-<p>solr 是基于 lucene 开发企业级搜索服务器，实际上就是封装了 lucene。</p>
-<p>Solr 是一个独立的企业级搜索应用服务器，它对外提供类似于&#x3D;&#x3D;Web-service 的 API 接口&#x3D;&#x3D;。用户可以通过 http 请求，向搜索引擎服务器提交一定格式的文件，生成索引；也可以通过提出查找请求，并得到返回结果。</p>
-<h3 id="Lucene-简介"><a href="#Lucene-简介" class="headerlink" title="Lucene 简介"></a>Lucene 简介</h3><p>Lucene 是 apache 软件基金会 4 jakarta 项目组的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。Lucene 的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。Lucene 是一套用于全文检索和搜寻的开源程式库，由 Apache 软件基金会支持和提供。Lucene 提供了一个简单却强大的应用程式接口，能够做全文索引和搜寻。<strong>在 Java 开发环境里 Lucene 是一个成熟的免费开源工具。就其本身而言，Lucene 是当前以及最近几年最受欢迎的免费 Java 信息检索程序库</strong>。人们经常提到信息检索程序库，虽然与搜索引擎有关，但不应该将信息检索程序库与搜索引擎相混淆。</p>
-<p>Lucene 是一个全文检索引擎的架构。那什么是全文搜索引擎？</p>
-<p>全文搜索引擎是名副其实的搜索引擎，国外具代表性的有 Google、Fast&#x2F;AllTheWeb、AltaVista、Inktomi、Teoma、WiseNut 等，国内著名的有百度（Baidu）。它们都是通过从互联网上提取的各个网站的信息（以网页文字为主）而建立的数据库中，检索与用户查询条件匹配的相关记录，然后按一定的排列顺序将结果返回给用户，因此他们是真正的搜索引擎。</p>
-<p>从搜索结果来源的角度，全文搜索引擎又可细分为两种，一种是拥有自己的检索程序（Indexer），俗称“蜘蛛”（Spider）程序或“机器人”（Robot）程序，并自建网页数据库，搜索结果直接从自身的数据库中调用，如上面提到的 7 家引擎；另一种则是租用其他引擎的数据库，并按自定的格式排列搜索结果，如 Lycos 引擎。</p>
-<h3 id="Elasticsearch-和-Solr-比较"><a href="#Elasticsearch-和-Solr-比较" class="headerlink" title="Elasticsearch 和 Solr 比较"></a>Elasticsearch 和 Solr 比较</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223554.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223554.png" alt="image-20210503223554497"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223607.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223607.png" alt="image-20210503223607286"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223616.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223616.png" alt="image-20210503223616904"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223627.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503223627.png" alt="image-20210503223627835"></a></p>
-<h3 id="ElasticSearch-vs-Solr-总结"><a href="#ElasticSearch-vs-Solr-总结" class="headerlink" title="ElasticSearch vs Solr 总结"></a>ElasticSearch vs Solr 总结</h3><ol>
-<li>es 基本是开箱即用（解压就可以用 ! ），非常简单。Solr 安装略微复杂一丢丢！</li>
-<li>Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能。</li>
-<li>Solr 支持更多格式的数据，比如 JSON、XML、CSV，而 Elasticsearch 仅支持 json 文件格式。</li>
-<li>Solr 官方提供的功能更多，而 Elasticsearch 本身更注重于核心功能，高级功能多有第三方插件提供，例如图形化界面需要 kibana 友好支撑~!</li>
-<li>Solr 查询快，但更新索引时慢（即插入删除慢），用于电商等查询多的应用；<ul>
-<li>ES 建立索引快（即查询慢），<strong>即实时性查询快</strong>，用于 facebook 新浪等搜索。</li>
-<li>Solr 是传统搜索应用的有力解决方案，但 Elasticsearch 更适用于新兴的实时搜索应用</li>
-</ul>
-</li>
-<li>Solr 比较成熟，有一个更大，更成熟的用户、开发和贡献者社区，而 Elasticsearch 相对开发维护者较少，更新太快，学习使用成本较高。（趋势！）</li>
-</ol>
-<h2 id="ElasticSearch-安装"><a href="#ElasticSearch-安装" class="headerlink" title="ElasticSearch 安装"></a>ElasticSearch 安装</h2><p>声明：JDK1.8 ，最低要求！ ElasticSearch 客户端，界面工具！<br>Java 开发，ElasticSearch 的版本和我们之后对应的 Java 的核心 jar 包！ 版本对应！JDK 环境是正常！</p>
-<blockquote>
-<p>下载</p>
-</blockquote>
-<p>官网：<a href="https://www.elastic.co/">https://www.elastic.co/</a></p>
-<p>下载地址：<a href="https://www.elastic.co/cn/downloads/elasticsearch">https://www.elastic.co/cn/downloads/elasticsearch</a></p>
-<blockquote>
-<p>window 下安装！</p>
-</blockquote>
-<h3 id="解压就可以使用了！"><a href="#解压就可以使用了！" class="headerlink" title="解压就可以使用了！"></a>解压就可以使用了！</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503224753.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503224753.png" alt="image-20210503224753729"></a></p>
-<h3 id="熟悉目录！"><a href="#熟悉目录！" class="headerlink" title="熟悉目录！"></a>熟悉目录！</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line">bin 启动文件</span><br><span class="line">config 配置文件</span><br><span class="line">    log4j2 日志配置文件</span><br><span class="line">    jvm.options java 虚拟机相关的配置</span><br><span class="line">    elasticsearch.yml  elasticsearch 的配置文件！ 默认 9200 端口！ 跨域！</span><br><span class="line">lib   相关jar包</span><br><span class="line">logs   日志！</span><br><span class="line">modules 功能模块</span><br><span class="line">plugins 插件！</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动，访问-9200"><a href="#启动，访问-9200" class="headerlink" title="启动，访问 9200"></a>启动，访问 9200</h3><p>运行<code>bin/elasticsearch.bat</code>，启动！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503225150.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503225150.png" alt="image-20210503225150680"></a></p>
-<h3 id="访问测试！"><a href="#访问测试！" class="headerlink" title="访问测试！"></a>访问测试！</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503225236.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503225236.png" alt="image-20210503225235923"></a></p>
-<blockquote>
-<p>安装可视化界面插件 es head 的插件</p>
-</blockquote>
-<p>需要 node.js 环境</p>
-<ol>
-<li><p>下载地址：<a href="https://links.jianshu.com/go?to=https://github.com/mobz/elasticsearch-head/">https://github.com/mobz/elasticsearch-head/</a></p>
-</li>
-<li><p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">npm install</span><br><span class="line">npm run start</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>连接测试发现，存在跨域问题：配置 es</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启 es 服务器，然后再次连接</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503230107.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503230107.png" alt="image-20210503230107069"></a></p>
-</li>
-</ol>
-<p>初学，就把 es 当做一个数据库！ （可以建立索引（库），文档（库中的数据！））</p>
-<p><strong>这个 head 我们就把它当做数据展示工具！我们后面所有的查询，去 Kibana 进行！</strong></p>
-<blockquote>
-<p>了解 ELK</p>
-</blockquote>
-<p>ELK 是 Elasticsearch、Logstash、Kibana 三大开源框架首字母大写简称。市面上也被成为 ElasticStack。其中 Elasticsearch 是一个基于 Lucene、分布式、通过 Restful 方式进行交互的近实时搜索平台框架。像类似百度、谷歌这种大数据全文搜索引擎的场景都可以使用 Elasticsearch 作为底层支持框架，可见 Elasticsearch 提供的搜索能力确实强大,市面上很多时候我们简称 Elasticsearch 为 es。Logstash 是 ELK 的中央数据流引擎，用于从不同目标（文件&#x2F;数据存储&#x2F;MQ）收集的不同格式数据，经过过滤后支持输出到不同目的地（文件&#x2F;MQ&#x2F;redis&#x2F;elasticsearch&#x2F;kafka 等）。Kibana 可以将 elasticsearch 的数据通过友好<br>的页面展示出来，提供实时分析的功能。</p>
-<p>市面上很多开发只要提到 ELK 能够一致说出它是一个日志分析架构技术栈总称，但实际上 ELK 不仅仅适用于日志分析，它还可以支持其它任何数据分析和收集的场景，日志分析和收集只是更具有代表性。并非唯一性。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503230537.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503230537.webp" alt="img"></a></p>
-<blockquote>
-<p>安装 Kibana</p>
-</blockquote>
-<p>Kibana 是一个针对 Elasticsearch 的开源分析及可视化平台，用来搜索、查看交互存储在 Elasticsearch 索引中的数据。使用 Kibana，可以通过各种图表进行高级数据分析及展示。Kibana 让海量数据更容易理解。它操作简单，基于浏览器的用户界面可以快速创建仪表板（dashboard）实时显示 Elasticsearch 查询动态。设置 Kibana 非常简单。无需编码或者额外的基础架构，几分钟内就可以完成 Kibana 安装并启动 Elasticsearch 索引监测。</p>
-<p>官网：<a href="https://www.elastic.co/cn/kibana">https://www.elastic.co/cn/kibana</a></p>
-<p>Kibana 版本要和 Es 一致！</p>
-<blockquote>
-<p>启动测试！</p>
-</blockquote>
-<p>1、解压后的目录</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233229.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233229.png" alt="image-20210503233229181"></a></p>
-<p>2、启动<code>kibana.bat</code></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233731.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233731.png" alt="image-20210503233731775"></a></p>
-<p>3、访问测试</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233752.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233752.png" alt="image-20210503233752142"></a></p>
-<p>4、开发工具！ （Post、curl、head、谷歌浏览器插件测试！）</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233835.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503233835.png" alt="image-20210503233835622"></a></p>
-<p>5、汉化！自己修改 kibana 配置即可！ zh-CN！</p>
-<p>kibaba.yml 文件末尾添加</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">i18n.locale: &quot;zn-CH&quot;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503234155.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503234155.png" alt="image-20210503234155128"></a></p>
-<h2 id="ES-核心概念"><a href="#ES-核心概念" class="headerlink" title="ES 核心概念"></a>ES 核心概念</h2><ol>
-<li>索引</li>
-<li>字段类型（mapping）</li>
-<li>文档（documents）</li>
-</ol>
-<blockquote>
-<p>概述</p>
-</blockquote>
-<p>在前面的学习中，我们已经掌握了 es 是什么，同时也把 es 的服务已经安装启动，那么 es 是如何去存储数据，数据结构是什么，又是如何实现搜索的呢？我们先来聊聊 ElasticSearch 的相关概念吧！</p>
-<p><strong>集群，节点，索引，类型，文档，分片，映射是什么？</strong></p>
-<blockquote>
-<p>elasticsearch 是面向文档，关系行数据库 和 elasticsearch 客观的对比！一切都是 JSON！</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th><strong>Relational DB</strong></th>
-<th><strong>Elasticsearch</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>数据库(database)</td>
-<td>索引(indices)</td>
-</tr>
-<tr>
-<td>表(tables)</td>
-<td>types</td>
-</tr>
-<tr>
-<td>行(rows)</td>
-<td>documents</td>
-</tr>
-<tr>
-<td>字段(columns)</td>
-<td>fields</td>
-</tr>
-</tbody></table>
-<p>elasticsearch(集群)中可以包含多个索引(数据库)，每个索引中可以包含多个类型(表)，每个类型下又包含多 个文档(行)，每个文档中又包含多个字段(列)。</p>
-<p><strong>物理设计：</strong></p>
-<p>elasticsearch 在后台把每个索引划分成多个分片，每分分片可以在集群中的不同服务器间迁移</p>
-<p>一个人就是一个集群！默认的集群名称就是 elaticsearh</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503234530.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503234530.webp" alt="img"></a></p>
-<p><strong>逻辑设计：</strong></p>
-<p>一个索引类型中，包含多个文档，比如说文档 1，文档 2。 当我们索引一篇文档时，可以通过这样的一各顺序找到 它: 索引 ▷ 类型 ▷ 文档 ID ，通过这个组合我们就能索引到某个具体的文档。 注意:ID 不必是整数，实际上它是个字符串。</p>
-<blockquote>
-<p>文档</p>
-</blockquote>
-<p>就是我们的一条条数据</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PLAINTEXT</span><br><span class="line">user</span><br><span class="line">1  zhangsan  18</span><br><span class="line">2  ouwen  3</span><br></pre></td></tr></table></figure>
-
-<p>之前说 elasticsearch 是面向文档的，那么就意味着索引和搜索数据的最小单位是文档，elasticsearch 中，文档有几个 重要属性 :</p>
-<ul>
-<li>自我包含，一篇文档同时包含字段和对应的值，也就是同时包含 key:value！</li>
-<li>可以是层次型的，一个文档中包含自文档，复杂的逻辑实体就是这么来的！ {就是一个 json 对象！fastjson 进行自动转换！}</li>
-<li>灵活的结构，文档不依赖预先定义的模式，我们知道关系型数据库中，要提前定义字段才能使用，在 elasticsearch 中，对于字段是非常灵活的，有时候，我们可以忽略该字段，或者动态的添加一个新的字段。</li>
-</ul>
-<p>尽管我们可以随意的新增或者忽略某个字段，但是，每个字段的类型非常重要，比如一个年龄字段类型，可以是字符 串也可以是整形。因为 elasticsearch 会保存字段和类型之间的映射及其他的设置。这种映射具体到每个映射的每种类型，这也是为什么在 elasticsearch 中，类型有时候也称为映射类型。</p>
-<blockquote>
-<p>类型</p>
-</blockquote>
-<p>类型是文档的逻辑容器，就像关系型数据库一样，表格是行的容器。 类型中对于字段的定义称为映射，比如 name 映 射为字符串类型。 我们说文档是无模式的，它们不需要拥有映射中所定义的所有字段，比如新增一个字段，那么 elasticsearch 是怎么做的呢?elasticsearch 会自动的将新字段加入映射，但是这个字段的不确定它是什么类型，elasticsearch 就开始猜，如果这个值是 18，那么 elasticsearch 会认为它是整形。 但是 elasticsearch 也可能猜不对， 所以最安全的方式就是提前定义好所需要的映射，这点跟关系型数据库殊途同归了，先定义好字段，然后再使用，别 整什么幺蛾子。</p>
-<blockquote>
-<p>索引</p>
-</blockquote>
-<p>就是数据库！</p>
-<p>索引是映射类型的容器，elasticsearch 中的索引是一个非常大的文档集合。索引存储了映射类型的字段和其他设置。 然后它们被存储到了各个分片上了。 我们来研究下分片是如何工作的。</p>
-<p>物理设计 ：节点和分片 如何工作</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235339.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235339.webp" alt="img"></a></p>
-<p>一个集群至少有一个节点，而一个节点就是一个 elasricsearch 进程，节点可以有多个索引默认的，如果你创建索引，那么索引将会有个 5 个分片 ( primary shard ,又称主分片 ) 构成的，每一个主分片会有一个副本 ( replica shard ,又称复制分片 )</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235352.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235352.webp" alt="img"></a></p>
-<p>上图是一个有 3 个节点的集群，可以看到主分片和对应的复制分片都不会在同一个节点内，这样有利于某个节点挂掉 了，数据也不至于丢失。 实际上，一个分片是一个 Lucene 索引，一个包含倒排索引的文件目录，<strong>倒排索引</strong>的结构使 得 elasticsearch 在不扫描全部文档的情况下，就能告诉你哪些文档包含特定的关键字。 不过，等等，倒排索引是什 么鬼?</p>
-<blockquote>
-<p>倒排索引</p>
-</blockquote>
-<p>elasticsearch 使用的是一种称为倒排索引的结构，采用 Lucene 倒排索作为底层。这种结构适用于快速的全文搜索， 一个索引由文档中所有不重复的列表构成，对于每一个词，都有一个包含它的文档列表。 例如，现在有两个文档， 每个文档包含如下内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">Study every day, good good up to forever  # 文档1包含的内容</span><br><span class="line">To forever, study every day, good good up # 文档2包含的内容</span><br></pre></td></tr></table></figure>
-
-<p>为了创建倒排索引，我们首先要将每个文档拆分成独立的词(或称为词条或者 tokens)，然后创建一个包含所有不重 复的词条的排序列表，然后列出每个词条出现在哪个文档 :</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235436.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235436.png" alt="image-20210503235436309"></a></p>
-<p>现在，我们试图搜索 to forever，只需要查看包含每个词条的文档 score</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235452.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235452.png" alt="image-20210503235452613"></a></p>
-<p>两个文档都匹配，但是第一个文档比第二个匹配程度更高。如果没有别的条件，现在，这两个包含关键字的文档都将返回。</p>
-<p>再来看一个示例，比如我们通过博客标签来搜索博客文章。那么倒排索引列表就是这样的一个结构 :</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235510.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235510.webp" alt="img"></a></p>
-<p>如果要搜索含有 python 标签的文章，那相对于查找所有原始数据而言，查找倒排索引后的数据将会快的多。只需要 查看标签这一栏，然后获取相关的文章 ID 即可。完全过滤掉无关的所有数据，提高效率！</p>
-<p>elasticsearch 的索引和 Lucene 的索引对比</p>
-<p>在 elasticsearch 中， 索引 （库）这个词被频繁使用，这就是术语的使用。 在 elasticsearch 中，索引被分为多个分片，每份 分片是一个 Lucene 的索引。所以一个 elasticsearch 索引是由多个 Lucene 索引组成的。别问为什么，谁让 elasticsearch 使用 Lucene 作为底层呢! 如无特指，说起索引都是指 elasticsearch 的索引。</p>
-<h2 id="IK-分词器插件"><a href="#IK-分词器插件" class="headerlink" title="IK 分词器插件"></a>IK 分词器插件</h2><blockquote>
-<p>什么是 IK 分词器？</p>
-</blockquote>
-<p>分词：即把一段中文或者别的划分成一个个的关键字，我们在搜索时候会把自己的信息进行分词，会把数据库中或者索引库中的数据进行分词，然后进行一个匹配操作，默认的中文分词是将每个字看成一个词，比如 “我爱狂神” 会被分为”我”,”爱”,”狂”,”神”，这显然是不符合要求的，所以我们需要安装中文分词器 ik 来解决这个问题。</p>
-<p>如果要使用中文，建议使用 ik 分词器！</p>
-<p>IK 提供了两个分词算法：ik_smart 和 ik_max_word，其中 ik_smart 为最少切分，ik_max_word 为最细粒度划分！</p>
-<blockquote>
-<p>安装</p>
-</blockquote>
-<p>1、<a href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
-<p>2、下载完毕后，放入到我们的 elasticsearch 插件即可</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235943.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210503235943.png" alt="image-20210503235943039"></a></p>
-<p>3、重启观察 ES，可以看到 ik 分词器被加载了！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504000047.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504000047.png" alt="image-20210504000047514"></a></p>
-<p>4、elasticsearch-plugin 可以通过这个命令来查看加载进来的插件</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504000351.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504000351.png" alt="image-20210504000146656"></a></p>
-<p>5、使用 kibana 进行测试</p>
-<blockquote>
-<p>查看不同的分词效果</p>
-</blockquote>
-<p>ik_smart 为最少切分</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504000943.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504000943.png" alt="image-20210504000856743"></a></p>
-<p>ik_max_word 为最细粒度划分，穷尽词库的可能！字典！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001030.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001030.png" alt="image-20210504001030482"></a></p>
-<blockquote>
-<p>我们输入 超级喜欢狂神说 Java</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001209.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001209.webp" alt="img"></a></p>
-<p>发现问题：狂神说被拆开了！</p>
-<p>这种自己需要的词，需要自己加到我们的分词器的字典中！</p>
-<blockquote>
-<p>ik 分词器增加自己的配置！</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001411.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001411.png" alt="image-20210504001411652"></a></p>
-<p>重启 es，看细节！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001513.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001513.png" alt="image-20210504001513405"></a></p>
-<p>再次测试一下狂神说，看下效果！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001619.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504001619.png" alt="image-20210504001619667"></a></p>
-<h2 id="Rest-风格说明"><a href="#Rest-风格说明" class="headerlink" title="Rest 风格说明"></a>Rest 风格说明</h2><p>一种软件架构风格，而不是标准，只是提供了一组设计原则和约束条件。它主要用于客户端和服务器交互类的软件。基于这个风格设计的软件可以更简洁，更有层次，更易于实现缓存等机制。</p>
-<p>基本 Rest 命令说明：</p>
-<table>
-<thead>
-<tr>
-<th>method</th>
-<th>url 地址</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>PUT</td>
-<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id</td>
-<td>创建文档（指定文档 id）</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>localhost:9200&#x2F;索引名称&#x2F;类型名称</td>
-<td>创建文档（随机文档 id）</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id&#x2F;_update</td>
-<td>修改文档</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id</td>
-<td>删除文档</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id</td>
-<td>查询文档通过文档 id</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;_search</td>
-<td>查询所有数据</td>
-</tr>
-</tbody></table>
-<h2 id="关于索引的基本操作"><a href="#关于索引的基本操作" class="headerlink" title="关于索引的基本操作"></a>关于索引的基本操作</h2><h3 id="创建一个索引！"><a href="#创建一个索引！" class="headerlink" title="创建一个索引！"></a>创建一个索引！</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PLAINTEXT</span><br><span class="line">PUT /索引名/~类型名~/文档id</span><br><span class="line">&#123;请求体&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002138.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002138.png" alt="image-20210504002137968"></a></p>
-<p>完成了自动增加了索引！数据也成功的添加了，这就是我说大家在初期可以把它当做数据库学习的原因！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002239.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002239.png" alt="image-20210504002239404"></a></p>
-<p>那么 name 这个字段用不用指定类型呢。毕竟我们关系型数据库 是需要指定类型的啊 !</p>
-<ul>
-<li>字符串类型<br>text 、 keyword</li>
-<li>数值类型<br>long, integer, short, byte, double, float, half_float, scaled_float</li>
-<li>日期类型<br>date</li>
-<li>布尔值类型<br>boolean</li>
-<li>二进制类型<br>binary</li>
-<li>等等…..</li>
-</ul>
-<h3 id="指定字段的类型"><a href="#指定字段的类型" class="headerlink" title="指定字段的类型"></a>指定字段的类型</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002816.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002816.png" alt="image-20210504002816478"></a></p>
-<p>获得这个规则！ 可以通过 GET 请求获取具体的信息！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002902.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504002902.png" alt="image-20210504002902783"></a></p>
-<h3 id="查看默认的信息"><a href="#查看默认的信息" class="headerlink" title="查看默认的信息"></a>查看默认的信息</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003207.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003207.png" alt="image-20210504003207460"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003219.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003219.png" alt="image-20210504003219494"></a></p>
-<p>如果自己的文档字段没有指定，那么 es 就会给我们默认配置字段类型！</p>
-<p><strong>扩展</strong>： 通过命令 elasticsearch 索引情况！ 通过<code>GET _cat/</code> 可以获得 es 的当前的很多信息！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003418.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003418.png" alt="image-20210504003418475"></a></p>
-<blockquote>
-<p>修改 提交还是使用 PUT 即可！ 然后覆盖！最新办法！</p>
-</blockquote>
-<p>曾经！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003608.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003608.png" alt="image-20210504003608862"></a></p>
-<p>现在的方法！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003757.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003757.png" alt="image-20210504003757886"></a></p>
-<blockquote>
-<p>删除索引！</p>
-</blockquote>
-<p>通过 DELETE 命令实现删除、 根据你的请求来判断是删除索引还是删除文档记录！</p>
-<p>使用 RESTFUL 风格是我们 ES 推荐大家使用的！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003924.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504003924.png" alt="image-20210504003924263"></a></p>
-<h2 id="关于文档的基本操作（重点）"><a href="#关于文档的基本操作（重点）" class="headerlink" title="关于文档的基本操作（重点）"></a>关于文档的基本操作（重点）</h2><blockquote>
-<p>基本操作</p>
-</blockquote>
-<h3 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JSON</span><br><span class="line">PUT /ouwen/user/3</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;小红&quot;,</span><br><span class="line">  &quot;age&quot;: 22,</span><br><span class="line">  &quot;desc&quot;: &quot;我是一个美女&quot;,</span><br><span class="line">  &quot;tags&quot;: [&quot;睡觉&quot;,&quot;靓女&quot;,&quot;吃饭&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504004712.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504004712.png" alt="image-20210504004712396"></a></p>
-<h3 id="获取数据-GET"><a href="#获取数据-GET" class="headerlink" title="获取数据 GET"></a>获取数据 GET</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504004741.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504004741.png" alt="image-20210504004741798"></a></p>
-<h3 id="更新数据-PUT"><a href="#更新数据-PUT" class="headerlink" title="更新数据 PUT"></a>更新数据 PUT</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504004901.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504004901.png" alt="image-20210504004901746"></a></p>
-<h3 id="Post-update-推荐使用这种更新方式！"><a href="#Post-update-推荐使用这种更新方式！" class="headerlink" title="Post _update , 推荐使用这种更新方式！"></a>Post _update , 推荐使用这种更新方式！</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504005345.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504005345.png" alt="img"></a></p>
-<h3 id="简单地搜索！"><a href="#简单地搜索！" class="headerlink" title="简单地搜索！"></a>简单地搜索！</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AWK</span><br><span class="line">GET ouwen/user/1</span><br></pre></td></tr></table></figure>
-
-<p>简答的条件查询，可以根据默认的映射规则，产生基本的查询！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504005803.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504005803.png" alt="image-20210504005803020"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504005944.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504005944.png" alt="image-20210504005944771"></a></p>
-<h3 id="复杂操作搜索-select-排序，分页，高亮，模糊查询，精准查询！"><a href="#复杂操作搜索-select-排序，分页，高亮，模糊查询，精准查询！" class="headerlink" title="复杂操作搜索 select ( 排序，分页，高亮，模糊查询，精准查询！)"></a>复杂操作搜索 select ( 排序，分页，高亮，模糊查询，精准查询！)</h3><p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504010155.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504010155.png" alt="image-20210504010146616"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504010602.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504010602.png" alt="image-20210504010602133"></a></p>
-<p>输出结果，不想要那么多！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504010722.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504010722.png" alt="image-20210504010722580"></a>我们之后使用 Java 操作 es ，所有的方法和对象就是这里面的 key！</p>
-<blockquote>
-<p>排序！</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011018.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011018.png" alt="image-20210504011018343"></a></p>
-<blockquote>
-<p>分页查询！</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011149.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011149.png" alt="image-20210504011149220"></a></p>
-<p>数据下标还是从 0 开始的，和学的所有数据结构是一样的！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/search/&#123;current&#125;/&#123;pagesize&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>布尔值查询</p>
-</blockquote>
-<p><strong>must （and）</strong>，所有的条件都要符合 where id &#x3D; 1 and name &#x3D; xxx</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011607.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011607.png" alt="image-20210504011607517"></a></p>
-<p><strong>should（or）</strong>，所有的条件都要符合 where id &#x3D; 1 or name &#x3D; xxx</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011736.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011736.png" alt="image-20210504011736768"></a></p>
-<p><strong>must_not （not）</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011831.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504011831.png" alt="image-20210504011831232"></a></p>
-<p><strong>过滤器 filter</strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012021.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012021.png" alt="image-20210504012021112"></a></p>
-<ul>
-<li>gt 大于</li>
-<li>gte 大于等于</li>
-<li>lt 小于</li>
-<li>lte 小于等于！</li>
-</ul>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012126.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012126.png" alt="image-20210504012126745"></a></p>
-<blockquote>
-<p>匹配多个条件！</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012405.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012405.png" alt="image-20210504012405631"></a></p>
-<blockquote>
-<p>精确查询！</p>
-</blockquote>
-<p>term 查询是直接通过倒排索引指定的词条进程精确查找的！</p>
-<p><strong>关于分词：</strong></p>
-<ul>
-<li>term ，直接查询精确的</li>
-<li>match，会使用分词器解析！（先分析文档，然后在通过分析的文档进行查询！）</li>
-</ul>
-<p><strong>两个类型 <code>text</code> <code>keyword</code></strong></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012855.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012855.webp" alt="img"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012909.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504012909.webp" alt="img"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504013020.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504013020.webp" alt="img"></a></p>
-<blockquote>
-<p>多个值匹配精确查询</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504014024.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504014024.webp" alt="img"></a></p>
-<blockquote>
-<p>高亮查询！</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504014306.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504014306.png" alt="image-20210504014305845"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504014541.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504014541.png" alt="image-20210504014541346"></a></p>
-<h2 id="集成-SpringBoot"><a href="#集成-SpringBoot" class="headerlink" title="集成 SpringBoot"></a>集成 SpringBoot</h2><blockquote>
-<p>找官方文档！</p>
-</blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131313.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131313.webp" alt="img"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131324.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131324.webp" alt="img"></a></p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131333.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131333.webp" alt="img"></a></p>
-<p>1、找到原生的依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">XML</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;elasticsearch-rest-high-level-client&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;7.6.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>2、找对象</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131416.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504131416.webp" alt="img"></a></p>
-<p>3、分析这个类中的方法即可！</p>
-<blockquote>
-<p>配置基本的项目</p>
-</blockquote>
-<p>源码中提供对象！</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504133033.webp"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210504133033.webp" alt="img"></a></p>
-<p>虽然这里导入 3 个类，静态内部类，核心类就一个！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* Elasticsearch rest client infrastructure configurations.</span><br><span class="line">*</span><br><span class="line">* @author Brian Clozel</span><br><span class="line">* @author Stephane Nicoll</span><br><span class="line">*/</span><br><span class="line">class RestClientConfigurations &#123;</span><br><span class="line">    @Configuration(proxyBeanMethods = false)</span><br><span class="line">    static class RestClientBuilderConfiguration &#123;</span><br><span class="line">        // RestClientBuilder</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestClientBuilder elasticsearchRestClientBuilder(RestClientProperties</span><br><span class="line">                                                         properties,</span><br><span class="line">                                                         ObjectProvider&lt;RestClientBuilderCustomizer&gt; builderCustomizers) &#123;</span><br><span class="line">            HttpHost[] hosts =</span><br><span class="line">                properties.getUris().stream().map(HttpHost::create).toArray(HttpHost[]::new);</span><br><span class="line">            RestClientBuilder builder = RestClient.builder(hosts);</span><br><span class="line">            PropertyMapper map = PropertyMapper.get();</span><br><span class="line">            map.from(properties::getUsername).whenHasText().to((username) -&gt; &#123;</span><br><span class="line">                CredentialsProvider credentialsProvider = new</span><br><span class="line">                    BasicCredentialsProvider();</span><br><span class="line">                Credentials credentials = new</span><br><span class="line">                    UsernamePasswordCredentials(properties.getUsername(),</span><br><span class="line">                                                properties.getPassword());</span><br><span class="line">                credentialsProvider.setCredentials(AuthScope.ANY, credentials);</span><br><span class="line">                builder.setHttpClientConfigCallback(</span><br><span class="line">                    (httpClientBuilder) -&gt;</span><br><span class="line">                    httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));</span><br><span class="line">            &#125;);</span><br><span class="line">            builder.setRequestConfigCallback((requestConfigBuilder) -&gt; &#123;</span><br><span class="line"></span><br><span class="line">                map.from(properties::getConnectionTimeout).whenNonNull().asInt(Duration::toMill</span><br><span class="line">                                                                               is)</span><br><span class="line">                    .to(requestConfigBuilder::setConnectTimeout);</span><br><span class="line"></span><br><span class="line">                map.from(properties::getReadTimeout).whenNonNull().asInt(Duration::toMillis)</span><br><span class="line">                    .to(requestConfigBuilder::setSocketTimeout);</span><br><span class="line">                return requestConfigBuilder;</span><br><span class="line">            &#125;);</span><br><span class="line">            builderCustomizers.orderedStream().forEach((customizer) -&gt;</span><br><span class="line">                                                       customizer.customize(builder));</span><br><span class="line">            return builder;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    @Configuration(proxyBeanMethods = false)</span><br><span class="line">    @ConditionalOnClass(RestHighLevelClient.class)</span><br><span class="line">    static class RestHighLevelClientConfiguration &#123;</span><br><span class="line">        // RestHighLevelClient 高级客户端，也是我们这里要讲，后面项目会用到的客户端</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestHighLevelClient elasticsearchRestHighLevelClient(RestClientBuilder</span><br><span class="line">                                                             restClientBuilder) &#123;</span><br><span class="line">            return new RestHighLevelClient(restClientBuilder);</span><br><span class="line">        &#125;</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestClient elasticsearchRestClient(RestClientBuilder builder,</span><br><span class="line">                                           ObjectProvider&lt;RestHighLevelClient&gt; restHighLevelClient) &#123;</span><br><span class="line">            RestHighLevelClient client = restHighLevelClient.getIfUnique();</span><br><span class="line">            if (client != null) &#123;</span><br><span class="line">                return client.getLowLevelClient();</span><br><span class="line">            &#125;</span><br><span class="line">            return builder.build();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    @Configuration(proxyBeanMethods = false)</span><br><span class="line">    static class RestClientFallbackConfiguration &#123;</span><br><span class="line">        // RestClient 普通的客户端！</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestClient elasticsearchRestClient(RestClientBuilder builder) &#123;</span><br><span class="line">            return builder.build();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>具体的 API 测试！</p>
-</blockquote>
-<ol>
-<li>创建索引</li>
-<li>判断索引是否存在</li>
-<li>删除索引</li>
-<li>创建文档</li>
-<li>crud 文档！</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">package com.luojunjie;</span><br><span class="line"></span><br><span class="line">import cn.hutool.json.JSON;</span><br><span class="line">import cn.hutool.json.JSONString;</span><br><span class="line">import cn.hutool.json.JSONUtil;</span><br><span class="line">import com.luojunjie.pojo.User;</span><br><span class="line">import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;</span><br><span class="line">import org.elasticsearch.action.bulk.BulkRequest;</span><br><span class="line">import org.elasticsearch.action.bulk.BulkResponse;</span><br><span class="line">import org.elasticsearch.action.delete.DeleteRequest;</span><br><span class="line">import org.elasticsearch.action.delete.DeleteResponse;</span><br><span class="line">import org.elasticsearch.action.get.GetRequest;</span><br><span class="line">import org.elasticsearch.action.get.GetResponse;</span><br><span class="line">import org.elasticsearch.action.index.IndexRequest;</span><br><span class="line">import org.elasticsearch.action.index.IndexResponse;</span><br><span class="line">import org.elasticsearch.action.search.SearchRequest;</span><br><span class="line">import org.elasticsearch.action.search.SearchResponse;</span><br><span class="line">import org.elasticsearch.action.support.master.AcknowledgedResponse;</span><br><span class="line">import org.elasticsearch.action.update.UpdateRequest;</span><br><span class="line">import org.elasticsearch.action.update.UpdateResponse;</span><br><span class="line">import org.elasticsearch.client.RequestOptions;</span><br><span class="line">import org.elasticsearch.client.RestHighLevelClient;</span><br><span class="line">import org.elasticsearch.client.indices.CreateIndexRequest;</span><br><span class="line">import org.elasticsearch.client.indices.CreateIndexResponse;</span><br><span class="line">import org.elasticsearch.client.indices.GetIndexRequest;</span><br><span class="line">import org.elasticsearch.common.unit.TimeValue;</span><br><span class="line">import org.elasticsearch.common.xcontent.XContentType;</span><br><span class="line">import org.elasticsearch.index.query.QueryBuilders;</span><br><span class="line">import org.elasticsearch.index.query.TermQueryBuilder;</span><br><span class="line">import org.elasticsearch.search.SearchHit;</span><br><span class="line">import org.elasticsearch.search.builder.SearchSourceBuilder;</span><br><span class="line">import org.elasticsearch.search.fetch.subphase.FetchSourceContext;</span><br><span class="line">import org.junit.jupiter.api.Test;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line">@SpringBootTest</span><br><span class="line">class JunjieEsApiApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    @Qualifier(&quot;restHighLevelClient&quot;)</span><br><span class="line">    private RestHighLevelClient client;</span><br><span class="line"></span><br><span class="line">    //测试索引的创建 Request</span><br><span class="line">    @Test</span><br><span class="line">    void testCreateIndex() throws IOException &#123;</span><br><span class="line">        // 1、创建索引对象</span><br><span class="line">        CreateIndexRequest request = new CreateIndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        // 2、客户端执行请求 IndicesClient 请求后获得响应结果</span><br><span class="line">        CreateIndexResponse createIndexResponse =</span><br><span class="line">                client.indices().create(request, RequestOptions.DEFAULT);</span><br><span class="line"></span><br><span class="line">        System.out.println(createIndexResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 测试获取索引 判断其是否存在</span><br><span class="line">    @Test</span><br><span class="line">    void testExistIndex() throws IOException &#123;</span><br><span class="line">        GetIndexRequest request = new GetIndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(exists);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 测试删除索引</span><br><span class="line">    @Test</span><br><span class="line">    void testDeleteIndex() throws IOException &#123;</span><br><span class="line">        DeleteIndexRequest request = new DeleteIndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        AcknowledgedResponse delete = client.indices().delete(request, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(delete.isAcknowledged());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 测试添加文档</span><br><span class="line">    @Test</span><br><span class="line">    void testAddDocument() throws IOException &#123;</span><br><span class="line">        //创建对象</span><br><span class="line">        User user = new User(&quot;欧文&quot;, 18);</span><br><span class="line">        //创建请求</span><br><span class="line">        IndexRequest request = new IndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line"></span><br><span class="line">        //规则 PUT /ouwen_index/_doc/1</span><br><span class="line">        request.id(&quot;1&quot;);</span><br><span class="line">        request.timeout(TimeValue.timeValueSeconds(1));</span><br><span class="line"></span><br><span class="line">        //将我们的数据放入请求 json</span><br><span class="line">        request.source(JSONUtil.toJsonStr(user), XContentType.JSON);</span><br><span class="line"></span><br><span class="line">        //客户端发送请求</span><br><span class="line">        IndexResponse index = client.index(request, RequestOptions.DEFAULT);</span><br><span class="line"></span><br><span class="line">        System.out.println(index.toString());</span><br><span class="line">        System.out.println(index.status()); //对应命令返回的状态</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取文档，判断是否存在</span><br><span class="line">    @Test</span><br><span class="line">    void testIsExists() throws IOException &#123;</span><br><span class="line">        GetRequest getRequest = new GetRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        //不获取返回的 _source 的上下文 效率更高</span><br><span class="line">        getRequest.fetchSourceContext(new FetchSourceContext(false));</span><br><span class="line"></span><br><span class="line">        boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(exists);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获得文档的内容</span><br><span class="line">    @Test</span><br><span class="line">    void testGetDocument() throws IOException &#123;</span><br><span class="line">        GetRequest getRequest = new GetRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);</span><br><span class="line">        //打印文档的内容</span><br><span class="line">        System.out.println(getResponse.getSourceAsString());</span><br><span class="line">        //返回的全部内容跟命令是一样的</span><br><span class="line">        System.out.println(getResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //更新文档的内容</span><br><span class="line">    @Test</span><br><span class="line">    void testUpdateDocument() throws IOException &#123;</span><br><span class="line">        UpdateRequest updateRequest = new UpdateRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        updateRequest.timeout(&quot;1s&quot;);</span><br><span class="line"></span><br><span class="line">        User user = new User(&quot;ouwen666&quot;, 22);</span><br><span class="line">        updateRequest.doc(JSONUtil.toJsonStr(user), XContentType.JSON);</span><br><span class="line"></span><br><span class="line">        UpdateResponse updateResponse = client.update(updateRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(updateResponse.status());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //删除文档的内容</span><br><span class="line">    @Test</span><br><span class="line">    void testDeleteDocument() throws IOException &#123;</span><br><span class="line">        DeleteRequest deleteRequest = new DeleteRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        deleteRequest.timeout(&quot;1s&quot;);</span><br><span class="line"></span><br><span class="line">        DeleteResponse response = client.delete(deleteRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(response.status());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //批量添加数据</span><br><span class="line">    @Test</span><br><span class="line">    void testBulkRequest() throws IOException &#123;</span><br><span class="line">        BulkRequest bulkRequest = new BulkRequest();</span><br><span class="line">        bulkRequest.timeout(&quot;60s&quot;);</span><br><span class="line">        List&lt;User&gt; users = new ArrayList&lt;User&gt;();</span><br><span class="line">        users.add(new User(&quot;ouwen1&quot;, 63));</span><br><span class="line">        users.add(new User(&quot;ouwen2&quot;, 53));</span><br><span class="line">        users.add(new User(&quot;ouwen3&quot;, 43));</span><br><span class="line">        users.add(new User(&quot;junjie1&quot;, 33));</span><br><span class="line">        users.add(new User(&quot;junjie2&quot;, 23));</span><br><span class="line">        users.add(new User(&quot;junjie3&quot;, 13));</span><br><span class="line">        //处理批量请求</span><br><span class="line">        for (int i = 0; i &lt; users.size(); i++) &#123;</span><br><span class="line">            bulkRequest.add(new IndexRequest(&quot;ouwen_index&quot;)</span><br><span class="line">                    .id(&quot;&quot; + (i + 1))</span><br><span class="line">                    .source(JSONUtil.toJsonStr(users.get(i)), XContentType.JSON));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        BulkResponse responses = client.bulk(bulkRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(responses.hasFailures()); //是否失败 false代表成功</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 查询</span><br><span class="line">    // SearchRequest 搜索请求</span><br><span class="line">    // SearchSourceBuilder 条件构造</span><br><span class="line">    // HighlightBuilder 构建高亮</span><br><span class="line">    // TermQueryBuilder 精确查询</span><br><span class="line">    // MatchAllQueryBuilder</span><br><span class="line">    // xxx QueryBuilder 对应我们刚才看到的命令！</span><br><span class="line">    @Test</span><br><span class="line">    void testSearch() throws IOException &#123;</span><br><span class="line">        SearchRequest searchRequest = new SearchRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        //构建搜索条件</span><br><span class="line">        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();</span><br><span class="line"></span><br><span class="line">        // 查询条件，我们可以使用 QueryBuilders 工具来实现</span><br><span class="line">        // QueryBuilders.termQuery 精确</span><br><span class="line">        // QueryBuilders.matchAllQuery() 匹配所有</span><br><span class="line">        TermQueryBuilder termQuery = QueryBuilders.termQuery(&quot;name&quot;, &quot;ouwen1&quot;);</span><br><span class="line"></span><br><span class="line">        sourceBuilder.query(termQuery);</span><br><span class="line">        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));</span><br><span class="line">        searchRequest.source(sourceBuilder);</span><br><span class="line">        SearchResponse search = client.search(searchRequest,RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(JSONUtil.toJsonStr(search.getHits()));</span><br><span class="line">        System.out.println(&quot;==========================================&quot;);</span><br><span class="line">        for (SearchHit hit : search.getHits()) &#123;</span><br><span class="line">            System.out.println(hit.getSourceAsMap());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>ElasticSearch</tag>
       </tags>
   </entry>
   <entry>
@@ -2482,6 +2070,416 @@ JAVA
       </tags>
   </entry>
   <entry>
+    <title>ElasticSearch 的概述和使用</title>
+    <url>/2022/01/02/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/ElasticSearch%20%E7%9A%84%E6%A6%82%E8%BF%B0%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="ElasticSearch-概述"><a href="#ElasticSearch-概述" class="headerlink" title="ElasticSearch 概述"></a>ElasticSearch 概述</h2><p>Elaticsearch，简称为 es， es 是一个开源的<strong>高扩展</strong>的<strong>分布式全文检索引擎</strong>，它可以近乎<strong>实时的存储、检索数据</strong>；本身扩展性很好，可以扩展到上百台服务器，处理 PB 级别（大数据时代）的数据。es 也使用 Java 开发并使用 Lucene 作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的<strong>RESTful API</strong>来隐藏 Lucene 的复杂性，从而让全文搜索变得简单。</p>
+<p>据国际权威的数据库产品评测机构 DB Engines 的统计，在 2016 年 1 月，ElasticSearch 已超过 Solr 等，<strong>成为排名第一的搜索引擎类应用。</strong></p>
+<h2 id="ES-和-solr-的差别"><a href="#ES-和-solr-的差别" class="headerlink" title="ES 和 solr 的差别"></a>ES 和 solr 的差别</h2><h3 id="Elasticsearch-简介"><a href="#Elasticsearch-简介" class="headerlink" title="Elasticsearch 简介"></a>Elasticsearch 简介</h3><p>Elasticsearch 是一个实时分布式搜索和分析引擎。它让你以前所未有的速度处理大数据成为可能。</p>
+<p>它用于<strong>全文搜索、结构化搜索、分析</strong>以及将这三者混合使用：</p>
+<p>维基百科使用 Elasticsearch 提供全文搜索并高亮关键字，以及输入实时搜索(search-asyou-type)和搜索纠错(did-you-mean)等搜索建议功能。</p>
+<p>英国卫报使用 Elasticsearch 结合用户日志和社交网络数据提供给他们的编辑以实时的反馈，以便及时了解公众对新发表的文章的回应。</p>
+<p>StackOverflow 结合全文搜索与地理位置查询，以及 more-like-this 功能来找到相关的问题和答案。</p>
+<p>Github 使用 Elasticsearch 检索 1300 亿行的代码。</p>
+<p>但是 Elasticsearch 不仅用于大型企业，它还让像 DataDog 以及 Klout 这样的创业公司将最初的想法变成可扩展的解决方案。</p>
+<p>Elasticsearch 可以在你的笔记本上运行，也可以在数以百计的服务器上处理 PB 级别的数据 。</p>
+<p>Elasticsearch 是一个基于 Apache Lucene(TM)的开源搜索引擎。无论在开源还是专有领域，Lucene 可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库。</p>
+<p>但是，Lucene 只是一个库。想要使用它，你必须使用 Java 来作为开发语言并将其直接集成到你的应用中，更糟糕的是，Lucene 非常复杂，你需要深入了解检索的相关知识来理解它是如何工作的。</p>
+<p>Elasticsearch 也使用 Java 开发并使用 Lucene 作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的<strong>RESTful API</strong>来隐藏 Lucene 的复杂性，从而让全文搜索变得简单。</p>
+<h3 id="Solr-简介"><a href="#Solr-简介" class="headerlink" title="Solr 简介"></a>Solr 简介</h3><p>Solr 是 Apache 下的一个顶级开源项目，采用 Java 开发，它是基于 Lucene 的全文搜索服务器。Solr 提供了比 Lucene 更为丰富的查询语言，同时实现了可配置、可扩展，并对索引、搜索性能进行了优化</p>
+<p>Solr 可以独立运行，运行在 Jetty、Tomcat 等这些 Servlet 容器中，Solr 索引的实现方法很简单，<strong>用 POST 方法向 Solr 服务器发送一个描述 Field 及其内容的 XML 文档，Solr 根据 xml 文档添加、删除、更新索引</strong>。Solr 搜索只需要发送 HTTP GET 请求，然后对 Solr 返回 Xml、json 等格式的查询结果进行解析，组织页面布局。Solr 不提供构建 UI 的功能，Solr 提供了一个管理界面，通过管理界面可以查询 Solr 的配置和运行情况。</p>
+<p>solr 是基于 lucene 开发企业级搜索服务器，实际上就是封装了 lucene。</p>
+<p>Solr 是一个独立的企业级搜索应用服务器，它对外提供类似于&#x3D;&#x3D;Web-service 的 API 接口&#x3D;&#x3D;。用户可以通过 http 请求，向搜索引擎服务器提交一定格式的文件，生成索引；也可以通过提出查找请求，并得到返回结果。</p>
+<h3 id="Lucene-简介"><a href="#Lucene-简介" class="headerlink" title="Lucene 简介"></a>Lucene 简介</h3><p>Lucene 是 apache 软件基金会 4 jakarta 项目组的一个子项目，是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。Lucene 的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。Lucene 是一套用于全文检索和搜寻的开源程式库，由 Apache 软件基金会支持和提供。Lucene 提供了一个简单却强大的应用程式接口，能够做全文索引和搜寻。<strong>在 Java 开发环境里 Lucene 是一个成熟的免费开源工具。就其本身而言，Lucene 是当前以及最近几年最受欢迎的免费 Java 信息检索程序库</strong>。人们经常提到信息检索程序库，虽然与搜索引擎有关，但不应该将信息检索程序库与搜索引擎相混淆。</p>
+<p>Lucene 是一个全文检索引擎的架构。那什么是全文搜索引擎？</p>
+<p>全文搜索引擎是名副其实的搜索引擎，国外具代表性的有 Google、Fast&#x2F;AllTheWeb、AltaVista、Inktomi、Teoma、WiseNut 等，国内著名的有百度（Baidu）。它们都是通过从互联网上提取的各个网站的信息（以网页文字为主）而建立的数据库中，检索与用户查询条件匹配的相关记录，然后按一定的排列顺序将结果返回给用户，因此他们是真正的搜索引擎。</p>
+<p>从搜索结果来源的角度，全文搜索引擎又可细分为两种，一种是拥有自己的检索程序（Indexer），俗称“蜘蛛”（Spider）程序或“机器人”（Robot）程序，并自建网页数据库，搜索结果直接从自身的数据库中调用，如上面提到的 7 家引擎；另一种则是租用其他引擎的数据库，并按自定的格式排列搜索结果，如 Lycos 引擎。</p>
+<h3 id="Elasticsearch-和-Solr-比较"><a href="#Elasticsearch-和-Solr-比较" class="headerlink" title="Elasticsearch 和 Solr 比较"></a>Elasticsearch 和 Solr 比较</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503223554.png" alt="image-20210503223554497"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503223607.png" alt="image-20210503223607286"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503223616.png" alt="image-20210503223616904"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503223627.png" alt="image-20210503223627835"></p>
+<h3 id="ElasticSearch-vs-Solr-总结"><a href="#ElasticSearch-vs-Solr-总结" class="headerlink" title="ElasticSearch vs Solr 总结"></a>ElasticSearch vs Solr 总结</h3><ol>
+<li>es 基本是开箱即用（解压就可以用 ! ），非常简单。Solr 安装略微复杂一丢丢！</li>
+<li>Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能。</li>
+<li>Solr 支持更多格式的数据，比如 JSON、XML、CSV，而 Elasticsearch 仅支持 json 文件格式。</li>
+<li>Solr 官方提供的功能更多，而 Elasticsearch 本身更注重于核心功能，高级功能多有第三方插件提供，例如图形化界面需要 kibana 友好支撑~!</li>
+<li>Solr 查询快，但更新索引时慢（即插入删除慢），用于电商等查询多的应用；<ul>
+<li>ES 建立索引快（即查询慢），<strong>即实时性查询快</strong>，用于 facebook 新浪等搜索。</li>
+<li>Solr 是传统搜索应用的有力解决方案，但 Elasticsearch 更适用于新兴的实时搜索应用</li>
+</ul>
+</li>
+<li>Solr 比较成熟，有一个更大，更成熟的用户、开发和贡献者社区，而 Elasticsearch 相对开发维护者较少，更新太快，学习使用成本较高。（趋势！）</li>
+</ol>
+<h2 id="ElasticSearch-安装"><a href="#ElasticSearch-安装" class="headerlink" title="ElasticSearch 安装"></a>ElasticSearch 安装</h2><p>声明：JDK1.8 ，最低要求！ ElasticSearch 客户端，界面工具！<br>Java 开发，ElasticSearch 的版本和我们之后对应的 Java 的核心 jar 包！ 版本对应！JDK 环境是正常！</p>
+<blockquote>
+<p>下载</p>
+</blockquote>
+<p>官网：<a href="https://www.elastic.co/">https://www.elastic.co/</a></p>
+<p>下载地址：<a href="https://www.elastic.co/cn/downloads/elasticsearch">https://www.elastic.co/cn/downloads/elasticsearch</a></p>
+<blockquote>
+<p>window 下安装！</p>
+</blockquote>
+<h3 id="解压就可以使用了！"><a href="#解压就可以使用了！" class="headerlink" title="解压就可以使用了！"></a>解压就可以使用了！</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503224753.png" alt="image-20210503224753729"></p>
+<h3 id="熟悉目录！"><a href="#熟悉目录！" class="headerlink" title="熟悉目录！"></a>熟悉目录！</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line">bin 启动文件</span><br><span class="line">config 配置文件</span><br><span class="line">    log4j2 日志配置文件</span><br><span class="line">    jvm.options java 虚拟机相关的配置</span><br><span class="line">    elasticsearch.yml  elasticsearch 的配置文件！ 默认 9200 端口！ 跨域！</span><br><span class="line">lib   相关jar包</span><br><span class="line">logs   日志！</span><br><span class="line">modules 功能模块</span><br><span class="line">plugins 插件！</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动，访问-9200"><a href="#启动，访问-9200" class="headerlink" title="启动，访问 9200"></a>启动，访问 9200</h3><p>运行<code>bin/elasticsearch.bat</code>，启动！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503225150.png" alt="image-20210503225150680"></p>
+<h3 id="访问测试！"><a href="#访问测试！" class="headerlink" title="访问测试！"></a>访问测试！</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503225236.png" alt="image-20210503225235923"></p>
+<blockquote>
+<p>安装可视化界面插件 es head 的插件</p>
+</blockquote>
+<p>需要 node.js 环境</p>
+<ol>
+<li><p>下载地址：<a href="https://links.jianshu.com/go?to=https://github.com/mobz/elasticsearch-head/">https://github.com/mobz/elasticsearch-head/</a></p>
+</li>
+<li><p>启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">npm install</span><br><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接测试发现，存在跨域问题：配置 es</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 es 服务器，然后再次连接</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503230107.png" alt="image-20210503230107069"></p>
+</li>
+</ol>
+<p>初学，就把 es 当做一个数据库！ （可以建立索引（库），文档（库中的数据！））</p>
+<p><strong>这个 head 我们就把它当做数据展示工具！我们后面所有的查询，去 Kibana 进行！</strong></p>
+<blockquote>
+<p>了解 ELK</p>
+</blockquote>
+<p>ELK 是 Elasticsearch、Logstash、Kibana 三大开源框架首字母大写简称。市面上也被成为 ElasticStack。其中 Elasticsearch 是一个基于 Lucene、分布式、通过 Restful 方式进行交互的近实时搜索平台框架。像类似百度、谷歌这种大数据全文搜索引擎的场景都可以使用 Elasticsearch 作为底层支持框架，可见 Elasticsearch 提供的搜索能力确实强大,市面上很多时候我们简称 Elasticsearch 为 es。Logstash 是 ELK 的中央数据流引擎，用于从不同目标（文件&#x2F;数据存储&#x2F;MQ）收集的不同格式数据，经过过滤后支持输出到不同目的地（文件&#x2F;MQ&#x2F;redis&#x2F;elasticsearch&#x2F;kafka 等）。Kibana 可以将 elasticsearch 的数据通过友好<br>的页面展示出来，提供实时分析的功能。</p>
+<p>市面上很多开发只要提到 ELK 能够一致说出它是一个日志分析架构技术栈总称，但实际上 ELK 不仅仅适用于日志分析，它还可以支持其它任何数据分析和收集的场景，日志分析和收集只是更具有代表性。并非唯一性。</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503230537.webp" alt="img"></p>
+<blockquote>
+<p>安装 Kibana</p>
+</blockquote>
+<p>Kibana 是一个针对 Elasticsearch 的开源分析及可视化平台，用来搜索、查看交互存储在 Elasticsearch 索引中的数据。使用 Kibana，可以通过各种图表进行高级数据分析及展示。Kibana 让海量数据更容易理解。它操作简单，基于浏览器的用户界面可以快速创建仪表板（dashboard）实时显示 Elasticsearch 查询动态。设置 Kibana 非常简单。无需编码或者额外的基础架构，几分钟内就可以完成 Kibana 安装并启动 Elasticsearch 索引监测。</p>
+<p>官网：<a href="https://www.elastic.co/cn/kibana">https://www.elastic.co/cn/kibana</a></p>
+<p>Kibana 版本要和 Es 一致！</p>
+<blockquote>
+<p>启动测试！</p>
+</blockquote>
+<p>1、解压后的目录</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503233229.png" alt="image-20210503233229181"></p>
+<p>2、启动<code>kibana.bat</code></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503233731.png" alt="image-20210503233731775"></p>
+<p>3、访问测试</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503233752.png" alt="image-20210503233752142"></p>
+<p>4、开发工具！ （Post、curl、head、谷歌浏览器插件测试！）</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503233835.png" alt="image-20210503233835622"><br>5、汉化！自己修改 kibana 配置即可！ zh-CN！</p>
+<p>kibaba.yml 文件末尾添加</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">i18n.locale: &quot;zn-CH&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503234155.png" alt="image-20210503234155128"></p>
+<h2 id="ES-核心概念"><a href="#ES-核心概念" class="headerlink" title="ES 核心概念"></a>ES 核心概念</h2><ol>
+<li>索引</li>
+<li>字段类型（mapping）</li>
+<li>文档（documents）</li>
+</ol>
+<blockquote>
+<p>概述</p>
+</blockquote>
+<p>在前面的学习中，我们已经掌握了 es 是什么，同时也把 es 的服务已经安装启动，那么 es 是如何去存储数据，数据结构是什么，又是如何实现搜索的呢？我们先来聊聊 ElasticSearch 的相关概念吧！</p>
+<p><strong>集群，节点，索引，类型，文档，分片，映射是什么？</strong></p>
+<blockquote>
+<p>elasticsearch 是面向文档，关系行数据库 和 elasticsearch 客观的对比！一切都是 JSON！</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><strong>Relational DB</strong></th>
+<th><strong>Elasticsearch</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库(database)</td>
+<td>索引(indices)</td>
+</tr>
+<tr>
+<td>表(tables)</td>
+<td>types</td>
+</tr>
+<tr>
+<td>行(rows)</td>
+<td>documents</td>
+</tr>
+<tr>
+<td>字段(columns)</td>
+<td>fields</td>
+</tr>
+</tbody></table>
+<p>elasticsearch(集群)中可以包含多个索引(数据库)，每个索引中可以包含多个类型(表)，每个类型下又包含多 个文档(行)，每个文档中又包含多个字段(列)。</p>
+<p><strong>物理设计：</strong></p>
+<p>elasticsearch 在后台把每个索引划分成多个分片，每分分片可以在集群中的不同服务器间迁移</p>
+<p>一个人就是一个集群！默认的集群名称就是 elaticsearh</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503234530.webp" alt="img"></p>
+<p><strong>逻辑设计：</strong></p>
+<p>一个索引类型中，包含多个文档，比如说文档 1，文档 2。 当我们索引一篇文档时，可以通过这样的一各顺序找到 它: 索引 ▷ 类型 ▷ 文档 ID ，通过这个组合我们就能索引到某个具体的文档。 注意:ID 不必是整数，实际上它是个字符串。</p>
+<blockquote>
+<p>文档</p>
+</blockquote>
+<p>就是我们的一条条数据</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PLAINTEXT</span><br><span class="line">user</span><br><span class="line">1  zhangsan  18</span><br><span class="line">2  ouwen  3</span><br></pre></td></tr></table></figure>
+
+<p>之前说 elasticsearch 是面向文档的，那么就意味着索引和搜索数据的最小单位是文档，elasticsearch 中，文档有几个 重要属性 :</p>
+<ul>
+<li>自我包含，一篇文档同时包含字段和对应的值，也就是同时包含 key:value！</li>
+<li>可以是层次型的，一个文档中包含自文档，复杂的逻辑实体就是这么来的！ {就是一个 json 对象！fastjson 进行自动转换！}</li>
+<li>灵活的结构，文档不依赖预先定义的模式，我们知道关系型数据库中，要提前定义字段才能使用，在 elasticsearch 中，对于字段是非常灵活的，有时候，我们可以忽略该字段，或者动态的添加一个新的字段。</li>
+</ul>
+<p>尽管我们可以随意的新增或者忽略某个字段，但是，每个字段的类型非常重要，比如一个年龄字段类型，可以是字符 串也可以是整形。因为 elasticsearch 会保存字段和类型之间的映射及其他的设置。这种映射具体到每个映射的每种类型，这也是为什么在 elasticsearch 中，类型有时候也称为映射类型。</p>
+<blockquote>
+<p>类型</p>
+</blockquote>
+<p>类型是文档的逻辑容器，就像关系型数据库一样，表格是行的容器。 类型中对于字段的定义称为映射，比如 name 映 射为字符串类型。 我们说文档是无模式的，它们不需要拥有映射中所定义的所有字段，比如新增一个字段，那么 elasticsearch 是怎么做的呢?elasticsearch 会自动的将新字段加入映射，但是这个字段的不确定它是什么类型，elasticsearch 就开始猜，如果这个值是 18，那么 elasticsearch 会认为它是整形。 但是 elasticsearch 也可能猜不对， 所以最安全的方式就是提前定义好所需要的映射，这点跟关系型数据库殊途同归了，先定义好字段，然后再使用，别 整什么幺蛾子。</p>
+<blockquote>
+<p>索引</p>
+</blockquote>
+<p>就是数据库！</p>
+<p>索引是映射类型的容器，elasticsearch 中的索引是一个非常大的文档集合。索引存储了映射类型的字段和其他设置。 然后它们被存储到了各个分片上了。 我们来研究下分片是如何工作的。</p>
+<p>物理设计 ：节点和分片 如何工作</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503235339.webp" alt="img"></p>
+<p>一个集群至少有一个节点，而一个节点就是一个 elasricsearch 进程，节点可以有多个索引默认的，如果你创建索引，那么索引将会有个 5 个分片 ( primary shard ,又称主分片 ) 构成的，每一个主分片会有一个副本 ( replica shard ,又称复制分片 )</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503235352.webp" alt="img"></p>
+<p>上图是一个有 3 个节点的集群，可以看到主分片和对应的复制分片都不会在同一个节点内，这样有利于某个节点挂掉 了，数据也不至于丢失。 实际上，一个分片是一个 Lucene 索引，一个包含倒排索引的文件目录，<strong>倒排索引</strong>的结构使 得 elasticsearch 在不扫描全部文档的情况下，就能告诉你哪些文档包含特定的关键字。 不过，等等，倒排索引是什 么鬼?</p>
+<blockquote>
+<p>倒排索引</p>
+</blockquote>
+<p>elasticsearch 使用的是一种称为倒排索引的结构，采用 Lucene 倒排索作为底层。这种结构适用于快速的全文搜索， 一个索引由文档中所有不重复的列表构成，对于每一个词，都有一个包含它的文档列表。 例如，现在有两个文档， 每个文档包含如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BASH</span><br><span class="line">Study every day, good good up to forever  # 文档1包含的内容</span><br><span class="line">To forever, study every day, good good up # 文档2包含的内容</span><br></pre></td></tr></table></figure>
+
+<p>为了创建倒排索引，我们首先要将每个文档拆分成独立的词(或称为词条或者 tokens)，然后创建一个包含所有不重 复的词条的排序列表，然后列出每个词条出现在哪个文档 :</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503235436.png" alt="image-20210503235436309"></p>
+<p>现在，我们试图搜索 to forever，只需要查看包含每个词条的文档 score</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503235452.png" alt="image-20210503235452613"></p>
+<p>两个文档都匹配，但是第一个文档比第二个匹配程度更高。如果没有别的条件，现在，这两个包含关键字的文档都将返回。</p>
+<p>再来看一个示例，比如我们通过博客标签来搜索博客文章。那么倒排索引列表就是这样的一个结构 :</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503235510.webp" alt="img"></p>
+<p>如果要搜索含有 python 标签的文章，那相对于查找所有原始数据而言，查找倒排索引后的数据将会快的多。只需要 查看标签这一栏，然后获取相关的文章 ID 即可。完全过滤掉无关的所有数据，提高效率！</p>
+<p>elasticsearch 的索引和 Lucene 的索引对比</p>
+<p>在 elasticsearch 中， 索引 （库）这个词被频繁使用，这就是术语的使用。 在 elasticsearch 中，索引被分为多个分片，每份 分片是一个 Lucene 的索引。所以一个 elasticsearch 索引是由多个 Lucene 索引组成的。别问为什么，谁让 elasticsearch 使用 Lucene 作为底层呢! 如无特指，说起索引都是指 elasticsearch 的索引。</p>
+<h2 id="IK-分词器插件"><a href="#IK-分词器插件" class="headerlink" title="IK 分词器插件"></a>IK 分词器插件</h2><blockquote>
+<p>什么是 IK 分词器？</p>
+</blockquote>
+<p>分词：即把一段中文或者别的划分成一个个的关键字，我们在搜索时候会把自己的信息进行分词，会把数据库中或者索引库中的数据进行分词，然后进行一个匹配操作，默认的中文分词是将每个字看成一个词，比如 “我爱狂神” 会被分为”我”,”爱”,”狂”,”神”，这显然是不符合要求的，所以我们需要安装中文分词器 ik 来解决这个问题。</p>
+<p>如果要使用中文，建议使用 ik 分词器！</p>
+<p>IK 提供了两个分词算法：ik_smart 和 ik_max_word，其中 ik_smart 为最少切分，ik_max_word 为最细粒度划分！</p>
+<blockquote>
+<p>安装</p>
+</blockquote>
+<p>1、<a href="https://github.com/medcl/elasticsearch-analysis-ik">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
+<p>2、下载完毕后，放入到我们的 elasticsearch 插件即可</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210503235943.png" alt="image-20210503235943039"></p>
+<p>3、重启观察 ES，可以看到 ik 分词器被加载了！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504000047.png" alt="image-20210504000047514"></p>
+<p>4、elasticsearch-plugin 可以通过这个命令来查看加载进来的插件</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504000351.png" alt="image-20210504000146656"></p>
+<p>5、使用 kibana 进行测试</p>
+<blockquote>
+<p>查看不同的分词效果</p>
+</blockquote>
+<p>ik_smart 为最少切分</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504000943.png" alt="image-20210504000856743"></p>
+<p>ik_max_word 为最细粒度划分，穷尽词库的可能！字典！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504001030.png" alt="image-20210504001030482"></p>
+<blockquote>
+<p>我们输入 超级喜欢狂神说 Java</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504001209.webp" alt="img"></p>
+<p>发现问题：狂神说被拆开了！</p>
+<p>这种自己需要的词，需要自己加到我们的分词器的字典中！</p>
+<blockquote>
+<p>ik 分词器增加自己的配置！</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504001411.png" alt="image-20210504001411652"></p>
+<p>重启 es，看细节！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504001513.png" alt="image-20210504001513405"></p>
+<p>再次测试一下狂神说，看下效果！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504001619.png" alt="image-20210504001619667"></p>
+<h2 id="Rest-风格说明"><a href="#Rest-风格说明" class="headerlink" title="Rest 风格说明"></a>Rest 风格说明</h2><p>一种软件架构风格，而不是标准，只是提供了一组设计原则和约束条件。它主要用于客户端和服务器交互类的软件。基于这个风格设计的软件可以更简洁，更有层次，更易于实现缓存等机制。</p>
+<p>基本 Rest 命令说明：</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>url 地址</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PUT</td>
+<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id</td>
+<td>创建文档（指定文档 id）</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>localhost:9200&#x2F;索引名称&#x2F;类型名称</td>
+<td>创建文档（随机文档 id）</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id&#x2F;_update</td>
+<td>修改文档</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id</td>
+<td>删除文档</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;文档 id</td>
+<td>查询文档通过文档 id</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>localhost:9200&#x2F;索引名称&#x2F;类型名称&#x2F;_search</td>
+<td>查询所有数据</td>
+</tr>
+</tbody></table>
+<h2 id="关于索引的基本操作"><a href="#关于索引的基本操作" class="headerlink" title="关于索引的基本操作"></a>关于索引的基本操作</h2><h3 id="创建一个索引！"><a href="#创建一个索引！" class="headerlink" title="创建一个索引！"></a>创建一个索引！</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PLAINTEXT</span><br><span class="line">PUT /索引名/~类型名~/文档id</span><br><span class="line">&#123;请求体&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504002138.png" alt="image-20210504002137968"></p>
+<p>完成了自动增加了索引！数据也成功的添加了，这就是我说大家在初期可以把它当做数据库学习的原因！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504002239.png" alt="image-20210504002239404"></p>
+<p>那么 name 这个字段用不用指定类型呢。毕竟我们关系型数据库 是需要指定类型的啊 !</p>
+<ul>
+<li>字符串类型<br>text 、 keyword</li>
+<li>数值类型<br>long, integer, short, byte, double, float, half_float, scaled_float</li>
+<li>日期类型<br>date</li>
+<li>布尔值类型<br>boolean</li>
+<li>二进制类型<br>binary</li>
+<li>等等…..</li>
+</ul>
+<h3 id="指定字段的类型"><a href="#指定字段的类型" class="headerlink" title="指定字段的类型"></a>指定字段的类型</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504002816.png" alt="image-20210504002816478"></p>
+<p>获得这个规则！ 可以通过 GET 请求获取具体的信息！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504002902.png" alt="image-20210504002902783"></p>
+<h3 id="查看默认的信息"><a href="#查看默认的信息" class="headerlink" title="查看默认的信息"></a>查看默认的信息</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504003207.png" alt="image-20210504003207460"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504003219.png" alt="image-20210504003219494"></p>
+<p>如果自己的文档字段没有指定，那么 es 就会给我们默认配置字段类型！</p>
+<p><strong>扩展</strong>： 通过命令 elasticsearch 索引情况！ 通过<code>GET _cat/</code> 可以获得 es 的当前的很多信息！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504003418.png" alt="image-20210504003418475"></p>
+<blockquote>
+<p>修改 提交还是使用 PUT 即可！ 然后覆盖！最新办法！</p>
+</blockquote>
+<p>曾经！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504003608.png" alt="image-20210504003608862"></p>
+<p>现在的方法！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504003757.png" alt="image-20210504003757886"></p>
+<blockquote>
+<p>删除索引！</p>
+</blockquote>
+<p>通过 DELETE 命令实现删除、 根据你的请求来判断是删除索引还是删除文档记录！</p>
+<p>使用 RESTFUL 风格是我们 ES 推荐大家使用的！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504003924.png" alt="image-20210504003924263"></p>
+<h2 id="关于文档的基本操作（重点）"><a href="#关于文档的基本操作（重点）" class="headerlink" title="关于文档的基本操作（重点）"></a>关于文档的基本操作（重点）</h2><blockquote>
+<p>基本操作</p>
+</blockquote>
+<h3 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JSON</span><br><span class="line">PUT /ouwen/user/3</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;小红&quot;,</span><br><span class="line">  &quot;age&quot;: 22,</span><br><span class="line">  &quot;desc&quot;: &quot;我是一个美女&quot;,</span><br><span class="line">  &quot;tags&quot;: [&quot;睡觉&quot;,&quot;靓女&quot;,&quot;吃饭&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504004712.png" alt="image-20210504004712396"></p>
+<h3 id="获取数据-GET"><a href="#获取数据-GET" class="headerlink" title="获取数据 GET"></a>获取数据 GET</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504004741.png" alt="image-20210504004741798"></p>
+<h3 id="更新数据-PUT"><a href="#更新数据-PUT" class="headerlink" title="更新数据 PUT"></a>更新数据 PUT</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504004901.png" alt="image-20210504004901746"></p>
+<h3 id="Post-update-推荐使用这种更新方式！"><a href="#Post-update-推荐使用这种更新方式！" class="headerlink" title="Post _update , 推荐使用这种更新方式！"></a>Post _update , 推荐使用这种更新方式！</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504005345.png" alt="img"></p>
+<h3 id="简单地搜索！"><a href="#简单地搜索！" class="headerlink" title="简单地搜索！"></a>简单地搜索！</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">AWK</span><br><span class="line">GET ouwen/user/1</span><br></pre></td></tr></table></figure>
+
+<p>简答的条件查询，可以根据默认的映射规则，产生基本的查询！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504005803.png" alt="image-20210504005803020"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504005944.png" alt="image-20210504005944771"></p>
+<h3 id="复杂操作搜索-select-排序，分页，高亮，模糊查询，精准查询！"><a href="#复杂操作搜索-select-排序，分页，高亮，模糊查询，精准查询！" class="headerlink" title="复杂操作搜索 select ( 排序，分页，高亮，模糊查询，精准查询！)"></a>复杂操作搜索 select ( 排序，分页，高亮，模糊查询，精准查询！)</h3><p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504010155.png" alt="image-20210504010146616"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504010602.png" alt="image-20210504010602133"></p>
+<p>输出结果，不想要那么多！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504010722.png" alt="image-20210504010722580"></p>
+<blockquote>
+<p>排序！</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504011018.png" alt="image-20210504011018343"></p>
+<blockquote>
+<p>分页查询！</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504011149.png" alt="image-20210504011149220"></p>
+<p>数据下标还是从 0 开始的，和学的所有数据结构是一样的！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/search/&#123;current&#125;/&#123;pagesize&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>布尔值查询</p>
+</blockquote>
+<p><strong>must （and）</strong>，所有的条件都要符合 where id &#x3D; 1 and name &#x3D; xxx</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504011607.png" alt="image-20210504011607517"></p>
+<p><strong>should（or）</strong>，所有的条件都要符合 where id &#x3D; 1 or name &#x3D; xxx</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504011736.png" alt="image-20210504011736768"></p>
+<p><strong>must_not （not）</strong></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504011831.png" alt="image-20210504011831232"></p>
+<p><strong>过滤器 filter</strong></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504012021.png" alt="image-20210504012021112"></p>
+<ul>
+<li>gt 大于</li>
+<li>gte 大于等于</li>
+<li>lt 小于</li>
+<li>lte 小于等于！</li>
+</ul>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504012126.png" alt="image-20210504012126745"></p>
+<blockquote>
+<p>匹配多个条件！</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504012405.png" alt="image-20210504012405631"></p>
+<blockquote>
+<p>精确查询！</p>
+</blockquote>
+<p>term 查询是直接通过倒排索引指定的词条进程精确查找的！</p>
+<p><strong>关于分词：</strong></p>
+<ul>
+<li>term ，直接查询精确的</li>
+<li>match，会使用分词器解析！（先分析文档，然后在通过分析的文档进行查询！）</li>
+</ul>
+<p><strong>两个类型 <code>text</code> <code>keyword</code></strong></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504012855.webp" alt="img"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504012909.webp" alt="img"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504013020.webp" alt="img"></p>
+<blockquote>
+<p>多个值匹配精确查询</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504014024.webp" alt="img"></p>
+<blockquote>
+<p>高亮查询！</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504014306.png" alt="image-20210504014305845"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504014541.png" alt="image-20210504014541346"></p>
+<h2 id="集成-SpringBoot"><a href="#集成-SpringBoot" class="headerlink" title="集成 SpringBoot"></a>集成 SpringBoot</h2><blockquote>
+<p>找官方文档！</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504131313.webp" alt="img"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504131324.webp" alt="img"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504131333.webp" alt="img"></p>
+<p>1、找到原生的依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">XML</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;elasticsearch-rest-high-level-client&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;7.6.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、找对象</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504131416.webp" alt="img"><br>3、分析这个类中的方法即可！</p>
+<blockquote>
+<p>配置基本的项目</p>
+</blockquote>
+<p>源码中提供对象！</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210504133033.webp" alt="img"></p>
+<p>虽然这里导入 3 个类，静态内部类，核心类就一个！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* Elasticsearch rest client infrastructure configurations.</span><br><span class="line">*</span><br><span class="line">* @author Brian Clozel</span><br><span class="line">* @author Stephane Nicoll</span><br><span class="line">*/</span><br><span class="line">class RestClientConfigurations &#123;</span><br><span class="line">    @Configuration(proxyBeanMethods = false)</span><br><span class="line">    static class RestClientBuilderConfiguration &#123;</span><br><span class="line">        // RestClientBuilder</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestClientBuilder elasticsearchRestClientBuilder(RestClientProperties</span><br><span class="line">                                                         properties,</span><br><span class="line">                                                         ObjectProvider&lt;RestClientBuilderCustomizer&gt; builderCustomizers) &#123;</span><br><span class="line">            HttpHost[] hosts =</span><br><span class="line">                properties.getUris().stream().map(HttpHost::create).toArray(HttpHost[]::new);</span><br><span class="line">            RestClientBuilder builder = RestClient.builder(hosts);</span><br><span class="line">            PropertyMapper map = PropertyMapper.get();</span><br><span class="line">            map.from(properties::getUsername).whenHasText().to((username) -&gt; &#123;</span><br><span class="line">                CredentialsProvider credentialsProvider = new</span><br><span class="line">                    BasicCredentialsProvider();</span><br><span class="line">                Credentials credentials = new</span><br><span class="line">                    UsernamePasswordCredentials(properties.getUsername(),</span><br><span class="line">                                                properties.getPassword());</span><br><span class="line">                credentialsProvider.setCredentials(AuthScope.ANY, credentials);</span><br><span class="line">                builder.setHttpClientConfigCallback(</span><br><span class="line">                    (httpClientBuilder) -&gt;</span><br><span class="line">                    httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));</span><br><span class="line">            &#125;);</span><br><span class="line">            builder.setRequestConfigCallback((requestConfigBuilder) -&gt; &#123;</span><br><span class="line"></span><br><span class="line">                map.from(properties::getConnectionTimeout).whenNonNull().asInt(Duration::toMill</span><br><span class="line">                                                                               is)</span><br><span class="line">                    .to(requestConfigBuilder::setConnectTimeout);</span><br><span class="line"></span><br><span class="line">                map.from(properties::getReadTimeout).whenNonNull().asInt(Duration::toMillis)</span><br><span class="line">                    .to(requestConfigBuilder::setSocketTimeout);</span><br><span class="line">                return requestConfigBuilder;</span><br><span class="line">            &#125;);</span><br><span class="line">            builderCustomizers.orderedStream().forEach((customizer) -&gt;</span><br><span class="line">                                                       customizer.customize(builder));</span><br><span class="line">            return builder;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    @Configuration(proxyBeanMethods = false)</span><br><span class="line">    @ConditionalOnClass(RestHighLevelClient.class)</span><br><span class="line">    static class RestHighLevelClientConfiguration &#123;</span><br><span class="line">        // RestHighLevelClient 高级客户端，也是我们这里要讲，后面项目会用到的客户端</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestHighLevelClient elasticsearchRestHighLevelClient(RestClientBuilder</span><br><span class="line">                                                             restClientBuilder) &#123;</span><br><span class="line">            return new RestHighLevelClient(restClientBuilder);</span><br><span class="line">        &#125;</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestClient elasticsearchRestClient(RestClientBuilder builder,</span><br><span class="line">                                           ObjectProvider&lt;RestHighLevelClient&gt; restHighLevelClient) &#123;</span><br><span class="line">            RestHighLevelClient client = restHighLevelClient.getIfUnique();</span><br><span class="line">            if (client != null) &#123;</span><br><span class="line">                return client.getLowLevelClient();</span><br><span class="line">            &#125;</span><br><span class="line">            return builder.build();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    @Configuration(proxyBeanMethods = false)</span><br><span class="line">    static class RestClientFallbackConfiguration &#123;</span><br><span class="line">        // RestClient 普通的客户端！</span><br><span class="line">        @Bean</span><br><span class="line">        @ConditionalOnMissingBean</span><br><span class="line">        RestClient elasticsearchRestClient(RestClientBuilder builder) &#123;</span><br><span class="line">            return builder.build();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>具体的 API 测试！</p>
+</blockquote>
+<ol>
+<li>创建索引</li>
+<li>判断索引是否存在</li>
+<li>删除索引</li>
+<li>创建文档</li>
+<li>crud 文档！</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">package com.luojunjie;</span><br><span class="line"></span><br><span class="line">import cn.hutool.json.JSON;</span><br><span class="line">import cn.hutool.json.JSONString;</span><br><span class="line">import cn.hutool.json.JSONUtil;</span><br><span class="line">import com.luojunjie.pojo.User;</span><br><span class="line">import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;</span><br><span class="line">import org.elasticsearch.action.bulk.BulkRequest;</span><br><span class="line">import org.elasticsearch.action.bulk.BulkResponse;</span><br><span class="line">import org.elasticsearch.action.delete.DeleteRequest;</span><br><span class="line">import org.elasticsearch.action.delete.DeleteResponse;</span><br><span class="line">import org.elasticsearch.action.get.GetRequest;</span><br><span class="line">import org.elasticsearch.action.get.GetResponse;</span><br><span class="line">import org.elasticsearch.action.index.IndexRequest;</span><br><span class="line">import org.elasticsearch.action.index.IndexResponse;</span><br><span class="line">import org.elasticsearch.action.search.SearchRequest;</span><br><span class="line">import org.elasticsearch.action.search.SearchResponse;</span><br><span class="line">import org.elasticsearch.action.support.master.AcknowledgedResponse;</span><br><span class="line">import org.elasticsearch.action.update.UpdateRequest;</span><br><span class="line">import org.elasticsearch.action.update.UpdateResponse;</span><br><span class="line">import org.elasticsearch.client.RequestOptions;</span><br><span class="line">import org.elasticsearch.client.RestHighLevelClient;</span><br><span class="line">import org.elasticsearch.client.indices.CreateIndexRequest;</span><br><span class="line">import org.elasticsearch.client.indices.CreateIndexResponse;</span><br><span class="line">import org.elasticsearch.client.indices.GetIndexRequest;</span><br><span class="line">import org.elasticsearch.common.unit.TimeValue;</span><br><span class="line">import org.elasticsearch.common.xcontent.XContentType;</span><br><span class="line">import org.elasticsearch.index.query.QueryBuilders;</span><br><span class="line">import org.elasticsearch.index.query.TermQueryBuilder;</span><br><span class="line">import org.elasticsearch.search.SearchHit;</span><br><span class="line">import org.elasticsearch.search.builder.SearchSourceBuilder;</span><br><span class="line">import org.elasticsearch.search.fetch.subphase.FetchSourceContext;</span><br><span class="line">import org.junit.jupiter.api.Test;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line">import org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line">@SpringBootTest</span><br><span class="line">class JunjieEsApiApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    @Qualifier(&quot;restHighLevelClient&quot;)</span><br><span class="line">    private RestHighLevelClient client;</span><br><span class="line"></span><br><span class="line">    //测试索引的创建 Request</span><br><span class="line">    @Test</span><br><span class="line">    void testCreateIndex() throws IOException &#123;</span><br><span class="line">        // 1、创建索引对象</span><br><span class="line">        CreateIndexRequest request = new CreateIndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        // 2、客户端执行请求 IndicesClient 请求后获得响应结果</span><br><span class="line">        CreateIndexResponse createIndexResponse =</span><br><span class="line">                client.indices().create(request, RequestOptions.DEFAULT);</span><br><span class="line"></span><br><span class="line">        System.out.println(createIndexResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 测试获取索引 判断其是否存在</span><br><span class="line">    @Test</span><br><span class="line">    void testExistIndex() throws IOException &#123;</span><br><span class="line">        GetIndexRequest request = new GetIndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(exists);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 测试删除索引</span><br><span class="line">    @Test</span><br><span class="line">    void testDeleteIndex() throws IOException &#123;</span><br><span class="line">        DeleteIndexRequest request = new DeleteIndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        AcknowledgedResponse delete = client.indices().delete(request, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(delete.isAcknowledged());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 测试添加文档</span><br><span class="line">    @Test</span><br><span class="line">    void testAddDocument() throws IOException &#123;</span><br><span class="line">        //创建对象</span><br><span class="line">        User user = new User(&quot;欧文&quot;, 18);</span><br><span class="line">        //创建请求</span><br><span class="line">        IndexRequest request = new IndexRequest(&quot;ouwen_index&quot;);</span><br><span class="line"></span><br><span class="line">        //规则 PUT /ouwen_index/_doc/1</span><br><span class="line">        request.id(&quot;1&quot;);</span><br><span class="line">        request.timeout(TimeValue.timeValueSeconds(1));</span><br><span class="line"></span><br><span class="line">        //将我们的数据放入请求 json</span><br><span class="line">        request.source(JSONUtil.toJsonStr(user), XContentType.JSON);</span><br><span class="line"></span><br><span class="line">        //客户端发送请求</span><br><span class="line">        IndexResponse index = client.index(request, RequestOptions.DEFAULT);</span><br><span class="line"></span><br><span class="line">        System.out.println(index.toString());</span><br><span class="line">        System.out.println(index.status()); //对应命令返回的状态</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取文档，判断是否存在</span><br><span class="line">    @Test</span><br><span class="line">    void testIsExists() throws IOException &#123;</span><br><span class="line">        GetRequest getRequest = new GetRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        //不获取返回的 _source 的上下文 效率更高</span><br><span class="line">        getRequest.fetchSourceContext(new FetchSourceContext(false));</span><br><span class="line"></span><br><span class="line">        boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(exists);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获得文档的内容</span><br><span class="line">    @Test</span><br><span class="line">    void testGetDocument() throws IOException &#123;</span><br><span class="line">        GetRequest getRequest = new GetRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);</span><br><span class="line">        //打印文档的内容</span><br><span class="line">        System.out.println(getResponse.getSourceAsString());</span><br><span class="line">        //返回的全部内容跟命令是一样的</span><br><span class="line">        System.out.println(getResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //更新文档的内容</span><br><span class="line">    @Test</span><br><span class="line">    void testUpdateDocument() throws IOException &#123;</span><br><span class="line">        UpdateRequest updateRequest = new UpdateRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        updateRequest.timeout(&quot;1s&quot;);</span><br><span class="line"></span><br><span class="line">        User user = new User(&quot;ouwen666&quot;, 22);</span><br><span class="line">        updateRequest.doc(JSONUtil.toJsonStr(user), XContentType.JSON);</span><br><span class="line"></span><br><span class="line">        UpdateResponse updateResponse = client.update(updateRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(updateResponse.status());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //删除文档的内容</span><br><span class="line">    @Test</span><br><span class="line">    void testDeleteDocument() throws IOException &#123;</span><br><span class="line">        DeleteRequest deleteRequest = new DeleteRequest(&quot;ouwen_index&quot;, &quot;1&quot;);</span><br><span class="line">        deleteRequest.timeout(&quot;1s&quot;);</span><br><span class="line"></span><br><span class="line">        DeleteResponse response = client.delete(deleteRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(response.status());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //批量添加数据</span><br><span class="line">    @Test</span><br><span class="line">    void testBulkRequest() throws IOException &#123;</span><br><span class="line">        BulkRequest bulkRequest = new BulkRequest();</span><br><span class="line">        bulkRequest.timeout(&quot;60s&quot;);</span><br><span class="line">        List&lt;User&gt; users = new ArrayList&lt;User&gt;();</span><br><span class="line">        users.add(new User(&quot;ouwen1&quot;, 63));</span><br><span class="line">        users.add(new User(&quot;ouwen2&quot;, 53));</span><br><span class="line">        users.add(new User(&quot;ouwen3&quot;, 43));</span><br><span class="line">        users.add(new User(&quot;junjie1&quot;, 33));</span><br><span class="line">        users.add(new User(&quot;junjie2&quot;, 23));</span><br><span class="line">        users.add(new User(&quot;junjie3&quot;, 13));</span><br><span class="line">        //处理批量请求</span><br><span class="line">        for (int i = 0; i &lt; users.size(); i++) &#123;</span><br><span class="line">            bulkRequest.add(new IndexRequest(&quot;ouwen_index&quot;)</span><br><span class="line">                    .id(&quot;&quot; + (i + 1))</span><br><span class="line">                    .source(JSONUtil.toJsonStr(users.get(i)), XContentType.JSON));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        BulkResponse responses = client.bulk(bulkRequest, RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(responses.hasFailures()); //是否失败 false代表成功</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 查询</span><br><span class="line">    // SearchRequest 搜索请求</span><br><span class="line">    // SearchSourceBuilder 条件构造</span><br><span class="line">    // HighlightBuilder 构建高亮</span><br><span class="line">    // TermQueryBuilder 精确查询</span><br><span class="line">    // MatchAllQueryBuilder</span><br><span class="line">    // xxx QueryBuilder 对应我们刚才看到的命令！</span><br><span class="line">    @Test</span><br><span class="line">    void testSearch() throws IOException &#123;</span><br><span class="line">        SearchRequest searchRequest = new SearchRequest(&quot;ouwen_index&quot;);</span><br><span class="line">        //构建搜索条件</span><br><span class="line">        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();</span><br><span class="line"></span><br><span class="line">        // 查询条件，我们可以使用 QueryBuilders 工具来实现</span><br><span class="line">        // QueryBuilders.termQuery 精确</span><br><span class="line">        // QueryBuilders.matchAllQuery() 匹配所有</span><br><span class="line">        TermQueryBuilder termQuery = QueryBuilders.termQuery(&quot;name&quot;, &quot;ouwen1&quot;);</span><br><span class="line"></span><br><span class="line">        sourceBuilder.query(termQuery);</span><br><span class="line">        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));</span><br><span class="line">        searchRequest.source(sourceBuilder);</span><br><span class="line">        SearchResponse search = client.search(searchRequest,RequestOptions.DEFAULT);</span><br><span class="line">        System.out.println(JSONUtil.toJsonStr(search.getHits()));</span><br><span class="line">        System.out.println(&quot;==========================================&quot;);</span><br><span class="line">        for (SearchHit hit : search.getHits()) &#123;</span><br><span class="line">            System.out.println(hit.getSourceAsMap());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 系统基础</title>
     <url>/2022/04/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/Linux%20%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="入门概述"><a href="#入门概述" class="headerlink" title="入门概述"></a>入门概述</h2><blockquote>
@@ -2500,9 +2498,9 @@ JAVA
 <p>Linux 发行版</p>
 </blockquote>
 <p>Linux 的发行版说简单点就是将 Linux 内核与应用软件做一个打包。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421091705.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421091705.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421091705.jpeg" alt="img"></p>
 <p>目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、Arch Linux、SolusOS 等。</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421091730.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421091730.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421091730.jpeg" alt="img"></p>
 <blockquote>
 <p>Linux 应用领域</p>
 </blockquote>
@@ -2520,7 +2518,7 @@ JAVA
 <blockquote>
 <p>Linux VS Windows</p>
 </blockquote>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421092008.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421092008.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421092008.jpeg" alt="img"></p>
 <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>省略…</p>
 <h2 id="走进-Linux-系统"><a href="#走进-Linux-系统" class="headerlink" title="走进 Linux 系统"></a>走进 Linux 系统</h2><blockquote>
 <p>开机登录</p>
@@ -2550,11 +2548,11 @@ JAVA
 
 <p>你会看到如下图所示：</p>
 <p>本地虚拟机：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421095447.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421095447.png" alt="image-20210421095447557"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421095447.png" alt="image-20210421095447557"></p>
 <p>云服务器：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421095548.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421095548.png" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421095548.png" alt="img"></p>
 <p>树状目录结构：（Linux 的一切资源都挂载在这个 &#x2F; 根节点下）</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421095524.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421095524.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421095524.jpeg" alt="img"></p>
 <p><strong>以下是对这些目录的解释：</strong></p>
 <ul>
 <li><code>/bin</code>：bin 是 Binary 的缩写, 这个目录存放着最经常使用的命令。</li>
@@ -2706,7 +2704,7 @@ JAVA
 </blockquote>
 <p>Linux 系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。为了保护系统的安全性，Linux 系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。</p>
 <p>在 Linux 中我们可以使用<code>ll</code>或者<code>ls –l</code>命令来显示一个文件的属性以及文件所属的用户和组，如：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421201636.png"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421201636.png" alt="image-20210421201636835"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421201636.png" alt="image-20210421201636835"></p>
 <p>实例中，boot 文件的第一个属性用”d”表示。”d”在 Linux 中代表该文件是一个目录文件。</p>
 <p>在 Linux 中第一个字符代表这个文件是目录、文件或链接文件等等：</p>
 <ul>
@@ -2720,7 +2718,7 @@ JAVA
 <p>其中，[ r ]代表可读(read)、[ w ]代表可写(write)、[ x ]代表可执行(execute)。</p>
 <p>要注意的是，这三个权限的位置不会改变，如果没有权限，就会出现减号[ - ]而已。</p>
 <p>每个文件的属性由左边第一部分的 10 个字符来确定（如下图）：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421224446.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210421224446.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210421224446.jpeg" alt="img"></p>
 <p>从左至右用 0-9 这些数字来表示。</p>
 <p>第 0 位确定文件类型，第 1-3 位确定属主（该文件的所有者）拥有该文件的权限。第 4-6 位确定属组（所有者的同组用户）拥有该文件的权限，第 7-9 位确定其他用户拥有该文件的权限。</p>
 <p>其中：</p>
@@ -2861,7 +2859,7 @@ JAVA
 <p>所有的 Unix Like 系统都会内建 vi 文书编辑器，其他的文书编辑器则不一定会存在。</p>
 <p>连 vim 的官方网站 (<a href="http://www.vim.org/">http://www.vim.org</a>) 自己也说 vim 是一个程序开发工具而不是文字处理软件。</p>
 <p>vim 键盘图：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210422001208.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210422001208.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210422001208.jpeg" alt="img"></p>
 <blockquote>
 <p>三种使用模式</p>
 </blockquote>
@@ -2901,7 +2899,7 @@ JAVA
 </ul>
 <p>按 ESC 键可随时退出底线命令模式。</p>
 <p>简单的说，我们可以将这三个模式想成底下的图标来表示：</p>
-<p><a href="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210422001803.jpeg"><img src="https://my-typora-oss.oss-cn-shanghai.aliyuncs.com/image-master/20210422001803.jpeg" alt="img"></a></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20210422001803.jpeg" alt="img"></p>
 <blockquote>
 <p>Vim 按键说明</p>
 </blockquote>
