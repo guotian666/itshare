@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Docker 部署的微服务注册到 Nacos 的 IP 为私网无法访问</title>
+    <url>/2023/04/25/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/Docker%20%E9%83%A8%E7%BD%B2%E7%9A%84%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%88%B0%20Nacos%20%E7%9A%84%20IP%20%E4%B8%BA%E7%A7%81%E7%BD%91%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</url>
+    <content><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>使用 docker 集群部署微服务时，注册到 nacos 上的 ip 会使用 docker 容器的虚拟内网 ip 作为注册地址，这会导致集群部署服务时，nacos 无法解析对应服务的 ip。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><blockquote>
+<p>参考：<a href="https://github.com/alibaba/nacos/issues/310">注册服务获取 IP 的问题 · Issue #310 · alibaba&#x2F;nacos (github.com)</a></p>
+</blockquote>
+<h3 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h3><p>docker compose 配置文件中设置网络模式为 host</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">network_mode: host</span><br></pre></td></tr></table></figure>
+
+<p>host 网络模式是直接使用宿主机的 IP 地址与外界进行通信</p>
+<h3 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h3><p>nacos 配置指定注册 ip&#x2F;host</p>
+<p>application.yml 配置文件中添加如下配置即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    nacos:</span><br><span class="line">      discovery:</span><br><span class="line">        # 配置host，避免docker部署nacos注册服务ip为内网地址</span><br><span class="line">        ip: xxx</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker 安装 Nexus3 并搭建 Docker 私有镜像仓库</title>
     <url>/2023/04/20/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/Docker%20%E5%AE%89%E8%A3%85%20Nexus3%20%E5%B9%B6%E6%90%AD%E5%BB%BA%20Docker%20%E7%A7%81%E6%9C%89%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Nexus 是 Sonatype 公司发布的一款仓库（Repository）管理软件，常用来搭建 Maven 私服，所以也有人将 Nexus 称为“Maven 仓库管理器”。</p>
@@ -66,25 +85,6 @@
 <p><strong>创建用户</strong></p>
 <p>创建用户，并加入对应的角色组</p>
 <p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220624131705.png" alt="image-20220624131705122"></p>
-]]></content>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 部署的微服务注册到 Nacos 的 IP 为私网无法访问</title>
-    <url>/2023/04/25/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/Docker%20%E9%83%A8%E7%BD%B2%E7%9A%84%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%88%B0%20Nacos%20%E7%9A%84%20IP%20%E4%B8%BA%E7%A7%81%E7%BD%91%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</url>
-    <content><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>使用 docker 集群部署微服务时，注册到 nacos 上的 ip 会使用 docker 容器的虚拟内网 ip 作为注册地址，这会导致集群部署服务时，nacos 无法解析对应服务的 ip。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><blockquote>
-<p>参考：<a href="https://github.com/alibaba/nacos/issues/310">注册服务获取 IP 的问题 · Issue #310 · alibaba&#x2F;nacos (github.com)</a></p>
-</blockquote>
-<h3 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h3><p>docker compose 配置文件中设置网络模式为 host</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">network_mode: host</span><br></pre></td></tr></table></figure>
-
-<p>host 网络模式是直接使用宿主机的 IP 地址与外界进行通信</p>
-<h3 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h3><p>nacos 配置指定注册 ip&#x2F;host</p>
-<p>application.yml 配置文件中添加如下配置即可：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">YAML</span><br><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    nacos:</span><br><span class="line">      discovery:</span><br><span class="line">        # 配置host，避免docker部署nacos注册服务ip为内网地址</span><br><span class="line">        ip: xxx</span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
         <tag>Docker</tag>
@@ -249,39 +249,6 @@
       </tags>
   </entry>
   <entry>
-    <title>GitLab 安装与使用</title>
-    <url>/2021/11/18/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/GitLab%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Docker-安装-GitLab"><a href="#Docker-安装-GitLab" class="headerlink" title="Docker 安装 GitLab"></a>Docker 安装 GitLab</h2><p>DockerHub 上有许多制作完善的镜像，直接搜索 <code>gitlab</code> 查看镜像：</p>
-<p><strong>搜索镜像</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker search gitlab</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111153600.pngg" alt="image-20220111153600801"></p>
-<blockquote>
-<p>这里可以选择汉化的 GitLab 社区版的镜像进行下载</p>
-</blockquote>
-<p><strong>下载镜像</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker pull twang2218/gitlab-ce-zh</span><br></pre></td></tr></table></figure>
-
-<p><strong>启动镜像</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker run -d -p 8443:443 -p 8090:80 -p 8022:22 --restart always --name gitlab -v /usr/local/gitlab/etc:/etc/gitlab -v /usr/local/gitlab/log:/var/log/gitlab -v /usr/local/gitlab/data:/var/opt/gitlab --privileged=true twang2218/gitlab-ce-zh</span><br><span class="line"></span><br><span class="line">命令解释：</span><br><span class="line">-d 后台启动</span><br><span class="line">-p 映射端口</span><br><span class="line">--restart 重启配置</span><br><span class="line">-v 卷挂载</span><br><span class="line">--privileged=true 设置root权限</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置-GitLab"><a href="#配置-GitLab" class="headerlink" title="配置 GitLab"></a>配置 GitLab</h2><p><strong>编辑 <code>gitlab.rb</code> 文件</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"></span><br><span class="line"># 直接修改 -v 挂载后的目录，docker会自动同步到容器内部</span><br><span class="line">vim /usr/local/gitlab/etc/gitlab.rb</span><br><span class="line"></span><br><span class="line"># 修改ip和端口 可以使用 / 来定位配置项</span><br><span class="line"># http地址 -- 无需配置端口</span><br><span class="line">external_url &#x27;http://xx.xx.xx.xx&#x27;</span><br><span class="line"># ssh地址 -- 无需配置端口</span><br><span class="line">gitlab_rails[&#x27;gitlab_ssh_host&#x27;] = &#x27;xx.xx.xx.xx&#x27;(不用添加端口)</span><br><span class="line"># ssh端口 默认22 启动容器时我们映射为8022</span><br><span class="line">gitlab_rails[&#x27;gitlab_shell_ssh_port&#x27;] = 8022</span><br><span class="line"></span><br><span class="line"># ========== 邮箱配置 ==============</span><br><span class="line"># 是否启用</span><br><span class="line">gitlab_rails[&#x27;smtp_enable&#x27;] = true</span><br><span class="line"># SMTP服务的地址</span><br><span class="line">gitlab_rails[&#x27;smtp_address&#x27;] = &quot;smtp.qq.com&quot;</span><br><span class="line"># 端口</span><br><span class="line">gitlab_rails[&#x27;smtp_port&#x27;] = 465</span><br><span class="line"># 你的QQ邮箱（发送账号）</span><br><span class="line">gitlab_rails[&#x27;smtp_user_name&#x27;] = &quot;958317640@qq.com&quot;</span><br><span class="line"># 授权码</span><br><span class="line">gitlab_rails[&#x27;smtp_password&#x27;] = &quot;********&quot;</span><br><span class="line"># 域名</span><br><span class="line">gitlab_rails[&#x27;smtp_domain&#x27;] = &quot;smtp.qq.com&quot;</span><br><span class="line"># 登录验证</span><br><span class="line">gitlab_rails[&#x27;smtp_authentication&#x27;] = &quot;login&quot;</span><br><span class="line"></span><br><span class="line"># 使用了465端口，就需要配置下面三项</span><br><span class="line">gitlab_rails[&#x27;smtp_enable_starttls_auto&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_tls&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_openssl_verify_mode&#x27;] = &#x27;none&#x27;</span><br><span class="line"></span><br><span class="line"># 你的QQ邮箱（发送账号）</span><br><span class="line">gitlab_rails[&#x27;gitlab_email_from&#x27;] = &#x27;958317640@qq.com&#x27;</span><br></pre></td></tr></table></figure>
-
-<p><strong>应用配置</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"># 注意观察日志输出</span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111154833.png" alt="image-20220111154833139"></p>
-<p><strong>编辑 <code>gitlab.yml</code></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"># 进入容器</span><br><span class="line">docker exec -it gitlab bash</span><br><span class="line"># 编辑yml配置</span><br><span class="line">vim /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml</span><br><span class="line"># 修改port为启动时映射的端口</span><br><span class="line">port: 8090</span><br><span class="line"></span><br><span class="line"># 重启服务并测试</span><br><span class="line">gitlab-ctl restart</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111155220.png" alt="image-20220111155220504"></p>
-]]></content>
-      <tags>
-        <tag>GitLab</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JDK8 新特性Stream</title>
     <url>/2022/10/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7%20/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Java8 有一个非常显著的特点，就是提供了函数式编程，本文也将介绍 Java8 的几个新特性来实现函数式编程。学会这些 API 能够编写出简单、干净、易读的代码（尤其是对集合的操作）。Java8 新特性包括：</p>
@@ -419,6 +386,39 @@ JAVA
 ]]></content>
       <tags>
         <tag>JDK8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GitLab 安装与使用</title>
+    <url>/2021/11/18/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/GitLab%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Docker-安装-GitLab"><a href="#Docker-安装-GitLab" class="headerlink" title="Docker 安装 GitLab"></a>Docker 安装 GitLab</h2><p>DockerHub 上有许多制作完善的镜像，直接搜索 <code>gitlab</code> 查看镜像：</p>
+<p><strong>搜索镜像</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker search gitlab</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111153600.pngg" alt="image-20220111153600801"></p>
+<blockquote>
+<p>这里可以选择汉化的 GitLab 社区版的镜像进行下载</p>
+</blockquote>
+<p><strong>下载镜像</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker pull twang2218/gitlab-ce-zh</span><br></pre></td></tr></table></figure>
+
+<p><strong>启动镜像</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line">docker run -d -p 8443:443 -p 8090:80 -p 8022:22 --restart always --name gitlab -v /usr/local/gitlab/etc:/etc/gitlab -v /usr/local/gitlab/log:/var/log/gitlab -v /usr/local/gitlab/data:/var/opt/gitlab --privileged=true twang2218/gitlab-ce-zh</span><br><span class="line"></span><br><span class="line">命令解释：</span><br><span class="line">-d 后台启动</span><br><span class="line">-p 映射端口</span><br><span class="line">--restart 重启配置</span><br><span class="line">-v 卷挂载</span><br><span class="line">--privileged=true 设置root权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-GitLab"><a href="#配置-GitLab" class="headerlink" title="配置 GitLab"></a>配置 GitLab</h2><p><strong>编辑 <code>gitlab.rb</code> 文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"></span><br><span class="line"># 直接修改 -v 挂载后的目录，docker会自动同步到容器内部</span><br><span class="line">vim /usr/local/gitlab/etc/gitlab.rb</span><br><span class="line"></span><br><span class="line"># 修改ip和端口 可以使用 / 来定位配置项</span><br><span class="line"># http地址 -- 无需配置端口</span><br><span class="line">external_url &#x27;http://xx.xx.xx.xx&#x27;</span><br><span class="line"># ssh地址 -- 无需配置端口</span><br><span class="line">gitlab_rails[&#x27;gitlab_ssh_host&#x27;] = &#x27;xx.xx.xx.xx&#x27;(不用添加端口)</span><br><span class="line"># ssh端口 默认22 启动容器时我们映射为8022</span><br><span class="line">gitlab_rails[&#x27;gitlab_shell_ssh_port&#x27;] = 8022</span><br><span class="line"></span><br><span class="line"># ========== 邮箱配置 ==============</span><br><span class="line"># 是否启用</span><br><span class="line">gitlab_rails[&#x27;smtp_enable&#x27;] = true</span><br><span class="line"># SMTP服务的地址</span><br><span class="line">gitlab_rails[&#x27;smtp_address&#x27;] = &quot;smtp.qq.com&quot;</span><br><span class="line"># 端口</span><br><span class="line">gitlab_rails[&#x27;smtp_port&#x27;] = 465</span><br><span class="line"># 你的QQ邮箱（发送账号）</span><br><span class="line">gitlab_rails[&#x27;smtp_user_name&#x27;] = &quot;958317640@qq.com&quot;</span><br><span class="line"># 授权码</span><br><span class="line">gitlab_rails[&#x27;smtp_password&#x27;] = &quot;********&quot;</span><br><span class="line"># 域名</span><br><span class="line">gitlab_rails[&#x27;smtp_domain&#x27;] = &quot;smtp.qq.com&quot;</span><br><span class="line"># 登录验证</span><br><span class="line">gitlab_rails[&#x27;smtp_authentication&#x27;] = &quot;login&quot;</span><br><span class="line"></span><br><span class="line"># 使用了465端口，就需要配置下面三项</span><br><span class="line">gitlab_rails[&#x27;smtp_enable_starttls_auto&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_tls&#x27;] = true</span><br><span class="line">gitlab_rails[&#x27;smtp_openssl_verify_mode&#x27;] = &#x27;none&#x27;</span><br><span class="line"></span><br><span class="line"># 你的QQ邮箱（发送账号）</span><br><span class="line">gitlab_rails[&#x27;gitlab_email_from&#x27;] = &#x27;958317640@qq.com&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><strong>应用配置</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"># 注意观察日志输出</span><br><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111154833.png" alt="image-20220111154833139"></p>
+<p><strong>编辑 <code>gitlab.yml</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHELL</span><br><span class="line"># 进入容器</span><br><span class="line">docker exec -it gitlab bash</span><br><span class="line"># 编辑yml配置</span><br><span class="line">vim /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml</span><br><span class="line"># 修改port为启动时映射的端口</span><br><span class="line">port: 8090</span><br><span class="line"></span><br><span class="line"># 重启服务并测试</span><br><span class="line">gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220111155220.png" alt="image-20220111155220504"></p>
+]]></content>
+      <tags>
+        <tag>GitLab</tag>
       </tags>
   </entry>
   <entry>
@@ -1202,6 +1202,96 @@ JAVA
 ]]></content>
       <tags>
         <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nvm从入门到实战</title>
+    <url>/2023/06/25/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/nvm%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="nvm-安装配置"><a href="#nvm-安装配置" class="headerlink" title="nvm 安装配置"></a>nvm 安装配置</h1><h2 id="nvm-关系-vue-介绍"><a href="#nvm-关系-vue-介绍" class="headerlink" title="nvm 关系 vue 介绍"></a>nvm 关系 vue 介绍</h2><p>nvm 全称为 node.js version management ，顾名思义是用于管理多个 nodejs 的版本控制工具。通过它可以安装和切换不同版本的 nodejs, 主要是为了解决 node.js 各种版本存在不兼容现象。<br>Vue 是一个渐进式（声明式渲染——组件系统——客户端路由——-大数据状态管理——-构建工具）的 js 框架，与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计，并且有很好的生态系统。具有体积小，速度快，兼容性强等优点。</p>
+<h2 id="nvm-的安装下载"><a href="#nvm-的安装下载" class="headerlink" title="nvm 的安装下载"></a>nvm 的安装下载</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>直接在官网下载即可：<a href="https://github.com/coreybutler/nvm-windows/releases">nvm 下载地址</a></p>
+<ul>
+<li>nvm-setup.zip：安装版，推荐使用</li>
+<li>nvm-noinstall.zip: 绿色免安装版，但使用时需进行配置。</li>
+</ul>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625132909427.png" alt="image-20230625132909427"></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装基本上就没有什么好说的了，傻瓜式无脑装 1.双击安装文件 nvm-setup.exe</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133055664.png" alt="image-20230625133055664"></p>
+<p>2.设置 nvm 路径</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133115554.png" alt="image-20230625133115554"></p>
+<p>3.设置 nodejs 路径，这步最好选择你之前安装过 nodejs 的目录</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133145059.png" alt="image-20230625133145059"></p>
+<p>4.确认安装</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133206186.png" alt="image-20230625133206186"></p>
+<p>5.这一步是因为你之前安装过 nodejs 并且之前的还在，问你是否要将之前的添加到 nvm 的版本控制中去，一般选择是</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133226414.png" alt="image-20230625133226414"></p>
+<p>6.安装完成</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133243591.png" alt="image-20230625133243591"></p>
+<p>7.验证是否安装成功</p>
+<p>出现版本号则验证成功了</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133620960.png" alt="image-20230625133620960"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">常用命令</span><br><span class="line">nvm version ： nvm 版本，version 可直接写成 v</span><br><span class="line">nvm arch：显示node运行在32位还是64位</span><br><span class="line">nvm on ：开启 node.js 版本管理</span><br><span class="line">nvm off ：关闭 node.js 版本管理</span><br><span class="line">nvm list ： 已安装的列表，list可简化为ls</span><br><span class="line">nvm list available： 可安装的列表，list可简化为ls</span><br><span class="line">nvm uninstall [version] ：卸载指定版本 node</span><br><span class="line">nvm use [version] ：使用指定版本 node</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-配置路径和淘宝镜像"><a href="#3-配置路径和淘宝镜像" class="headerlink" title="3.配置路径和淘宝镜像"></a>3.配置路径和淘宝镜像</h4><p>在 nvm 的安装路径下，找到 settings.txt，在后面加上这两行，设置国内镜像源：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node_mirror: https://npm.taobao.org/mirrors/node/</span><br><span class="line">npm_mirror: https://npm.taobao.org/mirrors/npm/</span><br></pre></td></tr></table></figure>
+
+<h2 id="nvm-安装-node"><a href="#nvm-安装-node" class="headerlink" title="nvm 安装 node"></a>nvm 安装 node</h2><p>打开 cmd 控制台，输入 nvm list available 查看可安装版本列表，</p>
+<ul>
+<li>CURRENT：为当前最新的版本</li>
+<li>LTS：为稳定版本</li>
+<li>OLD：历史版本</li>
+</ul>
+<p>建议选择 LTS 稳定版的</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625133902523.png" alt="image-20230625133902523"></p>
+<p>选择要下载的 node 版本</p>
+<p>nvm install 版本号 下载指定的版本</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625134141621.png" alt="image-20230625134141621"></p>
+<p>查看已下载的版本</p>
+<p>nvm list &#x2F;nvm ls 命令查看 node 版本</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625134300873.png" alt="image-20230625134300873"></p>
+<p>切换版本并使用某版本</p>
+<ul>
+<li>当前带*号的为当前使用的 node 版本</li>
+<li>使用 nvm use 版本号 切换并选择要使用的版本</li>
+<li>并用 nvm ls 查看 node 版本</li>
+</ul>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625134512710.png" alt="image-20230625134512710"></p>
+<h2 id="配置-node-环境变量"><a href="#配置-node-环境变量" class="headerlink" title="配置 node 环境变量"></a>配置 node 环境变量</h2><ul>
+<li>设置路径：此电脑-&gt;属性-&gt;高级程序设置-&gt;高级-&gt;环境变量</li>
+<li>如果你的系统变量和用户变量中已经有了如下配置(home 和 symlink 可能会自动配置上，path 这个可以先配置上，后续会手动新建这个文件夹)：<ul>
+<li>NVM_HOME</li>
+<li>NVM_SYMLINK</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625135009245.png" alt="image-20230625135009245"></p>
+<p>配置完成后，输入以下命令进行验证：<br><strong>node -v (查看 node 版本，若返回版本号，node 可用)</strong><br><strong>npm -v (查看 npm 版本，若返回版本号，npm 可用)</strong><br>如果返回了相应的版本号，则证明成功。</p>
+<h3 id="配置-NodeJS-的-prefix（全局路径）和-cache（缓存路径）"><a href="#配置-NodeJS-的-prefix（全局路径）和-cache（缓存路径）" class="headerlink" title="配置 NodeJS 的 prefix（全局路径）和 cache（缓存路径）"></a>配置 NodeJS 的 prefix（全局路径）和 cache（缓存路径）</h3><p>这部分如果不改，则在安装 nodejs 后，默认下载的全局模块是安装到：<code>&#123;%USERDATA%&#125;C:\Users\username\AppData\下的Roaming\npm</code></p>
+<p>选择需要使用版本，新建两个文件夹</p>
+<ul>
+<li>node_global</li>
+<li>node_cache</li>
+</ul>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625135239632.png" alt="image-20230625135239632"></p>
+<h3 id="设置全局模板和缓存文件的存放路径："><a href="#设置全局模板和缓存文件的存放路径：" class="headerlink" title="设置全局模板和缓存文件的存放路径："></a>设置全局模板和缓存文件的存放路径：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm config set cache &quot;D:\software\nvm\node_cache&quot;</span><br><span class="line">npm config set prefix &quot;D:\software\nvm\node_global&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>注意！！！前边如果已经在系统环境中设置过了 NODE_PATH 的就可以跳过继续往下进行，如果没设置的请返回第2步进行Node设置！！</code></strong></p>
+<h2 id="Vue-的安装与项目初始化"><a href="#Vue-的安装与项目初始化" class="headerlink" title="Vue 的安装与项目初始化"></a>Vue 的安装与项目初始化</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install vue -g</span><br><span class="line">npm install webpack -g</span><br><span class="line">npm install vue-cli -g</span><br><span class="line">npm install vue-router -g</span><br><span class="line">这些命令中的 -g 是指全局安装，指安装到global全局目录，这块最容易出现的问题就是权限问题</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625135556014.png" alt="image-20230625135556014"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625135612716.png" alt="image-20230625135612716"></p>
+<p>这些脚手架都安装完毕之后，执行一下命令验证下是否安装成功</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vue --version</span><br><span class="line">webpack -v</span><br></pre></td></tr></table></figure>
+
+<p>此时打开后发现安装的模块统一都放在这里的</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625135811350.png" alt="image-20230625135811350"></p>
+<h3 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vue init webpack 项目名</span><br><span class="line"></span><br><span class="line"> 1. Project name vue-demo  　　　　　　　　　　 // 项目名称</span><br><span class="line"> 2. Project description A Vue.js project 　　// 项目描述</span><br><span class="line"> 3. Author XXX    　　　　　　　　　　　　　　   // 作者</span><br><span class="line"> 4. Vue build standalone  　　　　　　　　　   // 打包方式，默认，直接回车</span><br><span class="line"> 5. Install vue-router? Yes　　　　　　　　　  // 是否安装 vue-router，路由，选(Y)</span><br><span class="line"> 6. Use ESLint to lint your code? No  　    // 是否安装 eslint管理代码，不推荐，选(N)</span><br><span class="line"> 7. Setup unit tests with Karma + Mocha? No // 是否安装Karma + Mocha 单元测试工具，选（N）</span><br><span class="line"> 8. Setup e2e tests with Nightwatch? No　　　// 是否安装e2e端到端测试工具，选（N）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cd 项目名         //进行手动初始化</span><br><span class="line">npm run dev 　   // 开始运行项目！</span><br></pre></td></tr></table></figure>
+
+<p>npm run dev 之后，默认的端口为 8080 ，使用浏览器打开 <a href="http://localhost:8080/">http://localhost:8080</a> 就可以打开项目初始化后的默认模板页面了，至此，项目算是创建成功</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230625140038006.png" alt="image-20230625140038006"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在进行工具的配置及使用时，不可能是一帆风顺的，如果真的一帆风顺了，那也只是偶然，说这些只是想要告诉自己和看到这句话的朋友：<strong>在顺境来临时，一定要学会自我控制，因为大喜易失察，太得意会让错误乘虚而入。当然在逆境来临时，也不要太有压力，因为所有的逆境都只是暂时的，总会有方法应对。</strong></p>
+]]></content>
+      <tags>
+        <tag>管理工具</tag>
       </tags>
   </entry>
   <entry>
