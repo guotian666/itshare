@@ -282,146 +282,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JDK8 新特性Stream</title>
-    <url>/2022/10/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7%20/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Java8 有一个非常显著的特点，就是提供了函数式编程，本文也将介绍 Java8 的几个新特性来实现函数式编程。学会这些 API 能够编写出简单、干净、易读的代码（尤其是对集合的操作）。Java8 新特性包括：</p>
-<ul>
-<li>Lambda 表达式</li>
-<li>Stream API</li>
-<li>接口新特性<ul>
-<li>函数式接口（<code>@FunctionalInterface</code>）</li>
-<li>默认方法（<code>default</code>）</li>
-</ul>
-</li>
-<li>Optional API</li>
-<li>方法引用</li>
-</ul>
-<p>JDK8 新特性</p>
-<p>正在努力更新中…</p>
-<h2 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h2><ul>
-<li>只包含了一个抽象方法的接口，称为函数式接口（可以有多个非抽象方法）。可以使用<code>@FunctionalInterface</code>注解自定义声明</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">//JDK 1.8 之前已有的函数式接口:</span><br><span class="line">- java.lang.Runnable</span><br><span class="line">- java.util.concurrent.Callable</span><br><span class="line">- java.security.PrivilegedAction</span><br><span class="line">- java.util.Comparator</span><br><span class="line">- java.io.FileFilter</span><br><span class="line">- java.nio.file.PathMatcher</span><br><span class="line">- java.lang.reflect.InvocationHandler</span><br><span class="line">- java.beans.PropertyChangeListener</span><br><span class="line">- java.awt.event.ActionListener</span><br><span class="line">- javax.swing.event.ChangeListener</span><br><span class="line">//JDK 1.8 新增加的函数接口：</span><br><span class="line">- java.util.function</span><br></pre></td></tr></table></figure>
-
-<h2 id="Lambda-表达式"><a href="#Lambda-表达式" class="headerlink" title="Lambda 表达式"></a>Lambda 表达式</h2><ul>
-<li><code>Lambda</code>表达式的使用依赖于函数式接口</li>
-<li>使用<code>Lambda</code>表达式来表示函数式接口的实现（JAVA 8 之前一般是用匿名类实现的）</li>
-</ul>
-<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><ul>
-<li><code>-&gt; :Lambda操作符</code></li>
-<li><code>-&gt; 左边(parameters):Lambda形参列表</code>(相当于接口中的抽象方法的形参列表)</li>
-</ul>
-<ol>
-<li>参数类型可以省略，可由编译器推断得出(类型推断)</li>
-<li>如果只有一个参数,<code>()</code>也可以省略</li>
-</ol>
-<ul>
-<li><code>-&gt; 右边:Lambda体</code>(重写的抽象方法的方法体)</li>
-</ul>
-<ol>
-<li>如果只有一条执行语句，<code>&#123;&#125;</code>及<code>return</code>可以省略</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">(parameters) -&gt; expression</span><br><span class="line">或</span><br><span class="line">(parameters) -&gt;&#123; statements; &#125;</span><br><span class="line">// 1. 接收2个int型整数,返回他们的和</span><br><span class="line">(int x, int y) -&gt; x + y</span><br><span class="line">// 2. 接受一个 string 对象,并在控制台打印,不返回任何值(看起来像是返回void)</span><br><span class="line">(String s) -&gt; System.out.print(s)</span><br><span class="line"></span><br><span class="line">@Test</span><br><span class="line">public void test()&#123;</span><br><span class="line">    Runnable runnable=new Runnable()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run()&#123;</span><br><span class="line">            System.out.println(&quot;*********&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    runnable.run();</span><br><span class="line">    //Lambda表达式写法</span><br><span class="line">    Runnable runnable= () -&gt; System.out.println(&quot;*********&quot;);</span><br><span class="line">    runnable.run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h4><table>
-<thead>
-<tr>
-<th>使用案例</th>
-<th>Lambda 的例子</th>
-<th>对应的函数式接口</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>布尔表达式</td>
-<td><code>(List&lt;String&gt; list) -&gt; list.isEmpty()</code></td>
-<td><code>Predicate&lt;List&lt;String&gt;&gt;</code></td>
-</tr>
-<tr>
-<td>创建对象</td>
-<td><code>() -&gt; new Project()</code></td>
-<td><code>Supplier&lt;Project&gt;</code></td>
-</tr>
-<tr>
-<td>消费一个对象</td>
-<td><code>(Project p) -&gt; System.out.println(p.getStars())</code></td>
-<td><code>Consumer&lt;Project&gt;</code></td>
-</tr>
-<tr>
-<td>从一个对象中选择&#x2F;提取</td>
-<td><code>(int a, int b) -&gt; a * b</code></td>
-<td><code>IntBinaryOperator</code></td>
-</tr>
-<tr>
-<td>比较两个对象</td>
-<td><code>(Project p1, Project p2) -&gt; p1.getStars().compareTo(p2.getStars())</code></td>
-<td><code>Comparator&lt;Project&gt; 或 BiFunction&lt;Project,</code> <code>Project, Integer&gt; 或 ToIntBiFunction&lt;Project, Project&gt;</code></td>
-</tr>
-</tbody></table>
-<h3 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h3><h4 id="语法格式-1"><a href="#语法格式-1" class="headerlink" title="语法格式"></a>语法格式</h4><ul>
-<li>使用操作符<code>::</code>类或对象与方法名分割</li>
-<li>主要有三种使用情况</li>
-</ul>
-<p>对象<code>::</code>实例方法名</p>
-<p>类<code>::</code>实例方法名</p>
-<p>类<code>::</code>静态方法名</p>
-<h4 id="使用案例-1"><a href="#使用案例-1" class="headerlink" title="使用案例"></a>使用案例</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line">LambdaQueryWrapper&lt;SysDictItem&gt; queryWrapper = new LambdaQueryWrapper&lt;SysDictItem&gt;();</span><br><span class="line">//相当于SysDictItem.getStatus();</span><br><span class="line">queryWrapper.eq(SysDictItem::getStatus, 1);</span><br><span class="line">queryWrapper.orderByAsc(SysDictItem::getSortOrder);</span><br></pre></td></tr></table></figure>
-
-<h2 id="Stream-API"><a href="#Stream-API" class="headerlink" title="Stream API"></a>Stream API</h2><ul>
-<li><p>使用<code>Stream API</code>对集合数据进行操作</p>
-</li>
-<li><pre><code>stream
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">和</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-collection
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  集合的区别</span><br><span class="line"></span><br><span class="line">  - `collection`是一种静态的内存数据结构，而`stream`是有关计算的，前者主要面向内存，存储在内存中，后者主要面向`cpu`，通过`cpu`计算实现</span><br><span class="line"></span><br><span class="line">- `Stream`的创建方式</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-JAVA
-</code></pre>
-</li>
-</ul>
-<p>&#x2F;&#x2F;1.通过集合创建<br>&#x2F;&#x2F;default Stream<E> stream();&#x2F;&#x2F;返回一个顺序流<br>&#x2F;&#x2F;default Stream<E> parallelStream();&#x2F;&#x2F;返回一个并行流<br>List<Person> list &#x3D; new ArrayList<Person>();<br>Stream<Person> stream &#x3D; list.stream();</p>
-<p>&#x2F;&#x2F;2.通过Arrays静态方法<br>String[] names &#x3D; {“chaimm”,”peter”,”john”};<br>Stream<String> stream &#x3D; Arrays.stream(names);</p>
-<p>&#x2F;&#x2F;3.通过Stream of<br>Stream<String> stream &#x3D; Stream.of(“chaimm”,”peter”,”john”);</p>
-<p>&#x2F;&#x2F;4.创建无限流<br>&#x2F;&#x2F;迭代 遍历0到9<br>Stream.iterate(0,t-&gt;t+1).limit(10).forEach(System.out::println);<br>&#x2F;&#x2F;生成 10个随机数<br>Stream.generate(Math::random).limit(10).forEach(System.out::println);</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 中间操作</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>JAVA</p>
-<p>&#x2F;&#x2F;中间操作<br>&#x2F;&#x2F;filer(Predicate p)过滤数据<br>List<Person> result &#x3D; list.stream()<br>    .filter(Person::isStudent)<br>    .collect(toList());</p>
-<p>&#x2F;&#x2F;limit(n)截断流<br>List<Person> result &#x3D; list.stream()<br>    .limit(3)<br>    .collect(toList());</p>
-<p>&#x2F;&#x2F;skip(n)跳过元素<br>List<Person> result &#x3D; list.stream()<br>    .skip(3)<br>    .collect(toList());</p>
-<p>&#x2F;&#x2F;distinct 筛选去重<br>List<Person> result &#x3D; list.stream()<br>    .distinct()<br>    .collect(toList());</p>
-<p>&#x2F;&#x2F;映射map(Function f)  flatMap(Function f)合并多个流<br>List<String> result &#x3D; list.stream()<br>    .map(Person::getName)<br>    .collect(toList());</p>
-<p>&#x2F;&#x2F;排序 sorted() 自然排序 sorted(Comparator c)定制顺序</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 终止操作</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>JAVA</p>
-<p> &#x2F;&#x2F;终止操作<br>&#x2F;&#x2F;匹配与查找<br>&#x2F;&#x2F;allMatch(Predicate e)检查是否匹配所有元素 返回boolean<br>boolean result &#x3D; list.stream()<br>    .allMatch(Person::isStudent);<br>&#x2F;&#x2F;anyMatch(Predicate e)检查是否至少匹配一个元素<br>boolean result &#x3D; list.stream()<br>    .anyMatch(Person::isStudent);<br>&#x2F;&#x2F;noneMatch(Predicate e)检查是否没有匹配的元素<br>boolean result &#x3D; list.stream()<br>    .noneMatch(Person::isStudent);<br>&#x2F;&#x2F;findFierst()返回第一个元素<br>Optional<Person> person &#x3D; list.stream().findFirst();<br>&#x2F;&#x2F;findAny()返回当前流中的任意元素<br>Optional<Person> person &#x3D; list.stream().findAny();<br>&#x2F;&#x2F;count 返回流中元素的总个数<br>&#x2F;&#x2F;max(Comparator c)返回流中最大值<br>&#x2F;&#x2F;min(Comparator c)返回流中最小值<br>&#x2F;&#x2F;forEach(Consumer c)内部迭代<br>&#x2F;&#x2F;归约 reduce(T identity,BinaryOperator)可以将流中元素结合起来得到一个值（求和）<br>&#x2F;&#x2F;例：计算所有人的年龄总和<br>int age &#x3D; list.stream().reduce(0, (person1,person2)-&gt;person1.getAge()+person2.getAge());<br>&#x2F;&#x2F;收集collect(Collector c) 将流中元素收集返回相应类型</p>
-<pre><code>
-#### 中间操作和收集操作
-
-| 操作        | 类型 | 返回类型      | 使用的类型/函数式接口   | 函数描述符       |
-| ----------- | ---- | ------------- | ----------------------- | ---------------- |
-| `filter`    | 中间 | `Stream&lt;T&gt;`   | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
-| `distinct`  | 中间 | `Stream&lt;T&gt;`   |                         |                  |
-| `skip`      | 中间 | `Stream&lt;T&gt;`   | `long`                  |                  |
-| `map`       | 中间 | `Stream&lt;R&gt;`   | `Function&lt;T, R&gt;`        | `T -&gt; R`         |
-| `flatMap`   | 中间 | `Stream&lt;R&gt;`   | `Function&lt;T,Stream&lt;R&gt;&gt;` | `T -&gt; Stream&lt;R&gt;` |
-| `limit`     | 中间 | `Stream&lt;T&gt;`   | `long`                  |                  |
-| `sorted`    | 中间 | `Stream&lt;T&gt;`   | `Comparator&lt;T&gt;`         | `(T, T) -&gt; int`  |
-| `anyMatch`  | 终端 | `boolean`     | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
-| `noneMatch` | 终端 | `boolean`     | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
-| `allMatch`  | 终端 | `boolean`     | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
-| `findAny`   | 终端 | `Optional&lt;T&gt;` |                         |                  |
-| `findFirst` | 终端 | `Optional&lt;T&gt;` |                         |                  |
-| `forEach`   | 终端 | `void`        | `Consumer&lt;T&gt;`           | `T -&gt; void`      |
-| `collect`   | 终端 | `R`           | `Collector&lt;T, A, R&gt;`    |                  |
-| `reduce`    | 终端 | `Optional&lt;T&gt;` | `BinaryOperator&lt;T&gt;`     | `(T, T) -&gt; T`    |
-| `count`     | 终端 | `long`        |                         |                  |
-
-### [新的日期和 API](https://github.com/hellokaton/learn-java8/blob/master/java8-datetime-api/README.md)
-</code></pre>
-]]></content>
-      <tags>
-        <tag>JDK8</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Lombok 消除冗余代码</title>
     <url>/2022/08/17/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/Lombok%20%E6%B6%88%E9%99%A4%E5%86%97%E4%BD%99%E4%BB%A3%E7%A0%81/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p><code>Lombok</code> 是一款 Java 开发插件，使得 <code>Java</code> 开发者可以通过其定义的一些注解来消除业务过程中冗余的代码，尤其是简单的 <code>Java</code> 模型对象（<code>POJO</code>）。而当我们如果在开发环境中使用 <code>Lombok</code> 开发插件后，可以省出重复构建，诸如 <code>hashCode</code> 和 <code>equals</code> 这样的方法以及各种业务对象模型的 <code>accessor</code> 和 <code>ToString</code> 等方法的大量时间。对于这些方法，它能够在编译源代码期间自动帮我们生产这些方法，并没有如反射那样降低程序的性能。</p>
@@ -562,6 +422,146 @@ JAVA
 ]]></content>
       <tags>
         <tag>Lombok</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JDK8 新特性Stream</title>
+    <url>/2022/10/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7%20/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Java8 有一个非常显著的特点，就是提供了函数式编程，本文也将介绍 Java8 的几个新特性来实现函数式编程。学会这些 API 能够编写出简单、干净、易读的代码（尤其是对集合的操作）。Java8 新特性包括：</p>
+<ul>
+<li>Lambda 表达式</li>
+<li>Stream API</li>
+<li>接口新特性<ul>
+<li>函数式接口（<code>@FunctionalInterface</code>）</li>
+<li>默认方法（<code>default</code>）</li>
+</ul>
+</li>
+<li>Optional API</li>
+<li>方法引用</li>
+</ul>
+<p>JDK8 新特性</p>
+<p>正在努力更新中…</p>
+<h2 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h2><ul>
+<li>只包含了一个抽象方法的接口，称为函数式接口（可以有多个非抽象方法）。可以使用<code>@FunctionalInterface</code>注解自定义声明</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">//JDK 1.8 之前已有的函数式接口:</span><br><span class="line">- java.lang.Runnable</span><br><span class="line">- java.util.concurrent.Callable</span><br><span class="line">- java.security.PrivilegedAction</span><br><span class="line">- java.util.Comparator</span><br><span class="line">- java.io.FileFilter</span><br><span class="line">- java.nio.file.PathMatcher</span><br><span class="line">- java.lang.reflect.InvocationHandler</span><br><span class="line">- java.beans.PropertyChangeListener</span><br><span class="line">- java.awt.event.ActionListener</span><br><span class="line">- javax.swing.event.ChangeListener</span><br><span class="line">//JDK 1.8 新增加的函数接口：</span><br><span class="line">- java.util.function</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lambda-表达式"><a href="#Lambda-表达式" class="headerlink" title="Lambda 表达式"></a>Lambda 表达式</h2><ul>
+<li><code>Lambda</code>表达式的使用依赖于函数式接口</li>
+<li>使用<code>Lambda</code>表达式来表示函数式接口的实现（JAVA 8 之前一般是用匿名类实现的）</li>
+</ul>
+<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><ul>
+<li><code>-&gt; :Lambda操作符</code></li>
+<li><code>-&gt; 左边(parameters):Lambda形参列表</code>(相当于接口中的抽象方法的形参列表)</li>
+</ul>
+<ol>
+<li>参数类型可以省略，可由编译器推断得出(类型推断)</li>
+<li>如果只有一个参数,<code>()</code>也可以省略</li>
+</ol>
+<ul>
+<li><code>-&gt; 右边:Lambda体</code>(重写的抽象方法的方法体)</li>
+</ul>
+<ol>
+<li>如果只有一条执行语句，<code>&#123;&#125;</code>及<code>return</code>可以省略</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">(parameters) -&gt; expression</span><br><span class="line">或</span><br><span class="line">(parameters) -&gt;&#123; statements; &#125;</span><br><span class="line">// 1. 接收2个int型整数,返回他们的和</span><br><span class="line">(int x, int y) -&gt; x + y</span><br><span class="line">// 2. 接受一个 string 对象,并在控制台打印,不返回任何值(看起来像是返回void)</span><br><span class="line">(String s) -&gt; System.out.print(s)</span><br><span class="line"></span><br><span class="line">@Test</span><br><span class="line">public void test()&#123;</span><br><span class="line">    Runnable runnable=new Runnable()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run()&#123;</span><br><span class="line">            System.out.println(&quot;*********&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    runnable.run();</span><br><span class="line">    //Lambda表达式写法</span><br><span class="line">    Runnable runnable= () -&gt; System.out.println(&quot;*********&quot;);</span><br><span class="line">    runnable.run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h4><table>
+<thead>
+<tr>
+<th>使用案例</th>
+<th>Lambda 的例子</th>
+<th>对应的函数式接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>布尔表达式</td>
+<td><code>(List&lt;String&gt; list) -&gt; list.isEmpty()</code></td>
+<td><code>Predicate&lt;List&lt;String&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>创建对象</td>
+<td><code>() -&gt; new Project()</code></td>
+<td><code>Supplier&lt;Project&gt;</code></td>
+</tr>
+<tr>
+<td>消费一个对象</td>
+<td><code>(Project p) -&gt; System.out.println(p.getStars())</code></td>
+<td><code>Consumer&lt;Project&gt;</code></td>
+</tr>
+<tr>
+<td>从一个对象中选择&#x2F;提取</td>
+<td><code>(int a, int b) -&gt; a * b</code></td>
+<td><code>IntBinaryOperator</code></td>
+</tr>
+<tr>
+<td>比较两个对象</td>
+<td><code>(Project p1, Project p2) -&gt; p1.getStars().compareTo(p2.getStars())</code></td>
+<td><code>Comparator&lt;Project&gt; 或 BiFunction&lt;Project,</code> <code>Project, Integer&gt; 或 ToIntBiFunction&lt;Project, Project&gt;</code></td>
+</tr>
+</tbody></table>
+<h3 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h3><h4 id="语法格式-1"><a href="#语法格式-1" class="headerlink" title="语法格式"></a>语法格式</h4><ul>
+<li>使用操作符<code>::</code>类或对象与方法名分割</li>
+<li>主要有三种使用情况</li>
+</ul>
+<p>对象<code>::</code>实例方法名</p>
+<p>类<code>::</code>实例方法名</p>
+<p>类<code>::</code>静态方法名</p>
+<h4 id="使用案例-1"><a href="#使用案例-1" class="headerlink" title="使用案例"></a>使用案例</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line">LambdaQueryWrapper&lt;SysDictItem&gt; queryWrapper = new LambdaQueryWrapper&lt;SysDictItem&gt;();</span><br><span class="line">//相当于SysDictItem.getStatus();</span><br><span class="line">queryWrapper.eq(SysDictItem::getStatus, 1);</span><br><span class="line">queryWrapper.orderByAsc(SysDictItem::getSortOrder);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Stream-API"><a href="#Stream-API" class="headerlink" title="Stream API"></a>Stream API</h2><ul>
+<li><p>使用<code>Stream API</code>对集合数据进行操作</p>
+</li>
+<li><pre><code>stream
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">和</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+collection
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  集合的区别</span><br><span class="line"></span><br><span class="line">  - `collection`是一种静态的内存数据结构，而`stream`是有关计算的，前者主要面向内存，存储在内存中，后者主要面向`cpu`，通过`cpu`计算实现</span><br><span class="line"></span><br><span class="line">- `Stream`的创建方式</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+JAVA
+</code></pre>
+</li>
+</ul>
+<p>&#x2F;&#x2F;1.通过集合创建<br>&#x2F;&#x2F;default Stream<E> stream();&#x2F;&#x2F;返回一个顺序流<br>&#x2F;&#x2F;default Stream<E> parallelStream();&#x2F;&#x2F;返回一个并行流<br>List<Person> list &#x3D; new ArrayList<Person>();<br>Stream<Person> stream &#x3D; list.stream();</p>
+<p>&#x2F;&#x2F;2.通过Arrays静态方法<br>String[] names &#x3D; {“chaimm”,”peter”,”john”};<br>Stream<String> stream &#x3D; Arrays.stream(names);</p>
+<p>&#x2F;&#x2F;3.通过Stream of<br>Stream<String> stream &#x3D; Stream.of(“chaimm”,”peter”,”john”);</p>
+<p>&#x2F;&#x2F;4.创建无限流<br>&#x2F;&#x2F;迭代 遍历0到9<br>Stream.iterate(0,t-&gt;t+1).limit(10).forEach(System.out::println);<br>&#x2F;&#x2F;生成 10个随机数<br>Stream.generate(Math::random).limit(10).forEach(System.out::println);</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 中间操作</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>JAVA</p>
+<p>&#x2F;&#x2F;中间操作<br>&#x2F;&#x2F;filer(Predicate p)过滤数据<br>List<Person> result &#x3D; list.stream()<br>    .filter(Person::isStudent)<br>    .collect(toList());</p>
+<p>&#x2F;&#x2F;limit(n)截断流<br>List<Person> result &#x3D; list.stream()<br>    .limit(3)<br>    .collect(toList());</p>
+<p>&#x2F;&#x2F;skip(n)跳过元素<br>List<Person> result &#x3D; list.stream()<br>    .skip(3)<br>    .collect(toList());</p>
+<p>&#x2F;&#x2F;distinct 筛选去重<br>List<Person> result &#x3D; list.stream()<br>    .distinct()<br>    .collect(toList());</p>
+<p>&#x2F;&#x2F;映射map(Function f)  flatMap(Function f)合并多个流<br>List<String> result &#x3D; list.stream()<br>    .map(Person::getName)<br>    .collect(toList());</p>
+<p>&#x2F;&#x2F;排序 sorted() 自然排序 sorted(Comparator c)定制顺序</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- 终止操作</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>JAVA</p>
+<p> &#x2F;&#x2F;终止操作<br>&#x2F;&#x2F;匹配与查找<br>&#x2F;&#x2F;allMatch(Predicate e)检查是否匹配所有元素 返回boolean<br>boolean result &#x3D; list.stream()<br>    .allMatch(Person::isStudent);<br>&#x2F;&#x2F;anyMatch(Predicate e)检查是否至少匹配一个元素<br>boolean result &#x3D; list.stream()<br>    .anyMatch(Person::isStudent);<br>&#x2F;&#x2F;noneMatch(Predicate e)检查是否没有匹配的元素<br>boolean result &#x3D; list.stream()<br>    .noneMatch(Person::isStudent);<br>&#x2F;&#x2F;findFierst()返回第一个元素<br>Optional<Person> person &#x3D; list.stream().findFirst();<br>&#x2F;&#x2F;findAny()返回当前流中的任意元素<br>Optional<Person> person &#x3D; list.stream().findAny();<br>&#x2F;&#x2F;count 返回流中元素的总个数<br>&#x2F;&#x2F;max(Comparator c)返回流中最大值<br>&#x2F;&#x2F;min(Comparator c)返回流中最小值<br>&#x2F;&#x2F;forEach(Consumer c)内部迭代<br>&#x2F;&#x2F;归约 reduce(T identity,BinaryOperator)可以将流中元素结合起来得到一个值（求和）<br>&#x2F;&#x2F;例：计算所有人的年龄总和<br>int age &#x3D; list.stream().reduce(0, (person1,person2)-&gt;person1.getAge()+person2.getAge());<br>&#x2F;&#x2F;收集collect(Collector c) 将流中元素收集返回相应类型</p>
+<pre><code>
+#### 中间操作和收集操作
+
+| 操作        | 类型 | 返回类型      | 使用的类型/函数式接口   | 函数描述符       |
+| ----------- | ---- | ------------- | ----------------------- | ---------------- |
+| `filter`    | 中间 | `Stream&lt;T&gt;`   | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
+| `distinct`  | 中间 | `Stream&lt;T&gt;`   |                         |                  |
+| `skip`      | 中间 | `Stream&lt;T&gt;`   | `long`                  |                  |
+| `map`       | 中间 | `Stream&lt;R&gt;`   | `Function&lt;T, R&gt;`        | `T -&gt; R`         |
+| `flatMap`   | 中间 | `Stream&lt;R&gt;`   | `Function&lt;T,Stream&lt;R&gt;&gt;` | `T -&gt; Stream&lt;R&gt;` |
+| `limit`     | 中间 | `Stream&lt;T&gt;`   | `long`                  |                  |
+| `sorted`    | 中间 | `Stream&lt;T&gt;`   | `Comparator&lt;T&gt;`         | `(T, T) -&gt; int`  |
+| `anyMatch`  | 终端 | `boolean`     | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
+| `noneMatch` | 终端 | `boolean`     | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
+| `allMatch`  | 终端 | `boolean`     | `Predicate&lt;T&gt;`          | `T -&gt; boolean`   |
+| `findAny`   | 终端 | `Optional&lt;T&gt;` |                         |                  |
+| `findFirst` | 终端 | `Optional&lt;T&gt;` |                         |                  |
+| `forEach`   | 终端 | `void`        | `Consumer&lt;T&gt;`           | `T -&gt; void`      |
+| `collect`   | 终端 | `R`           | `Collector&lt;T, A, R&gt;`    |                  |
+| `reduce`    | 终端 | `Optional&lt;T&gt;` | `BinaryOperator&lt;T&gt;`     | `(T, T) -&gt; T`    |
+| `count`     | 终端 | `long`        |                         |                  |
+
+### [新的日期和 API](https://github.com/hellokaton/learn-java8/blob/master/java8-datetime-api/README.md)
+</code></pre>
+]]></content>
+      <tags>
+        <tag>JDK8</tag>
       </tags>
   </entry>
   <entry>
@@ -891,9 +891,9 @@ JAVA
       </tags>
   </entry>
   <entry>
-    <title>Redis 高可用</title>
+    <title>Redis 高可用一览</title>
     <url>/2023/08/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/Redis%E9%AB%98%E5%8F%AF%E7%94%A8%E5%85%A8%E6%99%AF%E4%B8%80%E8%A7%88/</url>
-    <content><![CDATA[<h1 id="Redis-高可用全景一览"><a href="#Redis-高可用全景一览" class="headerlink" title="Redis 高可用全景一览"></a>Redis 高可用全景一览</h1><p>对于一项技术的学习，我们要对这项技术有一个全局观，下面是一张 Redis 全景图，我觉得画得非常全面。</p>
+    <content><![CDATA[<p>对于一项技术的学习，我们要对这项技术有一个全局观，下面是一张 Redis 全景图，我觉得画得非常全面。</p>
 <p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/640.png" alt="图片"></p>
 <p>今天我们主要关注 Redis 的高可用主线。Redis 的高可用性，具体来说，有两方面含义：一是服务少中断，二是数据少丢失。</p>
 <p>为了保证服务少中断，通常的做法就是冗余，增加服务的副本，但是当副本多了以后，如何保证副本的数据一致就成了问题。</p>
@@ -1271,6 +1271,40 @@ JAVA
       </tags>
   </entry>
   <entry>
+    <title>Nginx实现灰度上线功能</title>
+    <url>/2022/05/20/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/nginx%E5%AE%9E%E7%8E%B0%E7%81%B0%E5%BA%A6%E4%B8%8A%E7%BA%BF%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>软件开发一般不会上来就是最终版本，而是会一个版本一个版本的迭代。</p>
+<p>新版本上线前都会经过测试，但就算这样，也不能保证上线了不出问题。</p>
+<p>所以，在公司里上线新版本代码一般都是通过灰度系统。</p>
+<p>灰度系统可以把流量划分成多份，一份走新版本代码，一份走老版本代码。</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230707161712483.png" alt="image-20230707161712483"></p>
+<p>而且灰度系统支持设置流量的比例，比如可以把走新版本代码的流量设置为 5%，没啥问题再放到 10%，50%，最后放到 100% 全量。</p>
+<p>这样可以把出现问题的影响降到最低。</p>
+<p>不然一上来就全量，万一出了线上问题，那就是大事故。</p>
+<p>而且灰度系统不止这一个用途，比如产品不确定某些改动是不是有效的，就要做 AB 实验，也就是要把流量分成两份，一份走 A 版本代码，一份走 B 版本代码。</p>
+<p>那这样的灰度系统是怎么实现的呢？</p>
+<p>其实很多都是用 nginx 实现的。</p>
+<p>nginx 是一个反向代理的服务，用户请求发给它，由它转发给具体的应用服务器。</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230707161743621.png" alt="image-20230707161743621"></p>
+<p>这一层也叫做网关层。</p>
+<p>由它负责转发请求给应用服务器，那自然就可以在这里控制流量的分配，哪些流量走版本 A，哪些流量走版本 B。</p>
+<p>下面我们实现一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">   </span><br><span class="line">    sendfile        on;</span><br><span class="line">    upstream version1.0_server &#123;</span><br><span class="line">       server 192.168.1.6:3000;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream version2.0_server &#123;</span><br><span class="line">        server 192.168.1.6:3001;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream default &#123;</span><br><span class="line">        server 192.168.1.6:3000;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        listen [::]:80;</span><br><span class="line">        server_name 127.0.0.1;</span><br><span class="line">		</span><br><span class="line">       set $group &quot;default&quot;;</span><br><span class="line">        if ($http_cookie ~* &quot;version=1.0&quot;)&#123;</span><br><span class="line">            set $group version1.0_server;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if ($http_cookie ~* &quot;version=2.0&quot;)&#123;</span><br><span class="line">            set $group version2.0_server;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ^~ /api &#123;</span><br><span class="line">            rewrite ^/api/(.*)$ /$1 break;</span><br><span class="line">            proxy_pass http://$group;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但现在还有一个问题：</p>
+<p>什么时候设置的这个 cookie 呢？</p>
+<p>比如我想实现 80% 的流量走版本 1.0，20% 的流量走版本 2.0</p>
+<p>其实公司内部一般都有灰度配置系统，可以配置不同的版本的比例，然后流量经过这个系统之后，就会返回 Set-Cookie 的 header，里面按照比例来分别设置不同的 cookie。</p>
+<p>比如随机数载 0 到 0.2 之间，就设置 version&#x3D;2.0 的 cookie，否则，设置 version&#x3D;1.0 的 cookie。</p>
+<p>这也叫做流量染色。</p>
+<p>完整的灰度流程是这样的：</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/image-20230707163417956.png" alt="image-20230707163417956"></p>
+]]></content>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nvm 安装配置</title>
     <url>/2023/06/25/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/nvm%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="nvm-安装配置"><a href="#nvm-安装配置" class="headerlink" title="nvm 安装配置"></a>nvm 安装配置</h1><h2 id="nvm-关系-vue-介绍"><a href="#nvm-关系-vue-介绍" class="headerlink" title="nvm 关系 vue 介绍"></a>nvm 关系 vue 介绍</h2><p>nvm 全称为 node.js version management ，顾名思义是用于管理多个 nodejs 的版本控制工具。通过它可以安装和切换不同版本的 nodejs, 主要是为了解决 node.js 各种版本存在不兼容现象。<br>Vue 是一个渐进式（声明式渲染——组件系统——客户端路由——-大数据状态管理——-构建工具）的 js 框架，与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计，并且有很好的生态系统。具有体积小，速度快，兼容性强等优点。</p>
@@ -1471,6 +1505,72 @@ JAVA
       </tags>
   </entry>
   <entry>
+    <title>Tomcat 获取基本路径</title>
+    <url>/2023/07/12/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/tomcat%E8%8E%B7%E5%8F%96%E5%9F%BA%E6%9C%AC%E8%B7%AF%E5%BE%84/</url>
+    <content><![CDATA[<p>最近公司有个需求，要求读 tomcat 中某 properties 文件信息，由于项目是部署到 windows 上的，由于项目的特殊性，会经常移到项目所以这个需求的最大突破点就如何动态获取 tomcat 目录的基础路径，在网上有很多方法比如 1.通过配置 tomcat 环境变量，从而在系统环境变量中获取 2.使用 system.getProperty()方法来获取</p>
+<p>本文主要介绍第二种方法 system.getProperty()，这种方法 结合 catalina.base 使用<br>简单介绍一下 catalina.base</p>
+<ul>
+<li><code>catalina.base</code>是 Tomcat 服务器的一个系统属性，它表示 Tomcat 实例的基本目录路径。当 Tomcat 服务器启动时，它会设置这个系统属性，指示当前 Tomcat 实例的基本路径。</li>
+<li>在 Java 代码中，你可以使用<code>System.getProperty(&quot;catalina.base&quot;)</code>来获取该系统属性的值。这个值是一个字符串，表示 Tomcat 实例的基本目录路径。</li>
+<li>当<code>catalina.base</code>系统属性可用时，意味着 Tomcat 服务器已经正确启动，并且该属性已设置为相应的值。这样，你就可以使用该属性来获取 Tomcat 实例的相关信息，如 Tomcat 的安装路径、配置文件路径等。</li>
+<li>请注意，确保在获取<code>catalina.base</code>属性之前，Tomcat 服务器已经启动，并且 Java 代码在 Tomcat 服务器内部执行。否则，<code>catalina.base</code>属性可能不可用或返回<code>null</code>。</li>
+</ul>
+<p>接下来请看实例操作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">private JedisPool getJedisPool() &#123;</span><br><span class="line">   Properties properties = new Properties();</span><br><span class="line">       FileInputStream fis = null;</span><br><span class="line">       JedisPool jedisPool=null;</span><br><span class="line">       try &#123;</span><br><span class="line">      	 //指定tomcat路径</span><br><span class="line">      	 String catalinaBase = System.getProperty(&quot;catalina.base&quot;)+ &quot;\\conf\\redis-data-cache.properties&quot;;</span><br><span class="line">           // 创建文件输入流</span><br><span class="line">           fis = new FileInputStream(catalinaBase);</span><br><span class="line">           // 加载文件内容到Properties对象</span><br><span class="line">           properties.load(fis);</span><br><span class="line">           // 读取属性值</span><br><span class="line">           String propertyValue = properties.getProperty(&quot;redis.hosts&quot;);</span><br><span class="line">           String[] serverDisposition= propertyValue.split(&quot;:&quot;);</span><br><span class="line">           JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();</span><br><span class="line">         jedisPoolConfig.setMaxTotal(8);</span><br><span class="line">         jedisPoolConfig.setMaxIdle(8);</span><br><span class="line">         jedisPoolConfig.setMinIdle(0);</span><br><span class="line">         jedisPool = new JedisPool(serverDisposition[0],Integer.parseInt(serverDisposition[1]));</span><br><span class="line">       &#125; catch (IOException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125; finally &#123;</span><br><span class="line">           if (fis != null) &#123;</span><br><span class="line">               try &#123;</span><br><span class="line">                   fis.close();</span><br><span class="line">               &#125; catch (IOException e) &#123;</span><br><span class="line">                   e.printStackTrace();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      return jedisPool;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>错误码及全局异常处理</title>
+    <url>/2022/11/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%94%99%E8%AF%AF%E7%A0%81%E5%8F%8A%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>在软件开发过程中，不可避免的是需要处理各种异常，在 Java 中，处理异常的方式一般就是采用<code>try&#123;...&#125;catch&#123;...&#125;finally&#123;...&#125;</code>代码块。在业务系统中，可能会有大量的异常处理代码块，这样不仅有大量的冗余代码，而且还影响代码的可读性。比较下面两张图：</p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328132128.png" alt="image-20220328132128521"></p>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328132228.png" alt="image-20220328132228437"></p>
+<p>可以看到，明显第二种的代码简洁，可读性高！此处的代码是在 Controller 层中的，在 Service 层中会有更多的异常处理代码块。</p>
+<p>那么我们应该如何优雅的进行异常处理呢？</p>
+<h2 id="什么是统一异常处理"><a href="#什么是统一异常处理" class="headerlink" title="什么是统一异常处理"></a>什么是统一异常处理</h2><p>在 Spring 里，我们可以使用@ControllerAdvice 来处理一些全局性的东西，最常见的是结合@ExceptionHandler 注解用于全局异常的处理。</p>
+<p>@ControllerAdvice 是在类上声明的注解，其用法主要有三点：</p>
+<ul>
+<li><code>@ExceptionHandler</code>注解标注的方法：用于捕获 Controller 中抛出的不同类型的异常，从而达到异常全局处理的目的</li>
+<li><code>@InitBinder</code>注解标注的方法：用于请求中注册自定义参数的解析，从而达到自定义请求参数格式的目的</li>
+<li><code>@ModelAttribute</code>注解标注的方法：表示此方法会在执行目标 Controller 方法之前执行</li>
+</ul>
+<p>跟异常处理有关的只有<code>@ExceptionHandler</code>注解，从字面意思上理解，就是<code>异常处理器</code>的意思，其实际作用也正是如此：若在某个<code>Controller</code>类定义一个异常处理方法，并在方法上添加该注解，那么当出现指定的异常时，会执行该处理异常的方法，其可以使用<code>SpringMVC</code>提供的数据绑定，比如接受一个当前抛出的<code>Throwable</code>对象。</p>
+<p>但是，这样一来，就必须在每一个<code>Controller</code>类都定义一套这样的异常处理方法，因为异常可以是各种各样。这样一来，就会造成大量的冗余代码，而且若需要新增一种异常的处理逻辑，就必须修改所有<code>Controller</code>类了，很不优雅。</p>
+<p>当然你可能会说，那就定义个类似<code>BaseController</code>的基类，这样总行了吧。</p>
+<p>这种做法虽然没错，但仍不尽善尽美，因为这样的代码有一定的侵入性和耦合性。简简单单的<code>Controller</code>，我为啥非得继承这样一个类呢，万一已经继承其他基类了呢。大家都知道<code>Java</code>只能继承一个类。</p>
+<p>那有没有一种方案，既不需要跟<code>Controller</code>耦合，也可以将定义的 <strong>异常处理器</strong> 应用到所有控制器呢？所以注解<code>@ControllerAdvice</code>出现了，简单的说，该注解可以把异常处理器应用到所有控制器，而不是单个控制器。借助该注解，我们可以实现：在独立的某个地方，比如单独一个类，定义一套对各种异常的处理机制，然后在类的签名加上注解<code>@ControllerAdvice</code>，统一对 <code>不同阶段的</code>、<code>不同异常</code> 进行处理。这就是统一异常处理的原理。</p>
+<blockquote>
+<p>注意到上面对异常按阶段进行分类，大体可以分成：进入<code>Controller</code>前的异常 和 <code>Service</code> 层异常，具体可以参考下图：</p>
+</blockquote>
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328135114.png" alt="image-20220328135114123"></p>
+<h2 id="统一异常处理实战"><a href="#统一异常处理实战" class="headerlink" title="统一异常处理实战"></a>统一异常处理实战</h2><p>通过全局统一的异常处理将自定义的错误码以 json 的格式返回给前端。</p>
+<h3 id="统一返回结果类"><a href="#统一返回结果类" class="headerlink" title="统一返回结果类"></a>统一返回结果类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">KOTLIN</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.api.vo;</span><br><span class="line"></span><br><span class="line">import com.fasterxml.jackson.annotation.JsonIgnore;</span><br><span class="line">import io.swagger.annotations.ApiModel;</span><br><span class="line">import io.swagger.annotations.ApiModelProperty;</span><br><span class="line">import lombok.Data;</span><br><span class="line">import org.jeecg.common.constant.CommonConstant;</span><br><span class="line">import org.jeecg.common.constant.enums.ErrorCodeEnum;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: 接口返回对象 -更新</span><br><span class="line"> * @author: luo_Jj</span><br><span class="line"> * @date: 2022/3/24 17:58</span><br><span class="line"> */</span><br><span class="line">@Data</span><br><span class="line">@ApiModel(value=&quot;接口返回对象&quot;, description=&quot;接口返回对象&quot;)</span><br><span class="line">public class Result&lt;T&gt; implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">	private static final long serialVersionUID = 1L;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 成功标志</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;成功标志&quot;)</span><br><span class="line">	private boolean success = true;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 返回处理消息</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;返回处理消息&quot;)</span><br><span class="line">	private String message = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 返回代码</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;返回代码&quot;)</span><br><span class="line">	private String code = &quot;000000&quot;;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 返回数据对象 data</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;返回数据对象&quot;)</span><br><span class="line">	private T result;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 时间戳</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;时间戳&quot;)</span><br><span class="line">	private long timestamp = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">	public Result() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Result(String code,String message) &#123;</span><br><span class="line">		this.code = code;</span><br><span class="line">		this.message = message;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Result&lt;T&gt; success(String message) &#123;</span><br><span class="line">		this.message = message;</span><br><span class="line">		this.code = CommonConstant.SC_OK_200;</span><br><span class="line">		this.success = true;</span><br><span class="line">		return this;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; OK() &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(true);</span><br><span class="line">		r.setCode(CommonConstant.SC_OK_200);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; OK(T data) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(true);</span><br><span class="line">		r.setCode(CommonConstant.SC_OK_200);</span><br><span class="line">		r.setResult(data);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; OK(String msg, T data) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(true);</span><br><span class="line">		r.setCode(CommonConstant.SC_OK_200);</span><br><span class="line">		r.setMessage(msg);</span><br><span class="line">		r.setResult(data);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(String msg, T data) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(false);</span><br><span class="line">		r.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);</span><br><span class="line">		r.setMessage(msg);</span><br><span class="line">		r.setResult(data);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(String msg) &#123;</span><br><span class="line">		return error(CommonConstant.SC_INTERNAL_SERVER_ERROR_500, msg);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	* @description: 传递一个错误码枚举</span><br><span class="line">	* @author: luo_jj</span><br><span class="line">	* @date: 2022/3/28 14:55</span><br><span class="line">	* @param errorCodeEnum:</span><br><span class="line">	* @return: org.jeecg.common.api.vo.Result&lt;T&gt;</span><br><span class="line">	*/</span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(ErrorCodeEnum errorCodeEnum) &#123;</span><br><span class="line">		return error(errorCodeEnum.getCode(), errorCodeEnum.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(String code, String msg) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setCode(code);</span><br><span class="line">		r.setMessage(msg);</span><br><span class="line">		r.setSuccess(false);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Result&lt;T&gt; error500(String message) &#123;</span><br><span class="line">		this.message = message;</span><br><span class="line">		this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;</span><br><span class="line">		this.success = false;</span><br><span class="line">		return this;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="错误码枚举类"><a href="#错误码枚举类" class="headerlink" title="错误码枚举类"></a>错误码枚举类</h3><p>需要定义一个枚举类，包含所有的自定义的结果码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TYPESCRIPT</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.constant.enums;</span><br><span class="line"></span><br><span class="line">import lombok.AllArgsConstructor;</span><br><span class="line">import lombok.Getter;</span><br><span class="line">import lombok.NoArgsConstructor;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: 错误码枚举</span><br><span class="line"> * @author: luo_jj</span><br><span class="line"> * @date: 2022年03月24日 17:15</span><br><span class="line"> */</span><br><span class="line">@Getter</span><br><span class="line">@AllArgsConstructor</span><br><span class="line">@NoArgsConstructor</span><br><span class="line">public enum ResultCodeEnum &#123;</span><br><span class="line">    /*</span><br><span class="line">    * 错误产生来源分为 A/B/C</span><br><span class="line">    * A 表示错误来源于用户，比如参数错误，用户安装版本过低，用户支付超时等问题；</span><br><span class="line">    * B 表示错误来源于当前系统，往往是业务逻辑出错，或程序健壮性差等问题；</span><br><span class="line">    * C 表示错误来源于第三方服务，比如 CDN 服务出错，消息投递超时等问题；</span><br><span class="line">    * 四位数字编号从 0001 到 9999，大类之间的步长间距预留 100</span><br><span class="line">    *</span><br><span class="line">    * 错误码分为一级宏观错误码、二级宏观错误码、三级宏观错误码。</span><br><span class="line">    * 调用第三方服务出错是一级，中间件错误是二级，消息服务出错是三级。</span><br><span class="line">    * 说明：在无法更加具体确定的错误场景中，可以直接使用一级宏观错误码，分别是：A0001（用户端错误）、B0001（系统执行出错）、C0001（调用第三方服务出错）。</span><br><span class="line">    * 错误码表：http://192.168.88.211:8090/pages/viewpage.action?pageId=5473234</span><br><span class="line">    */</span><br><span class="line"></span><br><span class="line">    /*一切ok*/</span><br><span class="line">    SUCCESS_ERROR(&quot;000000&quot;,&quot;成功&quot;),</span><br><span class="line"></span><br><span class="line">    /*用户端错误码*/</span><br><span class="line">    CLIENT_ERROR(&quot;A0001&quot;,&quot;用户端错误&quot;),</span><br><span class="line"></span><br><span class="line">    /*服务端错误码*/</span><br><span class="line">    SYSTEM_ERROR(&quot;B0001&quot;,&quot;系统执行出错&quot;),</span><br><span class="line"></span><br><span class="line">    /*第三方服务错误码*/</span><br><span class="line">    TPA_ERROR(&quot;C0001&quot;,&quot;调用第三方服务出错&quot;);</span><br><span class="line"></span><br><span class="line">    /** 错误码 */</span><br><span class="line">    private String code;</span><br><span class="line"></span><br><span class="line">    /** 错误描述 */</span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义业务异常类"><a href="#自定义业务异常类" class="headerlink" title="自定义业务异常类"></a>自定义业务异常类</h3><p>自定义一个业务异常类，以后和业务有关的异常通通抛出这个异常类，只需将定义好的错误枚举传入即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SCALA</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.exception;</span><br><span class="line"></span><br><span class="line">import lombok.Getter;</span><br><span class="line">import lombok.Setter;</span><br><span class="line">import org.jeecg.common.constant.enums.ResultCodeEnum;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* @description: 万序自定义异常</span><br><span class="line">* @author: luo_Jj</span><br><span class="line">* @date: 2022/3/24 18:15</span><br><span class="line">*/</span><br><span class="line">@Getter</span><br><span class="line">@Setter</span><br><span class="line">public class VanxSoftException extends RuntimeException &#123;</span><br><span class="line">	private static final long serialVersionUID = 1L;</span><br><span class="line"></span><br><span class="line">	private ResultCodeEnum resultCodeEnum;</span><br><span class="line"></span><br><span class="line">	public VanxSoftException(ResultCodeEnum resultCodeEnum)&#123;</span><br><span class="line">		super(resultCodeEnum.getMessage());</span><br><span class="line">		this.resultCodeEnum = resultCodeEnum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="全局异常处理类"><a href="#全局异常处理类" class="headerlink" title="全局异常处理类"></a>全局异常处理类</h3><p>定义一个全局异常处理类</p>
+<ol>
+<li>通过 <code>@RestControllerAdvice</code> 指定该类为 <code>Controller</code> 增强类并返回 <code>json</code> 到前端</li>
+<li>通过 <code>@ExceptionHandler</code> 自定义捕获的异常类型</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">REASONML</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.exception;</span><br><span class="line"></span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.apache.shiro.authz.AuthorizationException;</span><br><span class="line">import org.apache.shiro.authz.UnauthorizedException;</span><br><span class="line">import org.jeecg.common.api.vo.Result;</span><br><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line">import org.springframework.dao.DataIntegrityViolationException;</span><br><span class="line">import org.springframework.dao.DuplicateKeyException;</span><br><span class="line">import org.springframework.data.redis.connection.PoolException;</span><br><span class="line">import org.springframework.http.HttpStatus;</span><br><span class="line">import org.springframework.web.HttpRequestMethodNotSupportedException;</span><br><span class="line">import org.springframework.web.bind.annotation.ExceptionHandler;</span><br><span class="line">import org.springframework.web.bind.annotation.ResponseStatus;</span><br><span class="line">import org.springframework.web.bind.annotation.RestControllerAdvice;</span><br><span class="line">import org.springframework.web.multipart.MaxUploadSizeExceededException;</span><br><span class="line">import org.springframework.web.servlet.NoHandlerFoundException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 异常处理器</span><br><span class="line"> *</span><br><span class="line"> * @Author scott</span><br><span class="line"> * @Date 2019</span><br><span class="line"> */</span><br><span class="line">@RestControllerAdvice</span><br><span class="line">@Slf4j</span><br><span class="line">public class JeecgBootExceptionHandler &#123;</span><br><span class="line">    @Value(&quot;$&#123;spring.servlet.multipart.max-file-size&#125;&quot;)</span><br><span class="line">    private String maxFileSize;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理自定义异常</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(JeecgBootException.class)</span><br><span class="line">    public Result&lt;?&gt; handleJeecgBootException(JeecgBootException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理自定义异常</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(JeecgBoot401Exception.class)</span><br><span class="line">    @ResponseStatus(HttpStatus.UNAUTHORIZED)</span><br><span class="line">    public Result&lt;?&gt; handleJeecgBoot401Exception(JeecgBoot401Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return new Result(&quot;401&quot;, e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">    * @description: 处理自定义异常-万序系统异常</span><br><span class="line">    * @author: luo_jj</span><br><span class="line">    * @date: 2022/3/25 11:33</span><br><span class="line">    * @param e:</span><br><span class="line">    * @return: org.jeecg.common.api.vo.Result&lt;?&gt;</span><br><span class="line">    */</span><br><span class="line">    @ExceptionHandler(VanxSoftException.class)</span><br><span class="line">    public Result&lt;?&gt; handleVanxSoftException(VanxSoftException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(e.getResultCodeEnum());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(NoHandlerFoundException.class)</span><br><span class="line">    public Result&lt;?&gt; handlerNoFoundException(Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;404&quot;, &quot;路径不存在，请检查路径是否正确&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(DuplicateKeyException.class)</span><br><span class="line">    public Result&lt;?&gt; handleDuplicateKeyException(DuplicateKeyException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;数据库中已存在该记录&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(&#123;UnauthorizedException.class, AuthorizationException.class&#125;)</span><br><span class="line">    public Result&lt;?&gt; handleAuthorizationException(AuthorizationException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.noauth(&quot;没有权限，请联系管理员授权&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(Exception.class)</span><br><span class="line">    public Result&lt;?&gt; handleException(Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;操作失败，&quot; + e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     * @Author 政辉</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)</span><br><span class="line">    public Result&lt;?&gt; handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) &#123;</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        sb.append(&quot;不支持&quot;);</span><br><span class="line">        sb.append(e.getMethod());</span><br><span class="line">        sb.append(&quot;请求方法，&quot;);</span><br><span class="line">        sb.append(&quot;支持以下&quot;);</span><br><span class="line">        String[] methods = e.getSupportedMethods();</span><br><span class="line">        if (methods != null) &#123;</span><br><span class="line">            for (String str : methods) &#123;</span><br><span class="line">                sb.append(str);</span><br><span class="line">                sb.append(&quot;、&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        log.error(sb.toString(), e);</span><br><span class="line">        return Result.error(&quot;405&quot;, sb.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * spring默认上传大小100MB 超出大小捕获异常MaxUploadSizeExceededException</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MaxUploadSizeExceededException.class)</span><br><span class="line">    public Result&lt;?&gt; handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(String.format(&quot;文件大小超出%s限制, 请压缩或降低文件质量! &quot;, maxFileSize));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(DataIntegrityViolationException.class)</span><br><span class="line">    public Result&lt;?&gt; handleDataIntegrityViolationException(DataIntegrityViolationException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;字段太长,超出数据库字段的长度&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(PoolException.class)</span><br><span class="line">    public Result&lt;?&gt; handlePoolException(PoolException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;Redis 连接异常!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="编写-TestController-测试"><a href="#编写-TestController-测试" class="headerlink" title="编写 TestController 测试"></a>编写 TestController 测试</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">KOTLIN</span><br><span class="line"></span><br><span class="line">package org.jeecg.modules.exception.controller;</span><br><span class="line"></span><br><span class="line">import com.alibaba.fastjson.JSONObject;</span><br><span class="line">import io.swagger.annotations.Api;</span><br><span class="line">import io.swagger.annotations.ApiOperation;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.jeecg.common.api.vo.Result;</span><br><span class="line">import org.jeecg.common.constant.enums.ResultCodeEnum;</span><br><span class="line">import org.jeecg.common.exception.VanxSoftException;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: 全局异常处理</span><br><span class="line"> * @author: luo_jj</span><br><span class="line"> * @date: 2022年03月24日 17:45</span><br><span class="line"> */</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/exception&quot;)</span><br><span class="line">@Api(tags=&quot;全局异常处理&quot;)</span><br><span class="line">@Slf4j</span><br><span class="line">public class ExceptionController &#123;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(&quot;测试请求&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;/test&quot;, method = RequestMethod.POST)</span><br><span class="line">    public Result&lt;JSONObject&gt; testClientError()&#123;</span><br><span class="line">        throw new VanxSoftException(ResultCodeEnum.SYSTEM_ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328151505.png" alt="image-20220328151505665"></p>
+]]></content>
+      <tags>
+        <tag>异常处理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深入理解 RESTful 风格</title>
     <url>/2023/03/09/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%20RESTful%20%E9%A3%8E%E6%A0%BC/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大家对 RESTful 肯定不陌生，就算不知道它到底是什么，但肯定听过这个玩意。相信大家也很想知道 RESTful 能解决什么样的问题，有什么应用场景？看完本篇文章你就能明白：</p>
@@ -1595,83 +1695,16 @@ JAVA
       </tags>
   </entry>
   <entry>
-    <title>错误码及全局异常处理</title>
-    <url>/2022/11/11/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%94%99%E8%AF%AF%E7%A0%81%E5%8F%8A%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>在软件开发过程中，不可避免的是需要处理各种异常，在 Java 中，处理异常的方式一般就是采用<code>try&#123;...&#125;catch&#123;...&#125;finally&#123;...&#125;</code>代码块。在业务系统中，可能会有大量的异常处理代码块，这样不仅有大量的冗余代码，而且还影响代码的可读性。比较下面两张图：</p>
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328132128.png" alt="image-20220328132128521"></p>
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328132228.png" alt="image-20220328132228437"></p>
-<p>可以看到，明显第二种的代码简洁，可读性高！此处的代码是在 Controller 层中的，在 Service 层中会有更多的异常处理代码块。</p>
-<p>那么我们应该如何优雅的进行异常处理呢？</p>
-<h2 id="什么是统一异常处理"><a href="#什么是统一异常处理" class="headerlink" title="什么是统一异常处理"></a>什么是统一异常处理</h2><p>在 Spring 里，我们可以使用@ControllerAdvice 来处理一些全局性的东西，最常见的是结合@ExceptionHandler 注解用于全局异常的处理。</p>
-<p>@ControllerAdvice 是在类上声明的注解，其用法主要有三点：</p>
-<ul>
-<li><code>@ExceptionHandler</code>注解标注的方法：用于捕获 Controller 中抛出的不同类型的异常，从而达到异常全局处理的目的</li>
-<li><code>@InitBinder</code>注解标注的方法：用于请求中注册自定义参数的解析，从而达到自定义请求参数格式的目的</li>
-<li><code>@ModelAttribute</code>注解标注的方法：表示此方法会在执行目标 Controller 方法之前执行</li>
-</ul>
-<p>跟异常处理有关的只有<code>@ExceptionHandler</code>注解，从字面意思上理解，就是<code>异常处理器</code>的意思，其实际作用也正是如此：若在某个<code>Controller</code>类定义一个异常处理方法，并在方法上添加该注解，那么当出现指定的异常时，会执行该处理异常的方法，其可以使用<code>SpringMVC</code>提供的数据绑定，比如接受一个当前抛出的<code>Throwable</code>对象。</p>
-<p>但是，这样一来，就必须在每一个<code>Controller</code>类都定义一套这样的异常处理方法，因为异常可以是各种各样。这样一来，就会造成大量的冗余代码，而且若需要新增一种异常的处理逻辑，就必须修改所有<code>Controller</code>类了，很不优雅。</p>
-<p>当然你可能会说，那就定义个类似<code>BaseController</code>的基类，这样总行了吧。</p>
-<p>这种做法虽然没错，但仍不尽善尽美，因为这样的代码有一定的侵入性和耦合性。简简单单的<code>Controller</code>，我为啥非得继承这样一个类呢，万一已经继承其他基类了呢。大家都知道<code>Java</code>只能继承一个类。</p>
-<p>那有没有一种方案，既不需要跟<code>Controller</code>耦合，也可以将定义的 <strong>异常处理器</strong> 应用到所有控制器呢？所以注解<code>@ControllerAdvice</code>出现了，简单的说，该注解可以把异常处理器应用到所有控制器，而不是单个控制器。借助该注解，我们可以实现：在独立的某个地方，比如单独一个类，定义一套对各种异常的处理机制，然后在类的签名加上注解<code>@ControllerAdvice</code>，统一对 <code>不同阶段的</code>、<code>不同异常</code> 进行处理。这就是统一异常处理的原理。</p>
-<blockquote>
-<p>注意到上面对异常按阶段进行分类，大体可以分成：进入<code>Controller</code>前的异常 和 <code>Service</code> 层异常，具体可以参考下图：</p>
-</blockquote>
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328135114.png" alt="image-20220328135114123"></p>
-<h2 id="统一异常处理实战"><a href="#统一异常处理实战" class="headerlink" title="统一异常处理实战"></a>统一异常处理实战</h2><p>通过全局统一的异常处理将自定义的错误码以 json 的格式返回给前端。</p>
-<h3 id="统一返回结果类"><a href="#统一返回结果类" class="headerlink" title="统一返回结果类"></a>统一返回结果类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">KOTLIN</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.api.vo;</span><br><span class="line"></span><br><span class="line">import com.fasterxml.jackson.annotation.JsonIgnore;</span><br><span class="line">import io.swagger.annotations.ApiModel;</span><br><span class="line">import io.swagger.annotations.ApiModelProperty;</span><br><span class="line">import lombok.Data;</span><br><span class="line">import org.jeecg.common.constant.CommonConstant;</span><br><span class="line">import org.jeecg.common.constant.enums.ErrorCodeEnum;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: 接口返回对象 -更新</span><br><span class="line"> * @author: luo_Jj</span><br><span class="line"> * @date: 2022/3/24 17:58</span><br><span class="line"> */</span><br><span class="line">@Data</span><br><span class="line">@ApiModel(value=&quot;接口返回对象&quot;, description=&quot;接口返回对象&quot;)</span><br><span class="line">public class Result&lt;T&gt; implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">	private static final long serialVersionUID = 1L;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 成功标志</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;成功标志&quot;)</span><br><span class="line">	private boolean success = true;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 返回处理消息</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;返回处理消息&quot;)</span><br><span class="line">	private String message = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 返回代码</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;返回代码&quot;)</span><br><span class="line">	private String code = &quot;000000&quot;;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 返回数据对象 data</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;返回数据对象&quot;)</span><br><span class="line">	private T result;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 时间戳</span><br><span class="line">	 */</span><br><span class="line">	@ApiModelProperty(value = &quot;时间戳&quot;)</span><br><span class="line">	private long timestamp = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">	public Result() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Result(String code,String message) &#123;</span><br><span class="line">		this.code = code;</span><br><span class="line">		this.message = message;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Result&lt;T&gt; success(String message) &#123;</span><br><span class="line">		this.message = message;</span><br><span class="line">		this.code = CommonConstant.SC_OK_200;</span><br><span class="line">		this.success = true;</span><br><span class="line">		return this;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; OK() &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(true);</span><br><span class="line">		r.setCode(CommonConstant.SC_OK_200);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; OK(T data) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(true);</span><br><span class="line">		r.setCode(CommonConstant.SC_OK_200);</span><br><span class="line">		r.setResult(data);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; OK(String msg, T data) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(true);</span><br><span class="line">		r.setCode(CommonConstant.SC_OK_200);</span><br><span class="line">		r.setMessage(msg);</span><br><span class="line">		r.setResult(data);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(String msg, T data) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setSuccess(false);</span><br><span class="line">		r.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);</span><br><span class="line">		r.setMessage(msg);</span><br><span class="line">		r.setResult(data);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(String msg) &#123;</span><br><span class="line">		return error(CommonConstant.SC_INTERNAL_SERVER_ERROR_500, msg);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	* @description: 传递一个错误码枚举</span><br><span class="line">	* @author: luo_jj</span><br><span class="line">	* @date: 2022/3/28 14:55</span><br><span class="line">	* @param errorCodeEnum:</span><br><span class="line">	* @return: org.jeecg.common.api.vo.Result&lt;T&gt;</span><br><span class="line">	*/</span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(ErrorCodeEnum errorCodeEnum) &#123;</span><br><span class="line">		return error(errorCodeEnum.getCode(), errorCodeEnum.getMessage());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static&lt;T&gt; Result&lt;T&gt; error(String code, String msg) &#123;</span><br><span class="line">		Result&lt;T&gt; r = new Result&lt;T&gt;();</span><br><span class="line">		r.setCode(code);</span><br><span class="line">		r.setMessage(msg);</span><br><span class="line">		r.setSuccess(false);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Result&lt;T&gt; error500(String message) &#123;</span><br><span class="line">		this.message = message;</span><br><span class="line">		this.code = CommonConstant.SC_INTERNAL_SERVER_ERROR_500;</span><br><span class="line">		this.success = false;</span><br><span class="line">		return this;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>Dom4j 如何新增 standalone？</title>
+    <url>/2022/03/16/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/Dom4j%20%E5%A6%82%E4%BD%95%E6%96%B0%E5%A2%9E%20standalone/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>工作中调用一个第三方接口，需要上传 xml 文件。Java 操作 xml 文件的 api 很多，有 Dom、SAX 、JDom、Dom4j。我一般常用的是 Dom4j，但是对接此接口上传的 xml 文件需要添加 <code>standalone=&quot;no&quot;</code> 属性。查阅相关资料，发现 <code>Dom4j -1.6.1</code> 版本并没有提供相应的方法设置。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>重写 <code>XMLWriter</code> 类中的 <code>writeDeclaration</code> 方法，具体代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.FileWriter;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line">import org.dom4j.io.OutputFormat;</span><br><span class="line">import org.dom4j.io.XMLWriter;</span><br><span class="line"></span><br><span class="line">public class StandaloneWriter extends XMLWriter &#123;</span><br><span class="line"></span><br><span class="line">    public StandaloneWriter(FileOutputStream fileOutputStream, OutputFormat format)</span><br><span class="line">    throws UnsupportedEncodingException &#123;</span><br><span class="line">        super(fileOutputStream, format);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public StandaloneWriter(FileWriter fileWriter, OutputFormat format)</span><br><span class="line">    throws UnsupportedEncodingException &#123;</span><br><span class="line">        super(fileWriter, format);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void writeDeclaration() throws IOException &#123;</span><br><span class="line">        OutputFormat format = getOutputFormat();</span><br><span class="line"></span><br><span class="line">        String encoding = format.getEncoding();</span><br><span class="line"></span><br><span class="line">        if (!format.isSuppressDeclaration()) &#123;</span><br><span class="line">            if (encoding.equals(&quot;UTF8&quot;)) &#123;</span><br><span class="line">                writer.write(&quot;&lt;?xml version=\&quot;1.0\&quot;&quot;);</span><br><span class="line"></span><br><span class="line">                if (!format.isOmitEncoding()) &#123;</span><br><span class="line">                    writer.write(&quot; encoding=\&quot;UTF-8\&quot;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                writer.write(&quot; standalone=\&quot;yes\&quot;&quot;);</span><br><span class="line">                writer.write(&quot;?&gt;&quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                writer.write(&quot;&lt;?xml version=\&quot;1.0\&quot;&quot;);</span><br><span class="line"></span><br><span class="line">                if (!format.isOmitEncoding()) &#123;</span><br><span class="line">                    writer.write(&quot; encoding=\&quot;&quot; + encoding + &quot;\&quot;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                writer.write(&quot; standalone=\&quot;no\&quot;&quot;);</span><br><span class="line">                writer.write(&quot;?&gt;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (format.isNewLineAfterDeclaration()) &#123;</span><br><span class="line">                println();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="错误码枚举类"><a href="#错误码枚举类" class="headerlink" title="错误码枚举类"></a>错误码枚举类</h3><p>需要定义一个枚举类，包含所有的自定义的结果码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">TYPESCRIPT</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.constant.enums;</span><br><span class="line"></span><br><span class="line">import lombok.AllArgsConstructor;</span><br><span class="line">import lombok.Getter;</span><br><span class="line">import lombok.NoArgsConstructor;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: 错误码枚举</span><br><span class="line"> * @author: luo_jj</span><br><span class="line"> * @date: 2022年03月24日 17:15</span><br><span class="line"> */</span><br><span class="line">@Getter</span><br><span class="line">@AllArgsConstructor</span><br><span class="line">@NoArgsConstructor</span><br><span class="line">public enum ResultCodeEnum &#123;</span><br><span class="line">    /*</span><br><span class="line">    * 错误产生来源分为 A/B/C</span><br><span class="line">    * A 表示错误来源于用户，比如参数错误，用户安装版本过低，用户支付超时等问题；</span><br><span class="line">    * B 表示错误来源于当前系统，往往是业务逻辑出错，或程序健壮性差等问题；</span><br><span class="line">    * C 表示错误来源于第三方服务，比如 CDN 服务出错，消息投递超时等问题；</span><br><span class="line">    * 四位数字编号从 0001 到 9999，大类之间的步长间距预留 100</span><br><span class="line">    *</span><br><span class="line">    * 错误码分为一级宏观错误码、二级宏观错误码、三级宏观错误码。</span><br><span class="line">    * 调用第三方服务出错是一级，中间件错误是二级，消息服务出错是三级。</span><br><span class="line">    * 说明：在无法更加具体确定的错误场景中，可以直接使用一级宏观错误码，分别是：A0001（用户端错误）、B0001（系统执行出错）、C0001（调用第三方服务出错）。</span><br><span class="line">    * 错误码表：http://192.168.88.211:8090/pages/viewpage.action?pageId=5473234</span><br><span class="line">    */</span><br><span class="line"></span><br><span class="line">    /*一切ok*/</span><br><span class="line">    SUCCESS_ERROR(&quot;000000&quot;,&quot;成功&quot;),</span><br><span class="line"></span><br><span class="line">    /*用户端错误码*/</span><br><span class="line">    CLIENT_ERROR(&quot;A0001&quot;,&quot;用户端错误&quot;),</span><br><span class="line"></span><br><span class="line">    /*服务端错误码*/</span><br><span class="line">    SYSTEM_ERROR(&quot;B0001&quot;,&quot;系统执行出错&quot;),</span><br><span class="line"></span><br><span class="line">    /*第三方服务错误码*/</span><br><span class="line">    TPA_ERROR(&quot;C0001&quot;,&quot;调用第三方服务出错&quot;);</span><br><span class="line"></span><br><span class="line">    /** 错误码 */</span><br><span class="line">    private String code;</span><br><span class="line"></span><br><span class="line">    /** 错误描述 */</span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义业务异常类"><a href="#自定义业务异常类" class="headerlink" title="自定义业务异常类"></a>自定义业务异常类</h3><p>自定义一个业务异常类，以后和业务有关的异常通通抛出这个异常类，只需将定义好的错误枚举传入即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SCALA</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.exception;</span><br><span class="line"></span><br><span class="line">import lombok.Getter;</span><br><span class="line">import lombok.Setter;</span><br><span class="line">import org.jeecg.common.constant.enums.ResultCodeEnum;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* @description: 万序自定义异常</span><br><span class="line">* @author: luo_Jj</span><br><span class="line">* @date: 2022/3/24 18:15</span><br><span class="line">*/</span><br><span class="line">@Getter</span><br><span class="line">@Setter</span><br><span class="line">public class VanxSoftException extends RuntimeException &#123;</span><br><span class="line">	private static final long serialVersionUID = 1L;</span><br><span class="line"></span><br><span class="line">	private ResultCodeEnum resultCodeEnum;</span><br><span class="line"></span><br><span class="line">	public VanxSoftException(ResultCodeEnum resultCodeEnum)&#123;</span><br><span class="line">		super(resultCodeEnum.getMessage());</span><br><span class="line">		this.resultCodeEnum = resultCodeEnum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="全局异常处理类"><a href="#全局异常处理类" class="headerlink" title="全局异常处理类"></a>全局异常处理类</h3><p>定义一个全局异常处理类</p>
-<ol>
-<li>通过 <code>@RestControllerAdvice</code> 指定该类为 <code>Controller</code> 增强类并返回 <code>json</code> 到前端</li>
-<li>通过 <code>@ExceptionHandler</code> 自定义捕获的异常类型</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">REASONML</span><br><span class="line"></span><br><span class="line">package org.jeecg.common.exception;</span><br><span class="line"></span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.apache.shiro.authz.AuthorizationException;</span><br><span class="line">import org.apache.shiro.authz.UnauthorizedException;</span><br><span class="line">import org.jeecg.common.api.vo.Result;</span><br><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line">import org.springframework.dao.DataIntegrityViolationException;</span><br><span class="line">import org.springframework.dao.DuplicateKeyException;</span><br><span class="line">import org.springframework.data.redis.connection.PoolException;</span><br><span class="line">import org.springframework.http.HttpStatus;</span><br><span class="line">import org.springframework.web.HttpRequestMethodNotSupportedException;</span><br><span class="line">import org.springframework.web.bind.annotation.ExceptionHandler;</span><br><span class="line">import org.springframework.web.bind.annotation.ResponseStatus;</span><br><span class="line">import org.springframework.web.bind.annotation.RestControllerAdvice;</span><br><span class="line">import org.springframework.web.multipart.MaxUploadSizeExceededException;</span><br><span class="line">import org.springframework.web.servlet.NoHandlerFoundException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 异常处理器</span><br><span class="line"> *</span><br><span class="line"> * @Author scott</span><br><span class="line"> * @Date 2019</span><br><span class="line"> */</span><br><span class="line">@RestControllerAdvice</span><br><span class="line">@Slf4j</span><br><span class="line">public class JeecgBootExceptionHandler &#123;</span><br><span class="line">    @Value(&quot;$&#123;spring.servlet.multipart.max-file-size&#125;&quot;)</span><br><span class="line">    private String maxFileSize;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理自定义异常</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(JeecgBootException.class)</span><br><span class="line">    public Result&lt;?&gt; handleJeecgBootException(JeecgBootException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理自定义异常</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(JeecgBoot401Exception.class)</span><br><span class="line">    @ResponseStatus(HttpStatus.UNAUTHORIZED)</span><br><span class="line">    public Result&lt;?&gt; handleJeecgBoot401Exception(JeecgBoot401Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return new Result(&quot;401&quot;, e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">    * @description: 处理自定义异常-万序系统异常</span><br><span class="line">    * @author: luo_jj</span><br><span class="line">    * @date: 2022/3/25 11:33</span><br><span class="line">    * @param e:</span><br><span class="line">    * @return: org.jeecg.common.api.vo.Result&lt;?&gt;</span><br><span class="line">    */</span><br><span class="line">    @ExceptionHandler(VanxSoftException.class)</span><br><span class="line">    public Result&lt;?&gt; handleVanxSoftException(VanxSoftException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(e.getResultCodeEnum());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(NoHandlerFoundException.class)</span><br><span class="line">    public Result&lt;?&gt; handlerNoFoundException(Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;404&quot;, &quot;路径不存在，请检查路径是否正确&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(DuplicateKeyException.class)</span><br><span class="line">    public Result&lt;?&gt; handleDuplicateKeyException(DuplicateKeyException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;数据库中已存在该记录&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(&#123;UnauthorizedException.class, AuthorizationException.class&#125;)</span><br><span class="line">    public Result&lt;?&gt; handleAuthorizationException(AuthorizationException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.noauth(&quot;没有权限，请联系管理员授权&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(Exception.class)</span><br><span class="line">    public Result&lt;?&gt; handleException(Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;操作失败，&quot; + e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     * @Author 政辉</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)</span><br><span class="line">    public Result&lt;?&gt; handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) &#123;</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        sb.append(&quot;不支持&quot;);</span><br><span class="line">        sb.append(e.getMethod());</span><br><span class="line">        sb.append(&quot;请求方法，&quot;);</span><br><span class="line">        sb.append(&quot;支持以下&quot;);</span><br><span class="line">        String[] methods = e.getSupportedMethods();</span><br><span class="line">        if (methods != null) &#123;</span><br><span class="line">            for (String str : methods) &#123;</span><br><span class="line">                sb.append(str);</span><br><span class="line">                sb.append(&quot;、&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        log.error(sb.toString(), e);</span><br><span class="line">        return Result.error(&quot;405&quot;, sb.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * spring默认上传大小100MB 超出大小捕获异常MaxUploadSizeExceededException</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MaxUploadSizeExceededException.class)</span><br><span class="line">    public Result&lt;?&gt; handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(String.format(&quot;文件大小超出%s限制, 请压缩或降低文件质量! &quot;, maxFileSize));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(DataIntegrityViolationException.class)</span><br><span class="line">    public Result&lt;?&gt; handleDataIntegrityViolationException(DataIntegrityViolationException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;字段太长,超出数据库字段的长度&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(PoolException.class)</span><br><span class="line">    public Result&lt;?&gt; handlePoolException(PoolException e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        return Result.error(&quot;Redis 连接异常!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="编写-TestController-测试"><a href="#编写-TestController-测试" class="headerlink" title="编写 TestController 测试"></a>编写 TestController 测试</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">KOTLIN</span><br><span class="line"></span><br><span class="line">package org.jeecg.modules.exception.controller;</span><br><span class="line"></span><br><span class="line">import com.alibaba.fastjson.JSONObject;</span><br><span class="line">import io.swagger.annotations.Api;</span><br><span class="line">import io.swagger.annotations.ApiOperation;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.jeecg.common.api.vo.Result;</span><br><span class="line">import org.jeecg.common.constant.enums.ResultCodeEnum;</span><br><span class="line">import org.jeecg.common.exception.VanxSoftException;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @description: 全局异常处理</span><br><span class="line"> * @author: luo_jj</span><br><span class="line"> * @date: 2022年03月24日 17:45</span><br><span class="line"> */</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/exception&quot;)</span><br><span class="line">@Api(tags=&quot;全局异常处理&quot;)</span><br><span class="line">@Slf4j</span><br><span class="line">public class ExceptionController &#123;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(&quot;测试请求&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;/test&quot;, method = RequestMethod.POST)</span><br><span class="line">    public Result&lt;JSONObject&gt; testClientError()&#123;</span><br><span class="line">        throw new VanxSoftException(ResultCodeEnum.SYSTEM_ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://itboy-blog-image.oss-cn-hangzhou.aliyuncs.com/20220328151505.png" alt="image-20220328151505665"></p>
+<p>在使用过程中，用 <code>StandaloneWriter</code> 替换掉 <code>XMLWriter</code> 即可。</p>
 ]]></content>
       <tags>
-        <tag>异常处理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis 缓存穿透、缓存击穿、缓存雪崩问题</title>
-    <url>/2022/04/11/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/Redis%20%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在项目中引入一个缓存系统，不得不考虑的问题就是：缓存穿透、缓存击穿和缓存雪崩问题。</p>
-<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>缓存穿透是指<strong>缓存和数据库中都没有的数据</strong>，而用户不断发起请求。由于缓存是不命中时被动写的，并且出于容错考虑，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到存储层去查询，失去了缓存的意义。</p>
-<p>在流量大时，可能 DB 就挂掉了，要是有人利用不存在的 key 频繁攻击我们的应用，这就是漏洞。</p>
-<p>如发起为 id 为<code>-1</code>的数据或 id 为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p>
-<p><strong>解决方案：</strong></p>
-<ul>
-<li>接口层增加校验，如用户鉴权校验、id 基础校验（id&lt;&#x3D;0 直接拦截）</li>
-<li>在数据库和缓存中都取不到的数据，可以将在缓存中存入一个空对象（<strong>key-null</strong>），设置一个短的有效时间。这样可以防止一个用户反复暴力攻击一个 id 请求</li>
-</ul>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期）</strong>，这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力。</p>
-<p><strong>解决方案：</strong></p>
-<ol>
-<li><strong>设置热点数据永不过期</strong></li>
-<li><strong>接口限流与熔断，降级</strong>。重要的接口一定要做好限流策略，防止用户恶意刷接口，同时要做好降级准备，当接口中某些服务不可用时，进行熔断，失败快速返回机制</li>
-<li><strong>布隆过滤器</strong>。bloomfilter 就类似于一个 hash set，用于快速判某个元素是否存在于集合中，其典型的应用场景就是快速判断一个 key 是否存在于某容器，不存在就直接返回。布隆过滤器的关键就在于 hash 算法和容器大小，</li>
-<li><strong>加互斥锁</strong></li>
-</ol>
-<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至 down 机。和缓存击穿不同的是，缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p>
-<p><strong>解决方案：</strong></p>
-<ol>
-<li>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。</li>
-<li>如果缓存数据库是分布式部署，将热点数据均匀分布在不同的缓存数据库中。</li>
-<li>设置热点数据永远不过期。</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>Redis</tag>
+        <tag>Dom4j</tag>
       </tags>
   </entry>
   <entry>
@@ -1743,16 +1776,35 @@ JAVA
       </tags>
   </entry>
   <entry>
-    <title>Dom4j 如何新增 standalone？</title>
-    <url>/2022/03/16/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/Dom4j%20%E5%A6%82%E4%BD%95%E6%96%B0%E5%A2%9E%20standalone/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>工作中调用一个第三方接口，需要上传 xml 文件。Java 操作 xml 文件的 api 很多，有 Dom、SAX 、JDom、Dom4j。我一般常用的是 Dom4j，但是对接此接口上传的 xml 文件需要添加 <code>standalone=&quot;no&quot;</code> 属性。查阅相关资料，发现 <code>Dom4j -1.6.1</code> 版本并没有提供相应的方法设置。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>重写 <code>XMLWriter</code> 类中的 <code>writeDeclaration</code> 方法，具体代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JAVA</span><br><span class="line"></span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.FileWriter;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line">import org.dom4j.io.OutputFormat;</span><br><span class="line">import org.dom4j.io.XMLWriter;</span><br><span class="line"></span><br><span class="line">public class StandaloneWriter extends XMLWriter &#123;</span><br><span class="line"></span><br><span class="line">    public StandaloneWriter(FileOutputStream fileOutputStream, OutputFormat format)</span><br><span class="line">    throws UnsupportedEncodingException &#123;</span><br><span class="line">        super(fileOutputStream, format);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public StandaloneWriter(FileWriter fileWriter, OutputFormat format)</span><br><span class="line">    throws UnsupportedEncodingException &#123;</span><br><span class="line">        super(fileWriter, format);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void writeDeclaration() throws IOException &#123;</span><br><span class="line">        OutputFormat format = getOutputFormat();</span><br><span class="line"></span><br><span class="line">        String encoding = format.getEncoding();</span><br><span class="line"></span><br><span class="line">        if (!format.isSuppressDeclaration()) &#123;</span><br><span class="line">            if (encoding.equals(&quot;UTF8&quot;)) &#123;</span><br><span class="line">                writer.write(&quot;&lt;?xml version=\&quot;1.0\&quot;&quot;);</span><br><span class="line"></span><br><span class="line">                if (!format.isOmitEncoding()) &#123;</span><br><span class="line">                    writer.write(&quot; encoding=\&quot;UTF-8\&quot;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                writer.write(&quot; standalone=\&quot;yes\&quot;&quot;);</span><br><span class="line">                writer.write(&quot;?&gt;&quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                writer.write(&quot;&lt;?xml version=\&quot;1.0\&quot;&quot;);</span><br><span class="line"></span><br><span class="line">                if (!format.isOmitEncoding()) &#123;</span><br><span class="line">                    writer.write(&quot; encoding=\&quot;&quot; + encoding + &quot;\&quot;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                writer.write(&quot; standalone=\&quot;no\&quot;&quot;);</span><br><span class="line">                writer.write(&quot;?&gt;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (format.isNewLineAfterDeclaration()) &#123;</span><br><span class="line">                println();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在使用过程中，用 <code>StandaloneWriter</code> 替换掉 <code>XMLWriter</code> 即可。</p>
+    <title>Redis 缓存穿透、缓存击穿、缓存雪崩问题</title>
+    <url>/2022/04/11/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/Redis%20%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在项目中引入一个缓存系统，不得不考虑的问题就是：缓存穿透、缓存击穿和缓存雪崩问题。</p>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>缓存穿透是指<strong>缓存和数据库中都没有的数据</strong>，而用户不断发起请求。由于缓存是不命中时被动写的，并且出于容错考虑，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到存储层去查询，失去了缓存的意义。</p>
+<p>在流量大时，可能 DB 就挂掉了，要是有人利用不存在的 key 频繁攻击我们的应用，这就是漏洞。</p>
+<p>如发起为 id 为<code>-1</code>的数据或 id 为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>接口层增加校验，如用户鉴权校验、id 基础校验（id&lt;&#x3D;0 直接拦截）</li>
+<li>在数据库和缓存中都取不到的数据，可以将在缓存中存入一个空对象（<strong>key-null</strong>），设置一个短的有效时间。这样可以防止一个用户反复暴力攻击一个 id 请求</li>
+</ul>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期）</strong>，这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力。</p>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><strong>设置热点数据永不过期</strong></li>
+<li><strong>接口限流与熔断，降级</strong>。重要的接口一定要做好限流策略，防止用户恶意刷接口，同时要做好降级准备，当接口中某些服务不可用时，进行熔断，失败快速返回机制</li>
+<li><strong>布隆过滤器</strong>。bloomfilter 就类似于一个 hash set，用于快速判某个元素是否存在于集合中，其典型的应用场景就是快速判断一个 key 是否存在于某容器，不存在就直接返回。布隆过滤器的关键就在于 hash 算法和容器大小，</li>
+<li><strong>加互斥锁</strong></li>
+</ol>
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至 down 机。和缓存击穿不同的是，缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。</li>
+<li>如果缓存数据库是分布式部署，将热点数据均匀分布在不同的缓存数据库中。</li>
+<li>设置热点数据永远不过期。</li>
+</ol>
 ]]></content>
       <tags>
-        <tag>Dom4j</tag>
+        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
